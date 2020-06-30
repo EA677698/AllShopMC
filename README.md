@@ -11,6 +11,7 @@
 - [ ] Staff for Physical Shops
 - [ ] Group Specific Shops
 - [ ] MYSQL support
+- [ ] Customizable messages
 
 ### Bugs:
 
