@@ -12,6 +12,7 @@
 - [ ] Group Specific Shops
 - [ ] MYSQL support
 - [ ] Customizable messages
+- [ ] Player trading
 
 ### Commands:
 * /AllShop (aka /as) - *Main command*
