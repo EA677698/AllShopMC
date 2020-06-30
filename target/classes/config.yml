@@ -1,0 +1,15 @@
+########################## ALLSHOP CONFIG ################################
+# If players can use the inventory shop and sell on it anywhere
+digital-shop-enabled: true
+# If there is a server shop
+server-shop-enabled: true
+# If players can use and make chest shops
+physical-shop-enabled: true
+# If the server allows auctions
+auction-house-enabled: true
+# How many listings may a player have at a time (Digital Shop)
+shop-listings-limit: 5
+# How many listings may a player have at a time (Auction House)
+auction-listings-limit: 5
+# Plugin Prefix
+prefix: '[&eAllShop&f]'
