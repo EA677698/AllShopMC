@@ -1,4 +1,4 @@
-# AllShopMC 0.2.4
+# AllShopMC 0.2.5
 
 ### Features:
 - [ ] Server GUI Shop for admins - *In Progress*
@@ -12,6 +12,16 @@
 - [ ] Group Specific Shops
 - [ ] MYSQL support
 - [ ] Customizable messages
+
+### Commands:
+* /as - *Main command*
+* /AllShop - *Main command*
+* /Shop - *Opens the server shop*
+  * sell {price} - *Sells anything in your hand*
+* /Auction - *Opens the auction house*
+  * bid {starting bid} - *Puts the item in your hand up for auction*
+* /Market - *Opens the player market*
+  * sell {price} - *Sells anything in your hand*
 
 ### Bugs:
 
