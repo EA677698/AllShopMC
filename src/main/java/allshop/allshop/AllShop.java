@@ -26,14 +26,6 @@ import java.util.logging.Logger;
 
 public final class AllShop extends JavaPlugin implements Listener {
 
-    /*TODO
-    Make Digital Shop
-    Make Physical Shop
-    Make Auction House
-    Search feature
-    Staff for shops
-    Add Logs for moderation
-    Add group specific shops?*/
     private static final Logger log = Logger.getLogger("Minecraft");
     public static Economy econ = null;
     public static FileConfiguration config;
@@ -41,6 +33,7 @@ public final class AllShop extends JavaPlugin implements Listener {
     public static ArrayList<Shop> openShops = new ArrayList<>();
     public static Object[] auctionListings;
     public static Object[] digitalListings;
+    public static Object[] serverListings;
     public static File folder;
     public static int LISTINGS_LIMIT;
     public static boolean DIGITAL_ENABLED;
@@ -63,6 +56,9 @@ public final class AllShop extends JavaPlugin implements Listener {
         }
         getServer().getPluginManager().registerEvents(this,this);
         getCommand("as").setExecutor(commands);
+        getCommand("shop").setExecutor(commands);
+        getCommand("auction").setExecutor(commands);
+        getCommand("market").setExecutor(commands);
         saveDefaultConfig();
         folder = getDataFolder();
         data = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "data.yml"));
@@ -111,6 +107,9 @@ public final class AllShop extends JavaPlugin implements Listener {
         SERVER_SHOP_ENABLED = config.getBoolean("server-shop-enabled");
         if(DIGITAL_ENABLED){
             digitalListings = data.getConfigurationSection("digital").getKeys(false).toArray();
+        }
+        if(SERVER_SHOP_ENABLED){
+            serverListings = data.getConfigurationSection("server").getKeys(false).toArray();
         }
         AUCTIONS_ENABLED = config.getBoolean("auction-house-enabled");
         if(AUCTIONS_ENABLED){

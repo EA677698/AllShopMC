@@ -7,4 +7,10 @@ authors: [PhantomKnight]
 description: The Shop plugin with all the features you could ever want
 commands:
   as:
-    description: opens up the digital shop
+    description: main command
+  shop:
+    description: opens the server shop
+  auction:
+    description: opens the auction house
+  market:
+    description: opens the player market

@@ -22,14 +22,20 @@ public class ListingsUtil {
     }
 
     public static void loadListings(Inventory inv, ShopType type){
-        if(type==ShopType.PLAYER_SHOP){
-            for(int index = 1; index<AllShop.digitalListings.length; index++) {
-                inv.addItem(addListingInfo(getListingItem(index, type), index, type));
-            }
-        } else if(type==ShopType.AUCTION_HOUSE) {
-            for(int index = 1; index<AllShop.auctionListings.length; index++){
-                inv.addItem(addListingInfo(getListingItem(index, type), index, type));
-            }
+        Object[] listings;
+        switch (type){
+            case PLAYER_SHOP:
+                listings = AllShop.digitalListings;
+                break;
+            case AUCTION_HOUSE:
+                listings = AllShop.auctionListings;
+                break;
+            default:
+                listings = AllShop.serverListings;
+            break;
+        }
+        for(int index = 1; index<listings.length; index++) {
+            inv.addItem(addListingInfo(getListingItem(index, type), index, type));
         }
     }
 
@@ -41,16 +47,18 @@ public class ListingsUtil {
             lore.add(line);
         }
         for(String line : lore){
-            if(line.equals(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type))){
-                lore.remove(line);
-                continue;
+            if(type!=ShopType.SERVER_SHOP){
+                if(line.equals(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type))){
+                    lore.remove(line);
+                    continue;
+                }
+                if(line.equals(ChatColor.LIGHT_PURPLE+"Added: "+ getListingDate(index, type))){
+                    lore.remove(line);
+                    continue;
+                }
             }
-            if(line.equals(ChatColor.LIGHT_PURPLE+"Added: "+ getListingDate(index, type))){
-                lore.remove(line);
-                continue;
-            }
-            if(type==ShopType.PLAYER_SHOP){
-                if(line.equals(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index))){
+            if(type==ShopType.PLAYER_SHOP||type==ShopType.SERVER_SHOP){
+                if(line.equals(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index,type))){
                     lore.remove(line);
                     continue;
                 }
@@ -80,14 +88,14 @@ public class ListingsUtil {
             lore = new ArrayList<>();
         }
         for(String line : lore){
-            if(line.equals(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type))){
+            if(line.equals(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type))||line.equals(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index,type))){
                 return item;
             }
         }
         lore.add("");
         lore.add(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type));
-        if(type==ShopType.PLAYER_SHOP){
-            lore.add(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index));
+        if(type==ShopType.PLAYER_SHOP||type==ShopType.SERVER_SHOP){
+            lore.add(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index,type));
         } else if(type==ShopType.AUCTION_HOUSE) {
             lore.add(ChatColor.LIGHT_PURPLE+"Starting Bid: "+getMinBid(index));
             lore.add(ChatColor.LIGHT_PURPLE+"Current Bid: "+getCurrentBid(index));
@@ -116,8 +124,10 @@ public class ListingsUtil {
     public static ItemStack getListingItem(int index, ShopType type){
         if(type==ShopType.PLAYER_SHOP){
             return AllShop.data.getItemStack("digital."+AllShop.digitalListings[index]+".Items");
-        } else {
+        } else if(type==ShopType.AUCTION_HOUSE) {
             return AllShop.data.getItemStack("auction."+AllShop.auctionListings[index]+".Items");
+        } else {
+            return AllShop.data.getItemStack("server."+AllShop.serverListings[index]+".Items");
         }
     }
 
@@ -126,7 +136,6 @@ public class ListingsUtil {
             return AllShop.data.getString("digital."+AllShop.digitalListings[index]+".Name");
         } else {
             return AllShop.data.getString("auction."+AllShop.auctionListings[index]+".Name");
-
         }
     }
 
@@ -138,8 +147,12 @@ public class ListingsUtil {
         }
     }
 
-    public static int getListingPrice(int index) {
-        return AllShop.data.getInt("digital."+AllShop.digitalListings[index]+".Price");
+    public static int getListingPrice(int index, ShopType type) {
+        if(type==ShopType.PLAYER_SHOP) {
+            return AllShop.data.getInt("digital." + AllShop.digitalListings[index] + ".Price");
+        } else {
+            return AllShop.data.getInt("server."+AllShop.serverListings[index]+".Price");
+        }
     }
 
     public static String getListingDate(int index, ShopType type){
