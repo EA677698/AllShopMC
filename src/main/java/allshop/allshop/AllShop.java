@@ -20,8 +20,8 @@ import java.io.IOException;
 //import java.sql.Connection;
 //import java.sql.DriverManager;
 //import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
 public final class AllShop extends JavaPlugin implements Listener {
@@ -30,7 +30,8 @@ public final class AllShop extends JavaPlugin implements Listener {
     public static Economy econ = null;
     public static FileConfiguration config;
     public static FileConfiguration data;
-    public static ArrayList<Shop> openShops = new ArrayList<>();
+    public static CopyOnWriteArrayList<Shop> openShops = new CopyOnWriteArrayList<>();
+    public static CopyOnWriteArrayList<Trades> openTrades = new CopyOnWriteArrayList<>();
     public static Object[] auctionListings;
     public static Object[] digitalListings;
     public static Object[] serverListings;
@@ -39,7 +40,9 @@ public final class AllShop extends JavaPlugin implements Listener {
     public static boolean DIGITAL_ENABLED;
     public static boolean AUCTIONS_ENABLED;
     public static boolean SERVER_SHOP_ENABLED;
+    public static boolean TRADING_ENABLED;
     public static String PREFIX;
+    public static JavaPlugin plugin;
 //    static boolean mysql;
 //    String username;
 //    String password;
@@ -54,11 +57,13 @@ public final class AllShop extends JavaPlugin implements Listener {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+        plugin = this;
         getServer().getPluginManager().registerEvents(this,this);
         getCommand("as").setExecutor(commands);
         getCommand("shop").setExecutor(commands);
         getCommand("auction").setExecutor(commands);
         getCommand("market").setExecutor(commands);
+        getCommand("trade").setExecutor(commands);
         saveDefaultConfig();
         folder = getDataFolder();
         data = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "data.yml"));
@@ -105,6 +110,7 @@ public final class AllShop extends JavaPlugin implements Listener {
         LISTINGS_LIMIT = config.getInt("shop-listings-limit");
         DIGITAL_ENABLED = config.getBoolean("digital-shop-enabled");
         SERVER_SHOP_ENABLED = config.getBoolean("server-shop-enabled");
+        TRADING_ENABLED = config.getBoolean("trading-enabled");
         if(DIGITAL_ENABLED){
             digitalListings = data.getConfigurationSection("digital").getKeys(false).toArray();
         }
@@ -136,7 +142,46 @@ public final class AllShop extends JavaPlugin implements Listener {
 
     @EventHandler
     public void stopItemMovement(InventoryClickEvent event){
-        if(DIGITAL_ENABLED){
+        System.out.println(openTrades.size());
+        System.out.println(TRADING_ENABLED);
+        if(openTrades.size()>0&&TRADING_ENABLED){
+            System.out.println("ActivatedStopItem");
+            Trades trade = null;
+            for(Trades trades: openTrades){
+                if(trades.getInv().equals(event.getClickedInventory())){
+                    trade = trades;
+                    break;
+                }
+            }
+            if(trade!=null){
+                int slot = event.getSlot();
+                if(trade.getOne().equals(event.getWhoClicked())){
+                    if(slot==0||slot==1||slot==2){
+                        trade.changeStatusOne();
+                    }
+                    if(slot!=3){
+                        event.setCancelled(true);
+                    }
+                } else{
+                    if(slot==6||slot==7||slot==8){
+                        trade.changeStatusTwo();
+                    }
+                    if(slot!=5){
+                        event.setCancelled(true);
+                    }
+                }
+                if(trade.isReady1()&&trade.isReady2()){
+                    trade.getOne().sendMessage(PREFIX+ChatColor.GREEN+" You have successfully traded for [" + event.getInventory().getItem(5).getAmount() + "] " + event.getClickedInventory().getItem(5));
+                    trade.getOne().sendMessage(PREFIX+ChatColor.GREEN+" You have successfully traded for [" + event.getInventory().getItem(3).getAmount() + "] " + event.getClickedInventory().getItem(3));
+                    trade.getOne().getInventory().addItem(event.getClickedInventory().getItem(5));
+                    trade.getTwo().getInventory().addItem(event.getClickedInventory().getItem(3));
+                    trade.getOne().closeInventory();
+                    trade.getTwo().closeInventory();
+                    openTrades.remove(trade);
+                }
+            }
+        }
+        if(openShops.size()>0&&DIGITAL_ENABLED){
             if(event.getView().getTitle().equals("AllShop")){
                 if(event.getSlot()==49){
                     event.setCancelled(true);
@@ -194,7 +239,15 @@ public final class AllShop extends JavaPlugin implements Listener {
                     break;
                 }
             }
+        } else if(event.getView().getTitle().equals("Trade")){
+            for(Trades trade : openTrades){
+                if(trade.getInv().equals(event.getInventory())){
+                    openTrades.remove(trade);
+                    break;
+                }
+            }
         }
     }
+
 
 }
