@@ -1,5 +1,10 @@
-package allshop.allshop;
+package allshop.allshop.main;
 
+import allshop.allshop.shops.Shop;
+import allshop.allshop.shops.ShopType;
+import allshop.allshop.shops.Trades;
+import allshop.allshop.utils.ColorUtils;
+import allshop.allshop.utils.ListingsUtil;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,22 +33,23 @@ import java.util.logging.Logger;
 public final class AllShop extends JavaPlugin implements Listener {
 
     private static final Logger log = Logger.getLogger("Minecraft");
-    public static Economy econ = null;
-    public static FileConfiguration config;
-    public static FileConfiguration data;
-    public static CopyOnWriteArrayList<Shop> openShops = new CopyOnWriteArrayList<>();
-    public static CopyOnWriteArrayList<Trades> openTrades = new CopyOnWriteArrayList<>();
-    public static Object[] auctionListings;
-    public static Object[] digitalListings;
-    public static Object[] serverListings;
-    public static File folder;
-    public static int LISTINGS_LIMIT;
-    public static boolean DIGITAL_ENABLED;
-    public static boolean AUCTIONS_ENABLED;
-    public static boolean SERVER_SHOP_ENABLED;
-    public static boolean TRADING_ENABLED;
-    public static String PREFIX;
-    public static JavaPlugin plugin;
+    public static AllShop instance;
+    public Economy econ = null;
+    public FileConfiguration config;
+    public FileConfiguration data;
+    public CopyOnWriteArrayList<Shop> openShops = new CopyOnWriteArrayList<>();
+    public CopyOnWriteArrayList<Trades> openTrades = new CopyOnWriteArrayList<>();
+    public Object[] auctionListings;
+    public Object[] digitalListings;
+    public Object[] serverListings;
+    public File folder;
+    public int LISTINGS_LIMIT;
+    public boolean DIGITAL_ENABLED;
+    public boolean AUCTIONS_ENABLED;
+    public boolean SERVER_SHOP_ENABLED;
+    public boolean TRADING_ENABLED;
+    public String PREFIX;
+    public JavaPlugin plugin;
 //    static boolean mysql;
 //    String username;
 //    String password;
@@ -91,7 +97,7 @@ public final class AllShop extends JavaPlugin implements Listener {
 ////            }
 ////        }
         loadData();
-        Commands.noPermission = AllShop.PREFIX+ChatColor.RED+" You do not have permission to do this!";
+        Commands.noPermission = PREFIX+ChatColor.RED+" You do not have permission to do this!";
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN+"ALLSHOP INITIATED");
 
     }
@@ -109,22 +115,22 @@ public final class AllShop extends JavaPlugin implements Listener {
     }
 
     public static void loadData(){
-        data = YamlConfiguration.loadConfiguration(new File(folder, "data.yml"));
-        LISTINGS_LIMIT = config.getInt("shop-listings-limit");
-        DIGITAL_ENABLED = config.getBoolean("digital-shop-enabled");
-        SERVER_SHOP_ENABLED = config.getBoolean("server-shop-enabled");
-        TRADING_ENABLED = config.getBoolean("trading-enabled");
-        if(DIGITAL_ENABLED){
-            digitalListings = data.getConfigurationSection("digital").getKeys(false).toArray();
+        instance.data = YamlConfiguration.loadConfiguration(new File(instance.folder, "data.yml"));
+        instance.LISTINGS_LIMIT = instance.config.getInt("shop-listings-limit");
+        instance.DIGITAL_ENABLED = instance.config.getBoolean("digital-shop-enabled");
+        instance.SERVER_SHOP_ENABLED = instance.config.getBoolean("server-shop-enabled");
+        instance.TRADING_ENABLED = instance.config.getBoolean("trading-enabled");
+        if(instance.DIGITAL_ENABLED){
+            instance.digitalListings = instance.data.getConfigurationSection("digital").getKeys(false).toArray();
         }
-        if(SERVER_SHOP_ENABLED){
-            serverListings = data.getConfigurationSection("server").getKeys(false).toArray();
+        if(instance.SERVER_SHOP_ENABLED){
+            instance.serverListings = instance.data.getConfigurationSection("server").getKeys(false).toArray();
         }
-        AUCTIONS_ENABLED = config.getBoolean("auction-house-enabled");
-        if(AUCTIONS_ENABLED){
-            auctionListings = data.getConfigurationSection("auction").getKeys(false).toArray();
+        instance.AUCTIONS_ENABLED = instance.config.getBoolean("auction-house-enabled");
+        if(instance.AUCTIONS_ENABLED){
+            instance.auctionListings = instance.data.getConfigurationSection("auction").getKeys(false).toArray();
         }
-        PREFIX = ColorUtils.format(config.getString("prefix"));
+        instance.PREFIX = ColorUtils.format(instance.config.getString("prefix"));
     }
 
 
@@ -209,14 +215,14 @@ public final class AllShop extends JavaPlugin implements Listener {
                     if (econ.getBalance(player) > data.getInt(getMainKey(shop.getType()) + getListings(shop.getType())[(slot + 1)] + ".Price")) {
                         ItemStack item = event.getCurrentItem();
                         econ.withdrawPlayer(player, data.getInt(getMainKey(shop.getType()) + getListings(shop.getType())[(slot + 1)] + ".Price"));
-                        player.getInventory().addItem(ListingsUtil.removeListingInfo(item,slot+1,ShopType.PLAYER_SHOP));
+                        player.getInventory().addItem(ListingsUtil.removeListingInfo(item,slot+1, ShopType.PLAYER_SHOP));
                         player.sendMessage(ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getItemMeta().getDisplayName());
                         if(shop.getType()==ShopType.PLAYER_SHOP) {
-                            econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + AllShop.digitalListings[(event.getSlot() + 1)] + ".UUID"))), data.getInt("digital." + (event.getSlot() + 1) + ".Price"));
-                            data.set("digital." + AllShop.digitalListings[(event.getSlot() + 1)], null);
+                            econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + digitalListings[(event.getSlot() + 1)] + ".UUID"))), data.getInt("digital." + (event.getSlot() + 1) + ".Price"));
+                            data.set("digital." + digitalListings[(event.getSlot() + 1)], null);
                         }
                         try {
-                            AllShop.data.save(new File(AllShop.folder, "data.yml"));
+                            data.save(new File(folder, "data.yml"));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

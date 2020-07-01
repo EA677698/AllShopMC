@@ -1,5 +1,7 @@
-package allshop.allshop;
+package allshop.allshop.shops;
 
+import allshop.allshop.main.AllShop;
+import allshop.allshop.utils.ListingsUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -23,7 +25,7 @@ public class Shop {
         } else {
             inv = Bukkit.createInventory(null, 54, "Server Shop");
         }
-        totalPages = (int)(((double)AllShop.digitalListings.length/44.0))+1;
+        totalPages = (int)(((double) AllShop.instance.digitalListings.length/44.0))+1;
         ListingsUtil.loadOptions(inv, currentPage, totalPages);
         ListingsUtil.loadListings(inv, type);
         player.openInventory(inv);

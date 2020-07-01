@@ -1,4 +1,4 @@
-package allshop.allshop;
+package allshop.allshop.utils;
 
 import org.bukkit.ChatColor;
 

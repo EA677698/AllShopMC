@@ -1,5 +1,6 @@
-package allshop.allshop;
+package allshop.allshop.shops;
 
+import allshop.allshop.main.AllShop;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,14 +26,14 @@ public class Trades {
             @Override
             public void run() {
                 if(!commenced){
-                    one.sendMessage(AllShop.PREFIX+ ChatColor.RED+" The trade has expired!");
-                    two.sendMessage(AllShop.PREFIX+ ChatColor.RED+" The trade has expired!");
-                    AllShop.openTrades.remove(this);
+                    one.sendMessage(AllShop.instance.PREFIX+ ChatColor.RED+" The trade has expired!");
+                    two.sendMessage(AllShop.instance.PREFIX+ ChatColor.RED+" The trade has expired!");
+                    AllShop.instance.openTrades.remove(this);
                 } else {
                     this.cancel();
                 }
             }
-        }.runTaskLaterAsynchronously(AllShop.plugin,2400);
+        }.runTaskLaterAsynchronously(AllShop.instance.plugin,2400);
     }
 
     public void commenceTrade(){
@@ -45,9 +46,7 @@ public class Trades {
         inv.setItem(7, new ItemStack(Material.RED_STAINED_GLASS_PANE));
         inv.setItem(8, new ItemStack(Material.RED_STAINED_GLASS_PANE));
         one.openInventory(inv);
-        System.out.println("Commence4 "+AllShop.openTrades.size());
         two.openInventory(inv);
-        System.out.println("Commence5 "+AllShop.openTrades.size());
     }
 
     public void changeStatusOne(){

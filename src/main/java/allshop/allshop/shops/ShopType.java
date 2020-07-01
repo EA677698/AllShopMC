@@ -1,4 +1,4 @@
-package allshop.allshop;
+package allshop.allshop.shops;
 
 public enum ShopType {
 

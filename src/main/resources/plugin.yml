@@ -1,6 +1,6 @@
 name: AllShop
 version: ${project.version}
-main: allshop.allshop.AllShop
+main: allshop.allshop.main.AllShop
 api-version: 1.13
 prefix: AllShop
 authors: [PhantomKnight]
