@@ -34,7 +34,11 @@ public class Commands implements CommandExecutor {
                 if(sender.hasPermission("allshop.shop")) {
                     if (AllShop.SERVER_SHOP_ENABLED) {
                         if (args.length > 0 && args[0].equalsIgnoreCase("sell")) {
-                            ListingsUtil.createListing(ShopType.SERVER_SHOP, sender, args);
+                            if(sender.hasPermission("allshop.admin")) {
+                                ListingsUtil.createListing(ShopType.SERVER_SHOP, sender, args);
+                            } else {
+                                sender.sendMessage(noPermission);
+                            }
                         } else
                             AllShop.openShops.add(new Shop((Player) sender, ShopType.SERVER_SHOP));
                     } else {
