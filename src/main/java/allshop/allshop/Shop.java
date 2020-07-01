@@ -11,9 +11,11 @@ public class Shop {
     private int totalPages;
     private int currentPage = 1;
     private Player player;
+    private ShopType type;
 
     public Shop(Player player, ShopType type){
         this.player = player;
+        this.type = type;
         if(type==ShopType.PLAYER_SHOP){
             inv = Bukkit.createInventory(null,54, "AllShop");
         } else if(type==ShopType.AUCTION_HOUSE) {
@@ -35,9 +37,6 @@ public class Shop {
         return player;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
 
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
@@ -47,12 +46,11 @@ public class Shop {
         return currentPage;
     }
 
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
-    }
-
     public int getTotalPages(){
         return totalPages;
     }
 
+    public ShopType getType() {
+        return type;
+    }
 }

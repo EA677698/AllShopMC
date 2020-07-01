@@ -5,7 +5,11 @@ api-version: 1.13
 prefix: AllShop
 authors: [PhantomKnight]
 description: The Shop plugin with all the features you could ever want
+depend:
+  - Vault
 commands:
+  allshop:
+    description: main command
   as:
     description: main command
   shop:
@@ -16,3 +20,20 @@ commands:
     description: opens the player market
   trade:
     description: creates a trade with a player
+
+permissions:
+  allshop.*:
+    children:
+      allshop.admin:
+        description: permission node for the administrative commands
+        default: op
+      allshop.shop:
+        description: permission node for the usage of the GUI server shop
+      allshop.market:
+        description: permission node for the usage of GUI player shops
+      allshop.auction:
+        description: permission node for the usage of the GUI auction house
+      allshop.trade:
+        description: permission node for the usage of player trading
+    description: permission node for everything
+    default: op

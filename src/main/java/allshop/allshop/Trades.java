@@ -78,11 +78,11 @@ public class Trades {
         }
     }
 
-    public Player getOne() {
+    public Player getTraderOne() {
         return one;
     }
 
-    public Player getTwo() {
+    public Player getTraderTwo() {
         return two;
     }
 

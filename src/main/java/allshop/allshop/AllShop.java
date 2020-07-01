@@ -3,15 +3,16 @@ package allshop.allshop;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 //import org.bukkit.entity.Player;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 //import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -60,6 +61,7 @@ public final class AllShop extends JavaPlugin implements Listener {
         plugin = this;
         getServer().getPluginManager().registerEvents(this,this);
         getCommand("as").setExecutor(commands);
+        getCommand("allshop").setExecutor(commands);
         getCommand("shop").setExecutor(commands);
         getCommand("auction").setExecutor(commands);
         getCommand("market").setExecutor(commands);
@@ -89,6 +91,7 @@ public final class AllShop extends JavaPlugin implements Listener {
 ////            }
 ////        }
         loadData();
+        Commands.noPermission = AllShop.PREFIX+ChatColor.RED+" You do not have permission to do this!";
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN+"ALLSHOP INITIATED");
 
     }
@@ -142,91 +145,112 @@ public final class AllShop extends JavaPlugin implements Listener {
 
     @EventHandler
     public void stopItemMovement(InventoryClickEvent event){
-        System.out.println(openTrades.size());
-        System.out.println(TRADING_ENABLED);
-        if(openTrades.size()>0&&TRADING_ENABLED){
-            System.out.println("ActivatedStopItem");
-            Trades trade = null;
-            for(Trades trades: openTrades){
-                if(trades.getInv().equals(event.getClickedInventory())){
-                    trade = trades;
-                    break;
-                }
-            }
-            if(trade!=null){
-                int slot = event.getSlot();
-                if(trade.getOne().equals(event.getWhoClicked())){
-                    if(slot==0||slot==1||slot==2){
-                        trade.changeStatusOne();
-                    }
-                    if(slot!=3){
-                        event.setCancelled(true);
-                    }
-                } else{
-                    if(slot==6||slot==7||slot==8){
-                        trade.changeStatusTwo();
-                    }
-                    if(slot!=5){
-                        event.setCancelled(true);
+        int slot = event.getSlot();
+        Player player = (Player) event.getWhoClicked();
+        if(event.getView().getTitle().equals("Trade")) {
+            if (openTrades.size() > 0 && TRADING_ENABLED) {
+                Trades trade = null;
+                for (Trades trades : openTrades) {
+                    if (trades.getInv().equals(event.getClickedInventory())) {
+                        trade = trades;
+                        break;
                     }
                 }
-                if(trade.isReady1()&&trade.isReady2()){
-                    trade.getOne().sendMessage(PREFIX+ChatColor.GREEN+" You have successfully traded for [" + event.getInventory().getItem(5).getAmount() + "] " + event.getClickedInventory().getItem(5));
-                    trade.getOne().sendMessage(PREFIX+ChatColor.GREEN+" You have successfully traded for [" + event.getInventory().getItem(3).getAmount() + "] " + event.getClickedInventory().getItem(3));
-                    trade.getOne().getInventory().addItem(event.getClickedInventory().getItem(5));
-                    trade.getTwo().getInventory().addItem(event.getClickedInventory().getItem(3));
-                    trade.getOne().closeInventory();
-                    trade.getTwo().closeInventory();
-                    openTrades.remove(trade);
+                if (trade != null) {
+                    if (trade.getTraderOne().equals(player)) {
+                        if (slot == 0 || slot == 1 || slot == 2) {
+                            trade.changeStatusOne();
+                        }
+                        if (slot != 3) {
+                            event.setCancelled(true);
+                        }
+                    } else {
+                        if (slot == 6 || slot == 7 || slot == 8) {
+                            trade.changeStatusTwo();
+                        }
+                        if (slot != 5) {
+                            event.setCancelled(true);
+                        }
+                    }
+                    if (trade.isReady1() && trade.isReady2()) {
+                        trade.getTraderOne().sendMessage(PREFIX + ChatColor.GREEN + " You have successfully traded for [" + event.getInventory().getItem(5).getAmount() + "] " + event.getClickedInventory().getItem(5));
+                        trade.getTraderOne().sendMessage(PREFIX + ChatColor.GREEN + " You have successfully traded for [" + event.getInventory().getItem(3).getAmount() + "] " + event.getClickedInventory().getItem(3));
+                        trade.getTraderOne().getInventory().addItem(event.getClickedInventory().getItem(5));
+                        trade.getTraderTwo().getInventory().addItem(event.getClickedInventory().getItem(3));
+                        trade.getTraderOne().closeInventory();
+                        trade.getTraderTwo().closeInventory();
+                        openTrades.remove(trade);
+                    }
                 }
             }
         }
-        if(openShops.size()>0&&DIGITAL_ENABLED){
-            if(event.getView().getTitle().equals("AllShop")){
-                if(event.getSlot()==49){
-                    event.setCancelled(true);
-                } else if(event.getSlot()==53){
-                    for(Shop shop: openShops){
-                        if(shop.getPlayer().equals((event.getWhoClicked()))){
-                            if(shop.getCurrentPage()+1<shop.getTotalPages()){
-                                shop.setCurrentPage(shop.getCurrentPage()+1);
-                                ListingsUtil.loadOptions(shop.getInv(),shop.getCurrentPage(),shop.getTotalPages());
-                            }
-                            break;
-                        }
+        if(openShops.size()>0&&(DIGITAL_ENABLED||SERVER_SHOP_ENABLED)){
+            if(event.getView().getTitle().equals("AllShop")||event.getView().getTitle().equals("Server Shop")){
+                Shop shop = null;
+                for(Shop shops: openShops){
+                    if(shops.getPlayer().equals(player)){
+                        shop = shops;
+                        break;
                     }
-                } else if(event.getSlot()==45){
-                        for(Shop shop: openShops){
-                            if(shop.getPlayer().equals((event.getWhoClicked()))){
-                                if(shop.getCurrentPage()>1){
-                                    shop.setCurrentPage(shop.getCurrentPage()-1);
-                                    ListingsUtil.loadOptions(shop.getInv(),shop.getCurrentPage(),shop.getTotalPages());
-                                }
-                                break;
-                            }
+                }
+                if(slot==49){
+                    event.setCancelled(true);
+                } else if(slot==53){
+                    if(shop.getCurrentPage()+1<shop.getTotalPages()){
+                        shop.setCurrentPage(shop.getCurrentPage()+1);
+                        ListingsUtil.loadOptions(shop.getInv(),shop.getCurrentPage(),shop.getTotalPages());
+                    }
+                } else if(slot==45){
+                    if(shop.getCurrentPage()>1){
+                        shop.setCurrentPage(shop.getCurrentPage()-1);
+                        ListingsUtil.loadOptions(shop.getInv(),shop.getCurrentPage(),shop.getTotalPages());
+                    }
+                    } else if(!(event.getClickedInventory().getItem(slot)==null)) {
+                    if (econ.getBalance(player) > data.getInt(getMainKey(shop.getType()) + getListings(shop.getType())[(slot + 1)] + ".Price")) {
+                        ItemStack item = event.getCurrentItem();
+                        econ.withdrawPlayer(player, data.getInt(getMainKey(shop.getType()) + getListings(shop.getType())[(slot + 1)] + ".Price"));
+                        player.getInventory().addItem(ListingsUtil.removeListingInfo(item,slot+1,ShopType.PLAYER_SHOP));
+                        player.sendMessage(ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getItemMeta().getDisplayName());
+                        if(shop.getType()==ShopType.PLAYER_SHOP) {
+                            econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + AllShop.digitalListings[(event.getSlot() + 1)] + ".UUID"))), data.getInt("digital." + (event.getSlot() + 1) + ".Price"));
+                            data.set("digital." + AllShop.digitalListings[(event.getSlot() + 1)], null);
                         }
-                    } else if(!(event.getClickedInventory().getItem(event.getSlot())==null)) {
-                    if (econ.getBalance((OfflinePlayer) event.getWhoClicked()) > data.getInt("digital." + AllShop.digitalListings[(event.getSlot() + 1)] + ".Price")) {
-                        String itemName = event.getCurrentItem().getItemMeta().getDisplayName();
-                        econ.withdrawPlayer((OfflinePlayer) event.getWhoClicked(), data.getInt("digital." + AllShop.digitalListings[(event.getSlot() + 1)] + ".Price"));
-                        econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + AllShop.digitalListings[(event.getSlot() + 1)] + ".UUID"))), data.getInt("digital." + (event.getSlot() + 1) + ".Price"));
-                        event.getWhoClicked().getInventory().addItem(ListingsUtil.removeListingInfo(event.getCurrentItem(),event.getSlot()+1,ShopType.PLAYER_SHOP));
-                        event.getWhoClicked().sendMessage(ChatColor.GREEN + "You have purchased [" + event.getCurrentItem().getAmount() + "] " + itemName);
-                        data.set("digital." + AllShop.digitalListings[(event.getSlot() + 1)], null);
                         try {
                             AllShop.data.save(new File(AllShop.folder, "data.yml"));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                         loadData();
-                        event.getWhoClicked().closeInventory();
+                        player.closeInventory();
                     } else {
-                        event.getWhoClicked().closeInventory();
-                        event.getWhoClicked().sendMessage(ChatColor.RED + "You do not have enough money to buy this!");
+                        player.closeInventory();
+                        player.sendMessage(ChatColor.RED + "You do not have enough money to buy this!");
                     }
                 }
                 event.setCancelled(true);
             }
+        }
+    }
+
+    public String getMainKey(ShopType type){
+        switch (type){
+            case PLAYER_SHOP:
+                return "digital.";
+            case AUCTION_HOUSE:
+                return "auction.";
+            default:
+                return "server.";
+        }
+    }
+
+    public Object[] getListings(ShopType type){
+        switch (type){
+            case PLAYER_SHOP:
+                return digitalListings;
+            case AUCTION_HOUSE:
+                return auctionListings;
+            default:
+                return serverListings;
         }
     }
 
