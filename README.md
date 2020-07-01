@@ -12,10 +12,11 @@
 - [ ] Group Specific Shops
 - [ ] MYSQL support
 - [ ] Customizable messages
+- [ ] Player trading
 
 ### Commands:
-* /as - *Main command*
-* /AllShop - *Main command*
+* /AllShop (aka /as) - *Main command*
+  * reload - *reloads the plugins configuration*
 * /Shop - *Opens the server shop*
   * sell {price} - *Sells anything in your hand*
 * /Auction - *Opens the auction house*
