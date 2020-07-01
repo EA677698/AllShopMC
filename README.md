@@ -1,7 +1,7 @@
-# AllShopMC 0.3.0
+# AllShopMC 0.3.1
 
 ### Features:
-- [ ] Server GUI Shop for admins - *In Progress*
+- [x] Server GUI Shop for admins
 - [x] Player GUI Shop
 - [ ] GUI Auction House - *In Progress*
 - [ ] Physical Player Shop
@@ -12,6 +12,7 @@
 - [ ] Group Specific Shops
 - [ ] MYSQL support
 - [ ] Customizable messages
+- [x] Customizable Prefix
 - [x] Player trading
 
 ### Commands:
@@ -27,16 +28,24 @@
   * {Player} - *Initiates a trade with the requested player*
   * accept - *Accepts a requested trade*
   * deny - *Denies a requested trade*
+  
+### Permissions:
+* allshop.* - Permission node for everything
+* allshop.admin - Permission node for administrative actions (Selling to the server shop, reloading)
+* allshop.shop - permission node to use the server shop
+* allshop.market - permission node to use player shop
+* allshop.auction - permission node to use auction house
+* allshop.trade - permission node for trading
 
 ### Bugs:
 
 * Global:
-  * none
-  
-* Player Shop:
-  * Incorrect Items removed when item purchased
+    * Incorrect Items removed when item purchased
   * Lore is overridden sometimes by product information
   * Extra line is added to Lore when purchased
+  
+* Player Shop:
+  * none
   
 * Auction House:
   * none
