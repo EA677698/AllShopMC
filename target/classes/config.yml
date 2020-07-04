@@ -15,3 +15,5 @@ shop-listings-limit: 5
 auction-listings-limit: 5
 # Plugin Prefix
 prefix: '[&eAllShop&f]'
+# If debug is enabled
+debug: false

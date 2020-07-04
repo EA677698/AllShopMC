@@ -1,4 +1,4 @@
-package allshop.allshop.shops;
+package allshop.allshop.gshops;
 
 import allshop.allshop.main.AllShop;
 import org.bukkit.Bukkit;
@@ -26,14 +26,14 @@ public class Trades {
             @Override
             public void run() {
                 if(!commenced){
-                    one.sendMessage(AllShop.instance.PREFIX+ ChatColor.RED+" The trade has expired!");
-                    two.sendMessage(AllShop.instance.PREFIX+ ChatColor.RED+" The trade has expired!");
-                    AllShop.instance.openTrades.remove(this);
+                    one.sendMessage(AllShop.PREFIX+ ChatColor.RED+" The trade has expired!");
+                    two.sendMessage(AllShop.PREFIX+ ChatColor.RED+" The trade has expired!");
+                    AllShop.openTrades.remove(this);
                 } else {
                     this.cancel();
                 }
             }
-        }.runTaskLaterAsynchronously(AllShop.instance.plugin,2400);
+        }.runTaskLaterAsynchronously(AllShop.plugin,2400);
     }
 
     public void commenceTrade(){
@@ -75,6 +75,11 @@ public class Trades {
             inv.setItem(8, new ItemStack(Material.RED_STAINED_GLASS_PANE));
             ready2 = false;
         }
+    }
+
+    public void sendMessageToParticipants(String message){
+        one.sendMessage(message);
+        two.sendMessage(message);
     }
 
     public Player getTraderOne() {

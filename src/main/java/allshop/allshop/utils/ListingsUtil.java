@@ -1,7 +1,7 @@
 package allshop.allshop.utils;
 
 import allshop.allshop.main.AllShop;
-import allshop.allshop.shops.ShopType;
+import allshop.allshop.gshops.ShopType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -28,17 +28,10 @@ public class ListingsUtil {
     }
 
     public static void loadListings(Inventory inv, ShopType type){
-        Object[] listings;
-        switch (type){
-            case PLAYER_SHOP:
-                listings = AllShop.instance.digitalListings;
-                break;
-            case AUCTION_HOUSE:
-                listings = AllShop.instance.auctionListings;
-                break;
-            default:
-                listings = AllShop.instance.serverListings;
-            break;
+        Object[] listings = getListings(type);
+        if(AllShop.DEBUG){
+            System.out.println(AllShop.PREFIX+"ShopType: "+type);
+            System.out.println(AllShop.PREFIX+"Listings size: "+(listings.length-1));
         }
         for(int index = 1; index<listings.length; index++) {
             inv.addItem(addListingInfo(getListingItem(index, type), index, type));
@@ -63,7 +56,7 @@ public class ListingsUtil {
                     continue;
                 }
             }
-            if(type==ShopType.PLAYER_SHOP||type==ShopType.SERVER_SHOP){
+            if(type!=ShopType.AUCTION_HOUSE){
                 if(line.equals(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index,type))){
                     lore.remove(line);
                     continue;
@@ -86,26 +79,17 @@ public class ListingsUtil {
 
     public static boolean createListing(ShopType type, CommandSender sender, String[] args) {
         int count = 0;
-        if (type==ShopType.PLAYER_SHOP) {
-            for (int i = 1; i < AllShop.instance.digitalListings.length; i++) {
-                if(AllShop.instance.data.getString("digital." + AllShop.instance.digitalListings[i] + ".Name")==null){
+        if(type!=ShopType.SERVER_SHOP){
+            for (int i = 1; i < getListings(type).length; i++) {
+                if(AllShop.data.getString(getMainKey(type) + getListings(type)[i] + ".Name")==null){
                     continue;
                 }
-                if (AllShop.instance.data.getString("digital." + AllShop.instance.digitalListings[i] + ".Name").equals(sender.getName())) {
-                    count++;
-                }
-            }
-        } else if(type==ShopType.AUCTION_HOUSE) {
-            for (int i = 1; i < AllShop.instance.auctionListings.length; i++) {
-                if(AllShop.instance.data.getString("auction." + AllShop.instance.auctionListings[i] + ".Name")==null){
-                    continue;
-                }
-                if (AllShop.instance.data.getString("auction." + AllShop.instance.auctionListings[i] + ".Name").equals(sender.getName())) {
+                if (AllShop.data.getString(getMainKey(type) + getListings(type)[i] + ".Name").equals(sender.getName())) {
                     count++;
                 }
             }
         }
-        if (type==ShopType.SERVER_SHOP||AllShop.instance.LISTINGS_LIMIT == -1 || count < AllShop.instance.LISTINGS_LIMIT) {
+        if (type==ShopType.SERVER_SHOP||AllShop.LISTINGS_LIMIT == -1 || count < AllShop.LISTINGS_LIMIT) {
             Player player = (Player) sender;
             int price = 0;
             String UUID = String.valueOf(player.getUniqueId());
@@ -119,29 +103,23 @@ public class ListingsUtil {
                         sender.sendMessage(ChatColor.RED + "Price must be an integer");
                         return false;
                     }
-                    String id;
-                    if (type==ShopType.PLAYER_SHOP) {
-                        id = "digital." + (int)(Math.random()*9824);
-                    } else if(type==ShopType.AUCTION_HOUSE) {
-                        id = "auction." + (int)(Math.random()*9824);
-                    } else {
-                        id = "server." + (int)(Math.random()*9824);
-                    }
-                    AllShop.instance.data.createSection(id);
+                    String id = getMainKey(type)+(int)(Math.random()*9824);
+                    AllShop.data.createSection(id);
                     if(type!=ShopType.SERVER_SHOP){
-                        AllShop.instance.data.set(id + ".Date", java.time.LocalDate.now().toString());
-                        AllShop.instance.data.set(id + ".UUID", UUID);
-                        AllShop.instance.data.set(id + ".Name", player.getName());
+                        System.out.println(java.time.LocalDate.now().toString());
+                        AllShop.data.set(id + ".Date", java.time.LocalDate.now().toString());
+                        AllShop.data.set(id + ".UUID", UUID);
+                        AllShop.data.set(id + ".Name", player.getName());
                     }
-                    if (type==ShopType.PLAYER_SHOP||type==ShopType.SERVER_SHOP) {
-                        AllShop.instance.data.set(id + ".Price", price);
+                    if (type!=ShopType.AUCTION_HOUSE) {
+                        AllShop.data.set(id + ".Price", price);
                     } else {
-                        AllShop.instance.data.set(id + ".minBid", Integer.parseInt(args[1]));
-                        AllShop.instance.data.set(id + ".Bid", Integer.parseInt(args[1]));
+                        AllShop.data.set(id + ".minBid", Integer.parseInt(args[1]));
+                        AllShop.data.set(id + ".Bid", Integer.parseInt(args[1]));
                     }
-                    AllShop.instance.data.set(id + ".Items", player.getInventory().getItemInMainHand());
+                    AllShop.data.set(id + ".Items", player.getInventory().getItemInMainHand());
                     try {
-                        AllShop.instance.data.save(new File(AllShop.instance.folder, "data.yml"));
+                        AllShop.data.save(new File(AllShop.folder, "data.yml"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -149,16 +127,16 @@ public class ListingsUtil {
                     AllShop.loadData();
                 } else {
                     if (type==ShopType.PLAYER_SHOP) {
-                        sender.sendMessage(AllShop.instance.PREFIX+ChatColor.RED + " You must give a price!");
+                        sender.sendMessage(AllShop.PREFIX+ChatColor.RED + "You must give a price!");
                     } else {
-                        sender.sendMessage(AllShop.instance.PREFIX+ChatColor.RED + " You must give a starting bid!");
+                        sender.sendMessage(AllShop.PREFIX+ChatColor.RED + "You must give a starting bid!");
                     }
                 }
             } else {
-                sender.sendMessage(AllShop.instance.PREFIX+ChatColor.RED + " Your hand cannot be empty!");
+                sender.sendMessage(AllShop.PREFIX+ChatColor.RED + "Your hand cannot be empty!");
             }
         } else {
-            sender.sendMessage(AllShop.instance.PREFIX+ChatColor.RED + " You have reached the maximum listings limit");
+            sender.sendMessage(AllShop.PREFIX+ChatColor.RED + "You have reached the maximum listings limit");
         }
         return false;
     }
@@ -173,20 +151,25 @@ public class ListingsUtil {
             lore = new ArrayList<>();
         }
         for(String line : lore){
-            if(line.equals(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type))||line.equals(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index,type))){
+            if(type==ShopType.SERVER_SHOP){
+                if(line.equals(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index,type))){
+                    return item;
+                }
+            } else if(line.equals(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type))){
                 return item;
             }
         }
-        lore.add("");
-        lore.add(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type));
+        //lore.add("");
+        if(type!=ShopType.SERVER_SHOP) {
+            lore.add(ChatColor.LIGHT_PURPLE + "Seller: " + getSellerName(index, type));
+            lore.add(ChatColor.LIGHT_PURPLE + "Added: " + getListingDate(index, type));
+        }
         if(type==ShopType.PLAYER_SHOP||type==ShopType.SERVER_SHOP){
             lore.add(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index,type));
         } else if(type==ShopType.AUCTION_HOUSE) {
             lore.add(ChatColor.LIGHT_PURPLE+"Starting Bid: "+getMinBid(index));
             lore.add(ChatColor.LIGHT_PURPLE+"Current Bid: "+getCurrentBid(index));
-        }
-        lore.add(ChatColor.LIGHT_PURPLE+"Added: "+ getListingDate(index, type));
-        meta.setLore(lore);
+        }meta.setLore(lore);
         temp.setItemMeta(meta);
         return temp;
     }
@@ -207,53 +190,65 @@ public class ListingsUtil {
     }
 
     public static ItemStack getListingItem(int index, ShopType type){
-        if(type==ShopType.PLAYER_SHOP){
-            return AllShop.instance.data.getItemStack("digital."+AllShop.instance.digitalListings[index]+".Items");
-        } else if(type==ShopType.AUCTION_HOUSE) {
-            return AllShop.instance.data.getItemStack("auction."+AllShop.instance.auctionListings[index]+".Items");
-        } else {
-            return AllShop.instance.data.getItemStack("server."+AllShop.instance.serverListings[index]+".Items");
-        }
+            return AllShop.data.getItemStack(getMainKey(type)+getListings(type)[index]+".Items");
     }
 
     public static String getSellerName(int index, ShopType type){
-        if(type==ShopType.PLAYER_SHOP){
-            return AllShop.instance.data.getString("digital."+AllShop.instance.digitalListings[index]+".Name");
-        } else {
-            return AllShop.instance.data.getString("auction."+AllShop.instance.auctionListings[index]+".Name");
+        if(type!=ShopType.SERVER_SHOP){
+            return AllShop.data.getString(getMainKey(type)+getListings(type)[index]+".Name");
         }
+        return null;
     }
 
     public static String getSellerUUID(int index, ShopType type){
-        if(type==ShopType.PLAYER_SHOP) {
-            return AllShop.instance.data.getString("digital."+AllShop.instance.digitalListings[index]+".UUID");
-        } else {
-            return AllShop.instance.data.getString("auction." + AllShop.instance.auctionListings[index] + ".UUID");
+        if(type!=ShopType.SERVER_SHOP) {
+            return AllShop.data.getString(getMainKey(type)+getListings(type)[index] + ".UUID");
         }
+        return null;
     }
 
     public static int getListingPrice(int index, ShopType type) {
-        if(type==ShopType.PLAYER_SHOP) {
-            return AllShop.instance.data.getInt("digital." + AllShop.instance.digitalListings[index] + ".Price");
-        } else {
-            return AllShop.instance.data.getInt("server."+AllShop.instance.serverListings[index]+".Price");
+        if(type!=ShopType.AUCTION_HOUSE) {
+            return AllShop.data.getInt(getMainKey(type)+getListings(type)[index] + ".Price");
         }
+        return 0;
     }
 
     public static String getListingDate(int index, ShopType type){
-        if(type==ShopType.PLAYER_SHOP){
-            return AllShop.instance.data.getString("digital."+AllShop.instance.digitalListings[index]+".Date");
-        } else {
-            return AllShop.instance.data.getString("auction."+AllShop.instance.auctionListings[index]+".Date");
+        if(type!=ShopType.SERVER_SHOP){
+            return AllShop.data.getString(getMainKey(type)+getListings(type)[index]+".Date");
         }
+        return null;
     }
 
     public static int getMinBid(int index){
-        return AllShop.instance.data.getInt("auction."+AllShop.instance.auctionListings[index]+".minBid");
+        return AllShop.data.getInt("auction."+AllShop.auctionListings[index]+".minBid");
     }
 
     public static int getCurrentBid(int index){
-        return AllShop.instance.data.getInt("auction."+AllShop.instance.auctionListings[index]+".Bid");
+        return AllShop.data.getInt("auction."+AllShop.auctionListings[index]+".Bid");
+    }
+
+    public static String getMainKey(ShopType type){
+        switch (type){
+            case PLAYER_SHOP:
+                return "digital.";
+            case AUCTION_HOUSE:
+                return "auction.";
+            default:
+                return "server.";
+        }
+    }
+
+    public static Object[] getListings(ShopType type){
+        switch (type){
+            case PLAYER_SHOP:
+                return AllShop.digitalListings;
+            case AUCTION_HOUSE:
+                return AllShop.auctionListings;
+            default:
+                return AllShop.serverListings;
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-# AllShopMC 0.4.2
+# AllShopMC 0.5.0
 
 ### Features:
 - [x] Server GUI Shop for admins
@@ -6,7 +6,7 @@
 - [ ] GUI Auction House - *In Progress*
 - [ ] Physical Player Shop
 - [ ] Physical Server Shop
-- [ ] Plugin Moderation
+- [ ] Plugin Moderation Tools - *In Progress*
 - [ ] Search Feature
 - [ ] Staff for Physical Shops
 - [ ] Group Specific Shops
@@ -14,6 +14,7 @@
 - [ ] Customizable messages
 - [x] Customizable Prefix
 - [x] Player trading
+- [ ] Per world Support
 
 ### Commands:
 * /AllShop (aka /as) - *Main command*
@@ -37,12 +38,11 @@
 * allshop.auction - permission node to use auction house
 * allshop.trade - permission node for trading
 
-### Bugs:
+### Known Bugs:
 
 * Global:
-    * Incorrect Items removed when item purchased
+  * Incorrect Items removed when item purchased
   * Lore is overridden sometimes by product information
-  * Extra line is added to Lore when purchased
   
 * Player Shop:
   * none
@@ -52,6 +52,15 @@
   
 * Server Shop:
   * none
+  
+### Bug Fixes:
+  * Bug where the console could execute commands
+  * Bug where buying items from the server shop or player shop would result in a NullPointerException
+  * Bug where only one player would receive a successful trade message from a trade
+  * Bug where shop inventories would not get deleted after being closed
+  * Bug where an extra blank line was added to item lore
+  * Bug where the server shop code would get confused with the player shop code
+  * Bug where the server shop would attempt to remove unexisted information from item lore
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)

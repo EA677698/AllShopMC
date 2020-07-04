@@ -10,8 +10,7 @@ depend:
 commands:
   allshop:
     description: main command
-  as:
-    description: main command
+    aliases: as
   shop:
     description: opens the server shop
   auction:

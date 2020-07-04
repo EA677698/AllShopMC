@@ -1,4 +1,4 @@
-package allshop.allshop.shops;
+package allshop.allshop.gshops;
 
 import allshop.allshop.main.AllShop;
 import allshop.allshop.utils.ListingsUtil;
@@ -19,15 +19,18 @@ public class Shop {
         this.player = player;
         this.type = type;
         if(type==ShopType.PLAYER_SHOP){
-            inv = Bukkit.createInventory(null,54, "AllShop");
+            inv = Bukkit.createInventory(null,54, "Market");
         } else if(type==ShopType.AUCTION_HOUSE) {
-            inv = Bukkit.createInventory(null,54, "AllShop Auctions");
+            inv = Bukkit.createInventory(null,54, "Auctions");
         } else {
             inv = Bukkit.createInventory(null, 54, "Server Shop");
         }
-        totalPages = (int)(((double) AllShop.instance.digitalListings.length/44.0))+1;
+        totalPages = (int)(((double) AllShop.digitalListings.length/44.0))+1;
         ListingsUtil.loadOptions(inv, currentPage, totalPages);
         ListingsUtil.loadListings(inv, type);
+        if(AllShop.DEBUG) {
+            System.out.println(AllShop.PREFIX + toString());
+        }
         player.openInventory(inv);
     }
 
@@ -38,7 +41,6 @@ public class Shop {
     public Player getPlayer() {
         return player;
     }
-
 
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
@@ -54,5 +56,16 @@ public class Shop {
 
     public ShopType getType() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return "Shop{" +
+                "inv=" + inv +
+                ", totalPages=" + totalPages +
+                ", currentPage=" + currentPage +
+                ", player=" + player +
+                ", type=" + type +
+                '}';
     }
 }

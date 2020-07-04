@@ -1,5 +1,5 @@
 name: AllShop
-version: 0.2.5
+version: 0.4.2
 main: allshop.allshop.main.AllShop
 api-version: 1.13
 prefix: AllShop
@@ -10,8 +10,7 @@ depend:
 commands:
   allshop:
     description: main command
-  as:
-    description: main command
+    aliases: as
   shop:
     description: opens the server shop
   auction:
