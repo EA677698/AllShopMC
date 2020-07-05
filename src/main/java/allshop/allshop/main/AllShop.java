@@ -165,6 +165,7 @@ public final class AllShop extends JavaPlugin implements Listener {
         int slot = event.getSlot();
         Player player = (Player) event.getWhoClicked();
         if(DEBUG){
+            System.out.println(PREFIX+"EVENT HANDLER SECTION");
             System.out.println(PREFIX+"SLOT: "+slot);
             System.out.println(PREFIX+"PLAYER: "+player);
             System.out.println(PREFIX+"INVENTORY TITLE: "+event.getView().getTitle());
@@ -224,14 +225,14 @@ public final class AllShop extends JavaPlugin implements Listener {
                 if(slot==49){
                     event.setCancelled(true);
                 } else if(slot==53){
-                    if(shop.getCurrentPage()+1<shop.getTotalPages()){
+                    if(shop.getCurrentPage()<shop.getTotalPages()){
                         shop.setCurrentPage(shop.getCurrentPage()+1);
-                        ListingsUtil.loadOptions(shop.getInv(),shop.getCurrentPage(),shop.getTotalPages());
+                        shop.refresh();
                     }
                 } else if(slot==45){
                     if(shop.getCurrentPage()>1){
                         shop.setCurrentPage(shop.getCurrentPage()-1);
-                        ListingsUtil.loadOptions(shop.getInv(),shop.getCurrentPage(),shop.getTotalPages());
+                        shop.refresh();
                         }
                     } else {
                     try {
@@ -239,16 +240,16 @@ public final class AllShop extends JavaPlugin implements Listener {
                             if (DEBUG) {
                                 System.out.println(ListingsUtil.getMainKey(shop.getType()));
                                 System.out.println(shop.getType());
-                                System.out.println(ListingsUtil.getListings(shop.getType())[(slot + 1)]);
+                                System.out.println(ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage()-1)*45)+(slot+1)]);
                             }
-                            if (econ.getBalance(player) > data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[(slot + 1)] + ".Price")) {
+                            if (econ.getBalance(player) > data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage()-1)*45)+(slot+1)] + ".Price")) {
                                 ItemStack item = event.getCurrentItem();
-                                econ.withdrawPlayer(player, data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[(slot + 1)] + ".Price"));
-                                player.getInventory().addItem(ListingsUtil.removeListingInfo(item, slot + 1, shop.getType()));
+                                econ.withdrawPlayer(player, data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage()-1)*45)+(slot+1)] + ".Price"));
+                                player.getInventory().addItem(ListingsUtil.removeListingInfo(item, ((shop.getCurrentPage()-1)*45)+(slot+1), shop.getType()));
                                 player.sendMessage(PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getItemMeta().getDisplayName());
                                 if (shop.getType() == ShopType.PLAYER_SHOP) {
-                                    econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + digitalListings[(event.getSlot() + 1)] + ".UUID"))), data.getInt("digital." + (event.getSlot() + 1) + ".Price"));
-                                    data.set("digital." + digitalListings[(event.getSlot() + 1)], null);
+                                    econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + digitalListings[((shop.getCurrentPage()-1)*45)+(slot+1)] + ".UUID"))), data.getInt("digital." + digitalListings[((shop.getCurrentPage()-1)*45)+(slot+1)] + ".Price"));
+                                    data.set("digital." + digitalListings[((shop.getCurrentPage()-1)*45)+(slot+1)], null);
                                 }
                                 try {
                                     data.save(new File(folder, "data.yml"));

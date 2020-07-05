@@ -1,4 +1,4 @@
-# AllShopMC 0.5.0
+# AllShopMC 0.6.0
 
 ### Features:
 - [x] Server GUI Shop for admins
@@ -41,7 +41,6 @@
 ### Known Bugs:
 
 * Global:
-  * Incorrect Items removed when item purchased
   * Lore is overridden sometimes by product information
   
 * Player Shop:
@@ -54,13 +53,9 @@
   * none
   
 ### Bug Fixes:
-  * Bug where the console could execute commands
-  * Bug where buying items from the server shop or player shop would result in a NullPointerException
-  * Bug where only one player would receive a successful trade message from a trade
-  * Bug where shop inventories would not get deleted after being closed
-  * Bug where an extra blank line was added to item lore
-  * Bug where the server shop code would get confused with the player shop code
-  * Bug where the server shop would attempt to remove unexisted information from item lore
+ * Bug where wrong amount of total pages was listed
+ * Bug where incorrect Items would be removed when purchased
+ * Bug where the wrong item information would be retrieved and pay the seller the wrong amount
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)

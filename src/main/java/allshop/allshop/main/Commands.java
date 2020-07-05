@@ -147,14 +147,18 @@ public class Commands implements CommandExecutor {
                                         AllShop.openTrades.remove(trade);
                                     }
                                 }
-                            } else if (Bukkit.getPlayer(args[0]).isOnline()) {
-                                AllShop.openTrades.add(new Trades((Player) sender, Bukkit.getPlayer(args[0])));
-                                sender.sendMessage(AllShop.PREFIX + ChatColor.GREEN + "Trade request successfully sent!");
-                                Bukkit.getPlayer(args[0]).sendMessage(AllShop.PREFIX + ChatColor.GREEN + ((Player) sender).getDisplayName() + " is requesting to trade with you!");
-                                Bukkit.getPlayer(args[0]).sendMessage(AllShop.PREFIX + ChatColor.YELLOW + "Do "+ChatColor.GREEN+"(/trade accept)"+ChatColor.YELLOW+
-                                        " or "+ChatColor.RED+"(/trade deny)"+ChatColor.YELLOW+" to reply!");
+                            } else if (!(args[0].equals(sender.getName()))) {
+                                if(Bukkit.getPlayer(args[0]).isOnline()) {
+                                    AllShop.openTrades.add(new Trades((Player) sender, Bukkit.getPlayer(args[0])));
+                                    sender.sendMessage(AllShop.PREFIX + ChatColor.GREEN + "Trade request successfully sent!");
+                                    Bukkit.getPlayer(args[0]).sendMessage(AllShop.PREFIX + ChatColor.GREEN + ((Player) sender).getDisplayName() + " is requesting to trade with you!");
+                                    Bukkit.getPlayer(args[0]).sendMessage(AllShop.PREFIX + ChatColor.YELLOW + "Do " + ChatColor.GREEN + "(/trade accept)" + ChatColor.YELLOW +
+                                            " or " + ChatColor.RED + "(/trade deny)" + ChatColor.YELLOW + " to reply!");
+                                }else {
+                                    sender.sendMessage(AllShop.PREFIX + ChatColor.RED + "Player not online!");
+                                }
                             } else {
-                                sender.sendMessage(AllShop.PREFIX + ChatColor.RED + "Player not online!");
+                                sender.sendMessage(AllShop.PREFIX+ ChatColor.RED+"You cannot trade with yourself!");
                             }
                         } else {
                             sender.sendMessage(AllShop.PREFIX + ChatColor.RED + "Command input must include player name!");

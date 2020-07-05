@@ -1,7 +1,9 @@
 package allshop.allshop.utils;
 
+import allshop.allshop.gshops.Shop;
 import allshop.allshop.main.AllShop;
 import allshop.allshop.gshops.ShopType;
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -27,14 +29,36 @@ public class ListingsUtil {
         inv.setItem(49,createGuiItem(Material.PAPER, ChatColor.AQUA+"Page: "+currentPage+"/"+totalPages));
     }
 
-    public static void loadListings(Inventory inv, ShopType type){
+    public static void loadListings(Shop shop, ShopType type){
         Object[] listings = getListings(type);
         if(AllShop.DEBUG){
             System.out.println(AllShop.PREFIX+"ShopType: "+type);
             System.out.println(AllShop.PREFIX+"Listings size: "+(listings.length-1));
         }
+        int page = 1;
+        int item = 0;
         for(int index = 1; index<listings.length; index++) {
-            inv.addItem(addListingInfo(getListingItem(index, type), index, type));
+            if(item>44){
+                page++;
+                item = 0;
+            }
+            if(AllShop.DEBUG){
+                System.out.println(AllShop.PREFIX+"Available Pages: "+shop.getPages().size());
+                System.out.println(AllShop.PREFIX+"Page: "+ page);
+                System.out.println(AllShop.PREFIX+"item: "+ item);
+                System.out.println(AllShop.PREFIX+"index: "+ index);
+
+            }
+            shop.getPage(page)[item] = addListingInfo(getListingItem(index, type), index, type);
+            item++;
+        }
+    }
+
+    public static void loadPage(Shop shop){
+        int index = 0;
+        for(ItemStack item: shop.getPage(shop.getCurrentPage())){
+            shop.getInv().setItem(index,item);
+            index++;
         }
     }
 
@@ -79,13 +103,15 @@ public class ListingsUtil {
 
     public static boolean createListing(ShopType type, CommandSender sender, String[] args) {
         int count = 0;
-        if(type!=ShopType.SERVER_SHOP){
-            for (int i = 1; i < getListings(type).length; i++) {
-                if(AllShop.data.getString(getMainKey(type) + getListings(type)[i] + ".Name")==null){
-                    continue;
-                }
-                if (AllShop.data.getString(getMainKey(type) + getListings(type)[i] + ".Name").equals(sender.getName())) {
-                    count++;
+        if(AllShop.LISTINGS_LIMIT != -1) {
+            if (type != ShopType.SERVER_SHOP) {
+                for (int i = 1; i < getListings(type).length; i++) {
+                    if (AllShop.data.getString(getMainKey(type) + getListings(type)[i] + ".Name") == null) {
+                        continue;
+                    }
+                    if (AllShop.data.getString(getMainKey(type) + getListings(type)[i] + ".Name").equals(sender.getName())) {
+                        count++;
+                    }
                 }
             }
         }
@@ -118,6 +144,15 @@ public class ListingsUtil {
                         AllShop.data.set(id + ".Bid", Integer.parseInt(args[1]));
                     }
                     AllShop.data.set(id + ".Items", player.getInventory().getItemInMainHand());
+                    ItemStack item = player.getInventory().getItemInMainHand();
+                    String name = "";
+                    if(item.hasItemMeta()){
+                        name = item.getItemMeta().getDisplayName();
+                    }
+                    else{
+                        name = item.getType().toString();
+                    }
+                    player.sendMessage(AllShop.PREFIX+ChatColor.GREEN+"You have successfully sold your "+name+"["+player.getInventory().getItemInMainHand().getAmount()+"] for "+price);
                     try {
                         AllShop.data.save(new File(AllShop.folder, "data.yml"));
                     } catch (IOException e) {
