@@ -55,7 +55,7 @@
   * none
   
 ### Bug Fixes:
- * none
+ * Problem with the auction shop not saying the minimum bid of the item put up for auction
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)
