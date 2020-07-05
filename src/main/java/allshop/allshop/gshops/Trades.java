@@ -1,12 +1,12 @@
 package allshop.allshop.gshops;
 
 import allshop.allshop.main.AllShop;
+import allshop.allshop.utils.ListingsUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Trades {
@@ -38,41 +38,41 @@ public class Trades {
 
     public void commenceTrade(){
         commenced = true;
-        inv.setItem(0, new ItemStack(Material.RED_STAINED_GLASS_PANE));
-        inv.setItem(1, new ItemStack(Material.RED_STAINED_GLASS_PANE));
-        inv.setItem(2, new ItemStack(Material.RED_STAINED_GLASS_PANE));
-        inv.setItem(4, new ItemStack(Material.WHITE_STAINED_GLASS_PANE));
-        inv.setItem(6, new ItemStack(Material.RED_STAINED_GLASS_PANE));
-        inv.setItem(7, new ItemStack(Material.RED_STAINED_GLASS_PANE));
-        inv.setItem(8, new ItemStack(Material.RED_STAINED_GLASS_PANE));
+        inv.setItem(0, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.RED+" is not ready!"));
+        inv.setItem(1, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.RED+" is not ready!"));
+        inv.setItem(2, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.RED+" is not ready!"));
+        inv.setItem(4, ListingsUtil.createGuiItem(Material.WHITE_STAINED_GLASS_PANE,ChatColor.LIGHT_PURPLE+"Click on the glass panes on your side to change your status!"));
+        inv.setItem(6, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.RED+" is not ready!"));
+        inv.setItem(7, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.RED+" is not ready!"));
+        inv.setItem(8, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.RED+" is not ready!"));
         one.openInventory(inv);
         two.openInventory(inv);
     }
 
     public void changeStatusOne(){
         if(inv.getItem(0).getType()==Material.RED_STAINED_GLASS_PANE){
-            inv.setItem(0, new ItemStack(Material.GREEN_STAINED_GLASS_PANE));
-            inv.setItem(1, new ItemStack(Material.GREEN_STAINED_GLASS_PANE));
-            inv.setItem(2, new ItemStack(Material.GREEN_STAINED_GLASS_PANE));
+            inv.setItem(0, ListingsUtil.createGuiItem(Material.GREEN_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.GREEN+" is ready!"));
+            inv.setItem(1, ListingsUtil.createGuiItem(Material.GREEN_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.GREEN+" is ready!"));
+            inv.setItem(2, ListingsUtil.createGuiItem(Material.GREEN_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.GREEN+" is ready!"));
             ready1 = true;
         } else {
-            inv.setItem(0, new ItemStack(Material.RED_STAINED_GLASS_PANE));
-            inv.setItem(1, new ItemStack(Material.RED_STAINED_GLASS_PANE));
-            inv.setItem(2, new ItemStack(Material.RED_STAINED_GLASS_PANE));
+            inv.setItem(0, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.RED+" is not ready!"));
+            inv.setItem(1, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.RED+" is not ready!"));
+            inv.setItem(2, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.RED+" is not ready!"));
             ready1 = false;
         }
     }
 
     public void changeStatusTwo(){
         if(inv.getItem(6).getType()==Material.RED_STAINED_GLASS_PANE){
-            inv.setItem(6, new ItemStack(Material.GREEN_STAINED_GLASS_PANE));
-            inv.setItem(7, new ItemStack(Material.GREEN_STAINED_GLASS_PANE));
-            inv.setItem(8, new ItemStack(Material.GREEN_STAINED_GLASS_PANE));
+            inv.setItem(6, ListingsUtil.createGuiItem(Material.GREEN_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.GREEN+" is ready!"));
+            inv.setItem(7, ListingsUtil.createGuiItem(Material.GREEN_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.GREEN+" is ready!"));
+            inv.setItem(8, ListingsUtil.createGuiItem(Material.GREEN_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.GREEN+" is ready!"));
             ready2 = true;
         } else {
-            inv.setItem(6, new ItemStack(Material.RED_STAINED_GLASS_PANE));
-            inv.setItem(7, new ItemStack(Material.RED_STAINED_GLASS_PANE));
-            inv.setItem(8, new ItemStack(Material.RED_STAINED_GLASS_PANE));
+            inv.setItem(6, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.RED+" is not ready!"));
+            inv.setItem(7, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.RED+" is not ready!"));
+            inv.setItem(8, ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.RED+" is not ready!"));
             ready2 = false;
         }
     }

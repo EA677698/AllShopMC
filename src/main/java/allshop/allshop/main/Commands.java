@@ -154,7 +154,7 @@ public class Commands implements CommandExecutor {
                                     Bukkit.getPlayer(args[0]).sendMessage(AllShop.PREFIX + ChatColor.GREEN + ((Player) sender).getDisplayName() + " is requesting to trade with you!");
                                     Bukkit.getPlayer(args[0]).sendMessage(AllShop.PREFIX + ChatColor.YELLOW + "Do " + ChatColor.GREEN + "(/trade accept)" + ChatColor.YELLOW +
                                             " or " + ChatColor.RED + "(/trade deny)" + ChatColor.YELLOW + " to reply!");
-                                }else {
+                                } else {
                                     sender.sendMessage(AllShop.PREFIX + ChatColor.RED + "Player not online!");
                                 }
                             } else {

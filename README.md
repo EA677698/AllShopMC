@@ -1,4 +1,4 @@
-# AllShopMC 0.6.0
+# AllShopMC 0.6.1
 
 ### Features:
 - [x] Server GUI Shop for admins

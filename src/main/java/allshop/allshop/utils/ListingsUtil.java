@@ -209,7 +209,7 @@ public class ListingsUtil {
         return temp;
     }
 
-    protected static ItemStack createGuiItem(final Material material, final String name, final String... lore) {
+    public static ItemStack createGuiItem(final Material material, final String name, final String... lore) {
         final ItemStack item = new ItemStack(material, 1);
         final ItemMeta meta = item.getItemMeta();
 
