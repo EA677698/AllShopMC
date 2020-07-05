@@ -3,7 +3,6 @@ package allshop.allshop.utils;
 import allshop.allshop.gshops.Shop;
 import allshop.allshop.main.AllShop;
 import allshop.allshop.gshops.ShopType;
-import com.sun.org.apache.bcel.internal.generic.ALOAD;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -70,6 +69,10 @@ public class ListingsUtil {
             lore.add(line);
         }
         for(String line : lore){
+            if(line.equals(ChatColor.LIGHT_PURPLE+"ID: "+getListingID(index, type))){
+                lore.remove(line);
+                continue;
+            }
             if(type!=ShopType.SERVER_SHOP){
                 if(line.equals(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type))){
                     lore.remove(line);
@@ -101,6 +104,17 @@ public class ListingsUtil {
         return temp;
     }
 
+    public static String generateID(ShopType type){
+        String id = getMainKey(type)+(int)(Math.random()*9824);
+        for(Object obj : getListings(type)){
+            if(obj.toString().equals(id)){
+                return generateID(type);
+            }
+        }
+        return id;
+    }
+
+
     public static boolean createListing(ShopType type, CommandSender sender, String[] args) {
         int count = 0;
         if(AllShop.LISTINGS_LIMIT != -1) {
@@ -129,7 +143,7 @@ public class ListingsUtil {
                         sender.sendMessage(ChatColor.RED + "Price must be an integer");
                         return false;
                     }
-                    String id = getMainKey(type)+(int)(Math.random()*9824);
+                    String id = generateID(type);
                     AllShop.data.createSection(id);
                     if(type!=ShopType.SERVER_SHOP){
                         System.out.println(java.time.LocalDate.now().toString());
@@ -195,6 +209,7 @@ public class ListingsUtil {
             }
         }
         //lore.add("");
+        lore.add(ChatColor.LIGHT_PURPLE+"ID: "+getListingID(index, type));
         if(type!=ShopType.SERVER_SHOP) {
             lore.add(ChatColor.LIGHT_PURPLE + "Seller: " + getSellerName(index, type));
             lore.add(ChatColor.LIGHT_PURPLE + "Added: " + getListingDate(index, type));
@@ -222,6 +237,11 @@ public class ListingsUtil {
         item.setItemMeta(meta);
 
         return item;
+    }
+
+    public static int getListingID(int index, ShopType type){
+        String num = (String) getListings(type)[index];
+        return Integer.parseInt(num);
     }
 
     public static ItemStack getListingItem(int index, ShopType type){

@@ -1,4 +1,8 @@
 package allshop.allshop.pshops;
 
-public class ChestShops {
+import org.bukkit.event.Listener;
+
+public class ChestShops implements Listener {
+
+
 }
