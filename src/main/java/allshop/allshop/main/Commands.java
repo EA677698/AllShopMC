@@ -62,6 +62,16 @@ public class Commands implements CommandExecutor {
                             } else {
                                 sender.sendMessage(noPermission);
                             }
+                        } else if(args.length>0 && args[0].equalsIgnoreCase("remove")){
+                            if(sender.hasPermission("allshop.admin")) {
+                                if (args.length > 1) {
+                                    ListingsUtil.removeListing((Player) sender, ShopType.SERVER_SHOP, args[1], false, true);
+                                } else {
+                                    sender.sendMessage(AllShop.PREFIX + ChatColor.RED + "You must include the item ID!");
+                                }
+                            } else {
+                                sender.sendMessage(noPermission);
+                            }
                         } else {
                             if (AllShop.DEBUG) {
                                 System.out.println("AllShop.openShop.add(new Shop((Player) " + sender + "," + ShopType.SERVER_SHOP);
@@ -113,6 +123,18 @@ public class Commands implements CommandExecutor {
                     if (AllShop.DIGITAL_ENABLED) {
                         if (args.length > 0 && args[0].equalsIgnoreCase("sell")) {
                             ListingsUtil.createListing(ShopType.PLAYER_SHOP, sender, args);
+                        } else if(args.length>0 && args[0].equalsIgnoreCase("remove")){
+                            if (args.length > 1) {
+                                boolean item;
+                                if(args.length==3){
+                                    item = Boolean.valueOf(args[2]);
+                                } else {
+                                    item = false;
+                                }
+                                ListingsUtil.removeListing((Player) sender, ShopType.PLAYER_SHOP, args[1], item, sender.hasPermission("allshop.admin"));
+                            } else {
+                                sender.sendMessage(AllShop.PREFIX + ChatColor.RED + "You must include the item ID!");
+                            }
                         } else {
                             if(AllShop.DEBUG) {
                                 System.out.println("AllShop.openShop.add(new Shop((Player) " + sender + "," + ShopType.PLAYER_SHOP);

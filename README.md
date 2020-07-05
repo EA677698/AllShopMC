@@ -1,4 +1,4 @@
-# AllShopMC 0.6.2
+# AllShopMC 0.7.0
 
 ### Features:
 - [x] Server GUI Shop for admins
@@ -21,10 +21,12 @@
   * reload - *reloads the plugins configuration*
 * /Shop - *Opens the server shop*
   * sell {price} - *Sells anything in your hand*
+  * remove [ID] - *Removes a listing from the server shop*
 * /Auction - *Opens the auction house*
   * bid {starting bid} - *Puts the item in your hand up for auction*
 * /Market - *Opens the player market*
   * sell {price} - *Sells anything in your hand*
+  * remove [ID] [optional: return item] - *Removes a listing from the player shop and can return the item*
 * /Trade - *Trading command*
   * {Player} - *Initiates a trade with the requested player*
   * accept - *Accepts a requested trade*
@@ -53,9 +55,7 @@
   * none
   
 ### Bug Fixes:
- * Bug where wrong amount of total pages was listed
- * Bug where incorrect Items would be removed when purchased
- * Bug where the wrong item information would be retrieved and pay the seller the wrong amount
+ * none
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)

@@ -3,6 +3,7 @@ package allshop.allshop.utils;
 import allshop.allshop.gshops.Shop;
 import allshop.allshop.main.AllShop;
 import allshop.allshop.gshops.ShopType;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ListingsUtil {
@@ -114,6 +116,61 @@ public class ListingsUtil {
         return id;
     }
 
+    public static void removeListing(Player player ,ShopType type, String ID, boolean returnItem, boolean admin){
+        try{
+            boolean located = false;
+            int id = Integer.parseInt(ID);
+            int index = -1;
+            for(Object key:getListings(type)){
+                index++;
+                if(id==Integer.parseInt(key.toString())){
+                    located = true;
+                    break;
+                }
+            }
+            if(located) {
+                if(!admin){
+                    if(getSellerName(index, type).equals(player.getName())){
+                        if(returnItem){
+                            Bukkit.getOfflinePlayer(UUID.fromString(getSellerUUID(index,type))).getPlayer().getInventory().addItem(ListingsUtil.removeListingInfo(getListingItem(index,type),index,type));
+                        }
+                        AllShop.data.set(getMainKey(type) + id, null);
+                        try {
+                            AllShop.data.save(new File(AllShop.folder, "data.yml"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        AllShop.loadData();
+                        player.sendMessage(AllShop.PREFIX+ChatColor.GREEN+"Item removed successfully!");
+                    } else {
+                        player.sendMessage(AllShop.PREFIX+ChatColor.RED+"You cannot remove another player's items!");
+                    }
+                } else {
+                    if(returnItem){
+                        Bukkit.getOfflinePlayer(UUID.fromString(getSellerUUID(index,type))).getPlayer().getInventory().addItem(ListingsUtil.removeListingInfo(getListingItem(index,type),index,type));
+                    }
+                    AllShop.data.set(getMainKey(type) + id, null);
+                    try {
+                        AllShop.data.save(new File(AllShop.folder, "data.yml"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    AllShop.loadData();
+                    player.sendMessage(AllShop.PREFIX+ChatColor.GREEN+"Item removed successfully!");
+                }
+            } else {
+                player.sendMessage(AllShop.PREFIX+ChatColor.RED+"Item ID not found!");
+            }
+
+        } catch (Exception e){
+            if(AllShop.DEBUG){
+                e.printStackTrace();
+            }
+            player.sendMessage(AllShop.PREFIX+ChatColor.RED+"The ID must be an integer!");
+            return;
+        }
+    }
+
 
     public static boolean createListing(ShopType type, CommandSender sender, String[] args) {
         int count = 0;
@@ -166,7 +223,14 @@ public class ListingsUtil {
                     else{
                         name = item.getType().toString();
                     }
-                    player.sendMessage(AllShop.PREFIX+ChatColor.GREEN+"You have successfully sold your "+name+"["+player.getInventory().getItemInMainHand().getAmount()+"] for "+price);
+                    if(type!=ShopType.AUCTION_HOUSE) {
+                        player.sendMessage(AllShop.PREFIX + ChatColor.GREEN + "You have successfully sold your " + name + "["
+                                + player.getInventory().getItemInMainHand().getAmount() + "] for " + price);
+                    } else {
+                        player.sendMessage(AllShop.PREFIX + ChatColor.GREEN + "You have successfully auctioned your " + name + "["
+                                + player.getInventory().getItemInMainHand().getAmount() + "] for a minimum bid of " + args[1]);
+
+                    }
                     try {
                         AllShop.data.save(new File(AllShop.folder, "data.yml"));
                     } catch (IOException e) {
@@ -245,7 +309,7 @@ public class ListingsUtil {
     }
 
     public static ItemStack getListingItem(int index, ShopType type){
-            return AllShop.data.getItemStack(getMainKey(type)+getListings(type)[index]+".Items");
+            return AllShop.data.getItemStack(getMainKey(type)+getListings(type)[index]+".Items").clone();
     }
 
     public static String getSellerName(int index, ShopType type){
