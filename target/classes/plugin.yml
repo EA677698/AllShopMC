@@ -34,5 +34,7 @@ permissions:
         description: permission node for the usage of the GUI auction house
       allshop.trade:
         description: permission node for the usage of player trading
+      allshop.chest:
+        description: permission node to use chest shops
     description: permission node for everything
     default: op

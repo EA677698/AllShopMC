@@ -6,7 +6,7 @@ server-shop-enabled: true
 # If player trading is enabled
 trading-enabled: true
 # If players can use and make chest shops
-physical-shop-enabled: true
+chest-shop-enabled: true
 # If the server allows auctions
 auction-house-enabled: true
 # How many listings may a player have at a time (Digital Shop) (Set to -1 for unlimited listings)

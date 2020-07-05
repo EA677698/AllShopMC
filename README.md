@@ -1,11 +1,11 @@
-# AllShopMC 0.7.0
+# AllShopMC 0.8.0
 
 ### Features:
 - [x] Server GUI Shop for admins
 - [x] Player GUI Shop
 - [ ] GUI Auction House - *In Progress*
-- [ ] Physical Player Shop
-- [ ] Physical Server Shop
+- [x] Physical Player Shop
+- [ ] Physical Server Shop - *In Progress*
 - [ ] Plugin Moderation Tools - *In Progress*
 - [ ] Search Feature
 - [ ] Staff for Physical Shops
@@ -33,12 +33,13 @@
   * deny - *Denies a requested trade*
   
 ### Permissions:
-* allshop.* - Permission node for everything
-* allshop.admin - Permission node for administrative actions (Selling to the server shop, reloading)
+* allshop.* - permission node for everything
+* allshop.admin - permission node for administrative actions (Selling to the server shop, reloading, removing chest shops)
 * allshop.shop - permission node to use the server shop
 * allshop.market - permission node to use player shop
 * allshop.auction - permission node to use auction house
 * allshop.trade - permission node for trading
+* allshop.chest - permission node for anything relating to chest shops
 
 ### Known Bugs:
 
@@ -55,7 +56,7 @@
   * none
   
 ### Bug Fixes:
- * Problem with the auction shop not saying the minimum bid of the item put up for auction
+  * none  
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)

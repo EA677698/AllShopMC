@@ -3,20 +3,28 @@ package allshop.allshop.main;
 import allshop.allshop.gshops.Shop;
 import allshop.allshop.gshops.ShopType;
 import allshop.allshop.gshops.Trades;
+import allshop.allshop.pshops.ChestShops;
 import allshop.allshop.utils.ColorUtils;
 import allshop.allshop.utils.ListingsUtil;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-//import org.bukkit.entity.Player;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-//import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,16 +53,12 @@ public final class AllShop extends JavaPlugin implements Listener {
     public static int LISTINGS_LIMIT;
     public static boolean DIGITAL_ENABLED;
     public static boolean AUCTIONS_ENABLED;
+    public static boolean PHYSICAL_ENABLED;
     public static boolean SERVER_SHOP_ENABLED;
     public static boolean TRADING_ENABLED;
     public static boolean DEBUG;
     public static String PREFIX;
     public static JavaPlugin plugin;
-//    static boolean mysql;
-//    String username;
-//    String password;
-//    String url;
-//    static Connection connection;
     Commands commands = new Commands();
 
     @Override
@@ -76,25 +80,6 @@ public final class AllShop extends JavaPlugin implements Listener {
         data = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "data.yml"));
         saveResource("data.yml",false);
         config = getConfig();
-//        mysql = config.getBoolean("mysql.enabled");
-////        if(mysql){
-////            username = config.getString("mysql.username");
-////            password = config.getString("mysql.password");
-////            url = config.getString("mysql.host")+"/"+config.getString("mysql.database");
-////
-////            try {
-////                Class.forName("com.mysql.jdbc.Driver");
-////            } catch (ClassNotFoundException e) {
-////                e.printStackTrace();
-////                System.err.println("jdbc driver unavailable!");
-////                return;
-////            }
-////            try {
-////                connection = DriverManager.getConnection(url,username,password);
-////            } catch (SQLException e) { //catching errors)
-////                e.printStackTrace(); //prints out SQLException errors to the console (if any)
-////            }
-////        }
         loadData();
         Commands.noPermission = PREFIX+ChatColor.RED+" You do not have permission to do this!";
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN+"ALLSHOP INITIATED");
@@ -118,6 +103,7 @@ public final class AllShop extends JavaPlugin implements Listener {
         DEBUG = config.getBoolean("debug");
         LISTINGS_LIMIT = config.getInt("shop-listings-limit");
         DIGITAL_ENABLED = config.getBoolean("digital-shop-enabled");
+        PHYSICAL_ENABLED = config.getBoolean("chest-shop-enabled");
         SERVER_SHOP_ENABLED = config.getBoolean("server-shop-enabled");
         TRADING_ENABLED = config.getBoolean("trading-enabled");
         AUCTIONS_ENABLED = config.getBoolean("auction-house-enabled");
@@ -138,6 +124,7 @@ public final class AllShop extends JavaPlugin implements Listener {
             System.out.println(PREFIX+"Server Shop Enabled: "+SERVER_SHOP_ENABLED);
             System.out.println(PREFIX+"Trading Enabled: "+TRADING_ENABLED);
             System.out.println(PREFIX+"Auctions Enabled: "+AUCTIONS_ENABLED);
+            System.out.println(PREFIX+"Chest Shop Enabled: "+PHYSICAL_ENABLED);
             System.out.println(PREFIX+"Digital Listings: "+(digitalListings.length-1));
             System.out.println(PREFIX+"Server Shop Listings: "+(serverListings.length-1));
             System.out.println(PREFIX+"Auction Listings: "+(auctionListings.length-1));
@@ -200,8 +187,8 @@ public final class AllShop extends JavaPlugin implements Listener {
                         }
                     }
                     if (trade.isReady1() && trade.isReady2()) {
-                        trade.getTraderOne().sendMessage(PREFIX + ChatColor.GREEN + " You have successfully traded for [" + event.getInventory().getItem(5).getAmount() + "] " + event.getClickedInventory().getItem(5));
-                        trade.getTraderTwo().sendMessage(PREFIX + ChatColor.GREEN + " You have successfully traded for [" + event.getInventory().getItem(3).getAmount() + "] " + event.getClickedInventory().getItem(3));
+                        trade.getTraderOne().sendMessage(PREFIX + ChatColor.GREEN + " You have successfully traded for [" + event.getInventory().getItem(5).getAmount() + "] " + event.getClickedInventory().getItem(5).getType().name());
+                        trade.getTraderTwo().sendMessage(PREFIX + ChatColor.GREEN + " You have successfully traded for [" + event.getInventory().getItem(3).getAmount() + "] " + event.getClickedInventory().getItem(3).getType().name());
                         trade.getTraderOne().getInventory().addItem(event.getClickedInventory().getItem(5));
                         trade.getTraderTwo().getInventory().addItem(event.getClickedInventory().getItem(3));
                         trade.getTraderOne().closeInventory();
@@ -211,70 +198,201 @@ public final class AllShop extends JavaPlugin implements Listener {
                 }
             }
         }
-        if(openShops.size()>0&&(DIGITAL_ENABLED||SERVER_SHOP_ENABLED)){
-            if(event.getView().getTitle().equals("Market")||event.getView().getTitle().equals("Server Shop")){
-                Shop shop = null;
-                for(Shop shops: openShops){
-                    if(shops.getType()==ShopType.PLAYER_SHOP||shops.getType()==ShopType.SERVER_SHOP) {
-                        if (shops.getPlayer().equals(player)) {
-                            shop = shops;
+        if(openShops.size()>0) {
+            if (DIGITAL_ENABLED || SERVER_SHOP_ENABLED) {
+                if (event.getView().getTitle().equals("Market") || event.getView().getTitle().equals("Server Shop")) {
+                    Shop shop = null;
+                    for (Shop shops : openShops) {
+                        if (shops.getType() == ShopType.PLAYER_SHOP || shops.getType() == ShopType.SERVER_SHOP) {
+                            if (shops.getPlayer().equals(player)) {
+                                shop = shops;
+                                break;
+                            }
+                        }
+                    }
+                    if (slot == 49) {
+                        event.setCancelled(true);
+                    } else if (slot == 53) {
+                        if (shop.getCurrentPage() < shop.getTotalPages()) {
+                            shop.setCurrentPage(shop.getCurrentPage() + 1);
+                            shop.refresh();
+                        }
+                    } else if (slot == 45) {
+                        if (shop.getCurrentPage() > 1) {
+                            shop.setCurrentPage(shop.getCurrentPage() - 1);
+                            shop.refresh();
+                        }
+                    } else {
+                        try {
+                            if (event.getClickedInventory().getItem(slot) != null) {
+                                if (DEBUG) {
+                                    System.out.println(ListingsUtil.getMainKey(shop.getType()));
+                                    System.out.println(shop.getType());
+                                    System.out.println(ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)]);
+                                }
+                                if (econ.getBalance(player) > data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price")) {
+                                    ItemStack item = event.getCurrentItem();
+                                    econ.withdrawPlayer(player, data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price"));
+                                    player.getInventory().addItem(ListingsUtil.removeListingInfo(item, ((shop.getCurrentPage() - 1) * 45) + (slot + 1), shop.getType()));
+                                    player.sendMessage(PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getType().name());
+                                    if (shop.getType() == ShopType.PLAYER_SHOP) {
+                                        econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".UUID"))), data.getInt("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price"));
+                                        data.set("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)], null);
+                                    }
+                                    try {
+                                        data.save(new File(folder, "data.yml"));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    loadData();
+                                    player.closeInventory();
+                                    openShops.remove(shop);
+                                } else {
+                                    player.closeInventory();
+                                    openShops.remove(shop);
+                                    player.sendMessage(PREFIX + ChatColor.RED + "You do not have enough money to buy this!");
+                                }
+                            }
+                        } catch (Exception e) {
+                        }
+                    }
+                    event.setCancelled(true);
+                }
+            } else if(AUCTIONS_ENABLED){
+                if(event.getView().getTitle().equals("Auctions")){
+                    Shop shop = null;
+                    for (Shop shops : openShops) {
+                        if (shop.getType()==ShopType.AUCTION_HOUSE) {
+                            if (shops.getPlayer().equals(player)) {
+                                shop = shops;
+                                break;
+                            }
+                        }
+                    }
+                    if (slot == 49) {
+                        event.setCancelled(true);
+                    } else if (slot == 53) {
+                        if (shop.getCurrentPage() < shop.getTotalPages()) {
+                            shop.setCurrentPage(shop.getCurrentPage() + 1);
+                            shop.refresh();
+                        }
+                    } else if (slot == 45) {
+                        if (shop.getCurrentPage() > 1) {
+                            shop.setCurrentPage(shop.getCurrentPage() - 1);
+                            shop.refresh();
+                        }
+                    }else {
+                        try {
+                            if (event.getClickedInventory().getItem(slot) != null) {
+                                if (DEBUG) {
+                                    System.out.println(ListingsUtil.getMainKey(shop.getType()));
+                                    System.out.println(shop.getType());
+                                    System.out.println(ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)]);
+                                }
+
+                            }
+                        } catch (Exception e) {
+                        }
+                    }
+                    event.setCancelled(true);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void chestOpen(PlayerInteractEvent event){
+        if(PHYSICAL_ENABLED){
+            if(event.getAction()==Action.RIGHT_CLICK_BLOCK){
+                Player p = event.getPlayer();
+                if(event.getClickedBlock().getState().getType()==Material.CHEST){
+                    Sign sign = null;
+                    String[] faces = {"EAST", "NORTH", "SOUTH", "WEST"};
+                    for (int i = 0; i < faces.length; i++) {
+                        if (event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getType() == Material.OAK_WALL_SIGN) {
+                            sign = (Sign) event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getState();
+                            if (DEBUG) {
+                                p.sendMessage(PREFIX + "Sign find on " + faces[i]);
+                            }
                             break;
                         }
                     }
-                }
-                if(slot==49){
-                    event.setCancelled(true);
-                } else if(slot==53){
-                    if(shop.getCurrentPage()<shop.getTotalPages()){
-                        shop.setCurrentPage(shop.getCurrentPage()+1);
-                        shop.refresh();
+                    if(sign!=null){
+                        if(sign.getLine(0).equals(ChatColor.YELLOW+"["+ChatColor.GREEN+"Shop"+ChatColor.YELLOW+"]")&&!sign.getLine(3).equals("")){
+                            if(!sign.getLine(3).equals(p)&&!p.hasPermission("allshop.admin")){
+                                event.setCancelled(true);
+                            }
+                        }
                     }
-                } else if(slot==45){
-                    if(shop.getCurrentPage()>1){
-                        shop.setCurrentPage(shop.getCurrentPage()-1);
-                        shop.refresh();
-                        }
-                    } else {
-                    try {
-                        if (event.getClickedInventory().getItem(slot) != null) {
-                            if (DEBUG) {
-                                System.out.println(ListingsUtil.getMainKey(shop.getType()));
-                                System.out.println(shop.getType());
-                                System.out.println(ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage()-1)*45)+(slot+1)]);
-                            }
-                            if (econ.getBalance(player) > data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage()-1)*45)+(slot+1)] + ".Price")) {
-                                ItemStack item = event.getCurrentItem();
-                                econ.withdrawPlayer(player, data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage()-1)*45)+(slot+1)] + ".Price"));
-                                player.getInventory().addItem(ListingsUtil.removeListingInfo(item, ((shop.getCurrentPage()-1)*45)+(slot+1), shop.getType()));
-                                player.sendMessage(PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getItemMeta().getDisplayName());
-                                if (shop.getType() == ShopType.PLAYER_SHOP) {
-                                    econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + digitalListings[((shop.getCurrentPage()-1)*45)+(slot+1)] + ".UUID"))), data.getInt("digital." + digitalListings[((shop.getCurrentPage()-1)*45)+(slot+1)] + ".Price"));
-                                    data.set("digital." + digitalListings[((shop.getCurrentPage()-1)*45)+(slot+1)], null);
-                                }
-                                try {
-                                    data.save(new File(folder, "data.yml"));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                loadData();
-                                player.closeInventory();
-                                openShops.remove(shop);
-                            } else {
-                                player.closeInventory();
-                                openShops.remove(shop);
-                                player.sendMessage(PREFIX + ChatColor.RED + "You do not have enough money to buy this!");
-                            }
-                        }
-                    } catch (Exception e){}
                 }
-                event.setCancelled(true);
+            }
+        }
+    }
+
+
+    @EventHandler
+    public void signPlace(SignChangeEvent event){
+        if(PHYSICAL_ENABLED) {
+                Sign sign;
+                if (event.getBlock().getState().getType() == Material.OAK_WALL_SIGN) {
+                    sign = (Sign) event.getBlock().getState();
+                    if (event.getLine(0).equals("[Shop]")) {
+                        if (event.getPlayer().hasPermission("allshop.chest")) {
+                        sign.setEditable(true);
+                        event.setLine(0, ChatColor.YELLOW + "[" + ChatColor.GREEN + "Shop" + ChatColor.YELLOW + "]");
+                        event.setLine(3, event.getPlayer().getName());
+                        sign.setEditable(false);
+                    } else {
+                        event.getPlayer().sendMessage(Commands.noPermission);
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void signBreak(BlockBreakEvent event){
+        if(PHYSICAL_ENABLED){
+            if(event.getBlock().getState().getType()==Material.OAK_WALL_SIGN){
+                Sign sign = (Sign) event.getBlock().getState();
+                if(sign.getLine(0).equals(ChatColor.YELLOW+"["+ChatColor.GREEN+"Shop"+ChatColor.YELLOW+"]")){
+                    if(!sign.getLine(3).equals("")) {
+                        if (!sign.getLine(3).equals(event.getPlayer().getName()) && !event.getPlayer().hasPermission("allshop.admin")) {
+                            event.setCancelled(true);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void SignChecker(PlayerInteractEvent event){
+        if(PHYSICAL_ENABLED) {
+            Player p = event.getPlayer();
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (event.getClickedBlock().getType() == Material.OAK_WALL_SIGN) {
+                    Sign s = (Sign) event.getClickedBlock().getState();
+                    if (s.getLine(0).equals(ChatColor.YELLOW+"["+ChatColor.GREEN+"Shop"+ChatColor.YELLOW+"]")) {
+                        String[] faces = {"EAST", "NORTH", "SOUTH", "WEST"};
+                        for (int i = 0; i < faces.length; i++) {
+                            if (event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getType() == Material.CHEST) {
+                                if (DEBUG) {
+                                    p.sendMessage(PREFIX + "Chest find on " + faces[i]);
+                                }
+                                ChestShops.retrieveInformation(s, (Chest) event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getState(), p);
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
     @EventHandler
     public void digitalShopClosed(InventoryCloseEvent event){
-        if(event.getView().getTitle().equals("Market")||event.getView().getTitle().equals("Server Shop")){
+        if(event.getView().getTitle().equals("Market")||event.getView().getTitle().equals("Server Shop")||event.getView().getTitle().equals("Auctions")){
             for(Shop shop : openShops){
                 if(shop.getPlayer().equals(event.getPlayer())){
                     openShops.remove(shop);
