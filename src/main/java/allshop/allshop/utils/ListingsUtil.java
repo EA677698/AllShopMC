@@ -44,12 +44,15 @@ public class ListingsUtil {
                 item = 0;
             }
             if(AllShop.DEBUG){
+                System.out.println(AllShop.PREFIX+"Listings size: "+getListings(type).length);
                 System.out.println(AllShop.PREFIX+"Available Pages: "+shop.getPages().size());
                 System.out.println(AllShop.PREFIX+"Page: "+ page);
                 System.out.println(AllShop.PREFIX+"item: "+ item);
                 System.out.println(AllShop.PREFIX+"index: "+ index);
 
             }
+            System.out.println(shop.getPage(page));
+            System.out.println(shop.getPage(page)[item]);
             shop.getPage(page)[item] = addListingInfo(getListingItem(index, type), index, type);
             item++;
         }

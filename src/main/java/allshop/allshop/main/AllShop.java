@@ -100,11 +100,11 @@ public final class AllShop extends JavaPlugin implements Listener {
         data = YamlConfiguration.loadConfiguration(new File(folder, "data.yml"));
         DEBUG = config.getBoolean("debug");
         LISTINGS_LIMIT = config.getInt("shop-listings-limit");
-        DIGITAL_ENABLED = config.getBoolean("digital-shop-enabled");
+        DIGITAL_ENABLED = config.getBoolean("player-shop-enabled");
         PHYSICAL_ENABLED = config.getBoolean("chest-shop-enabled");
         SERVER_SHOP_ENABLED = config.getBoolean("server-shop-enabled");
         TRADING_ENABLED = config.getBoolean("trading-enabled");
-        AUCTIONS_ENABLED = config.getBoolean("auction-house-enabled");
+        AUCTIONS_ENABLED = false;
         if(DIGITAL_ENABLED){
             digitalListings = data.getConfigurationSection("digital").getKeys(false).toArray();
         }
@@ -118,14 +118,20 @@ public final class AllShop extends JavaPlugin implements Listener {
         PREFIX = PREFIX+" ";
         if(DEBUG){
             System.out.println(PREFIX+"Listings Limit: "+LISTINGS_LIMIT);
-            System.out.println(PREFIX+"Digital Shop Enabled: "+DIGITAL_ENABLED);
+            System.out.println(PREFIX+"Player Shop Enabled: "+DIGITAL_ENABLED);
             System.out.println(PREFIX+"Server Shop Enabled: "+SERVER_SHOP_ENABLED);
             System.out.println(PREFIX+"Trading Enabled: "+TRADING_ENABLED);
             System.out.println(PREFIX+"Auctions Enabled: "+AUCTIONS_ENABLED);
             System.out.println(PREFIX+"Chest Shop Enabled: "+PHYSICAL_ENABLED);
-            System.out.println(PREFIX+"Digital Listings: "+(digitalListings.length-1));
-            System.out.println(PREFIX+"Server Shop Listings: "+(serverListings.length-1));
-            System.out.println(PREFIX+"Auction Listings: "+(auctionListings.length-1));
+            if(DIGITAL_ENABLED) {
+                System.out.println(PREFIX + "Player Listings: " + (digitalListings.length - 1));
+            }
+            if(SERVER_SHOP_ENABLED) {
+                System.out.println(PREFIX + "Server Shop Listings: " + (serverListings.length - 1));
+            }
+            if(AUCTIONS_ENABLED) {
+                System.out.println(PREFIX + "Auction Listings: " + (auctionListings.length - 1));
+            }
         }
     }
 
@@ -223,10 +229,15 @@ public final class AllShop extends JavaPlugin implements Listener {
                     } else {
                         try {
                             if (event.getClickedInventory().getItem(slot) != null) {
+                                String ID = ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)].toString();
                                 if (DEBUG) {
-                                    System.out.println(ListingsUtil.getMainKey(shop.getType()));
-                                    System.out.println(shop.getType());
-                                    System.out.println(ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)]);
+                                    System.out.println(PREFIX+ListingsUtil.getMainKey(shop.getType()));
+                                    System.out.println(PREFIX+shop.getType());
+                                    System.out.println(PREFIX+ListingsUtil.getListings(shop.getType()).length);
+                                    System.out.println(PREFIX+ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)]);
+                                    System.out.println(PREFIX+"ID: "+ID);
+                                    System.out.println(PREFIX+shop.getCurrentPage());
+                                    System.out.println(PREFIX+slot);
                                 }
                                 if (econ.getBalance(player) > data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price")) {
                                     ItemStack item = event.getCurrentItem();
@@ -241,13 +252,19 @@ public final class AllShop extends JavaPlugin implements Listener {
                                         player.getInventory().addItem(ListingsUtil.removeListingInfo(item, ((shop.getCurrentPage() - 1) * 45) + (slot + 1), shop.getType()));
                                         player.sendMessage(PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getType().name());
                                         if (shop.getType() == ShopType.PLAYER_SHOP) {
-                                            econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".UUID"))), data.getInt("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price"));
-                                            data.set("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)], null);
+                                            System.out.println("digital." +ID + ".UUID");
+                                            System.out.println("UUID: "+data.getString("digital." +ID + ".UUID"));
+                                            System.out.println(Bukkit.getOfflinePlayer(UUID.fromString(data.getString("digital." +ID + ".UUID"))));
+                                            System.out.println(data.getInt("digital." +ID + ".Price"));
+                                            econ.depositPlayer(Bukkit.getOfflinePlayer(UUID.fromString(data.getString("digital." +ID + ".UUID"))), data.getInt("digital." +ID + ".Price"));
+                                            data.set("digital." +ID, null);
                                         }
                                         try {
                                             data.save(new File(folder, "data.yml"));
                                         } catch (IOException e) {
-                                            e.printStackTrace();
+                                            if(DEBUG) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                         loadData();
                                         player.closeInventory();
@@ -262,6 +279,9 @@ public final class AllShop extends JavaPlugin implements Listener {
                                 }
                             }
                         } catch (Exception e) {
+                            if(DEBUG){
+                                e.printStackTrace();
+                            }
                         }
                     }
                     event.setCancelled(true);

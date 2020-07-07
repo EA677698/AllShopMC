@@ -45,6 +45,7 @@ public class ChestShops {
 
     }
 
+    @SuppressWarnings("deprecation")
     public void processInformation() {
         boolean serverStore = seller.equals(ChatColor.RED+"Server");
         try {
@@ -88,7 +89,7 @@ public class ChestShops {
                             } else if (chest.getBlockInventory().containsAtLeast(new ItemStack(itemSold), amount)) {
                                 if (AllShop.econ.getBalance(player) >= sell) {
                                     AllShop.econ.withdrawPlayer(player, sell);
-                                    AllShop.econ.depositPlayer(Bukkit.getPlayer(seller), sell);
+                                    AllShop.econ.depositPlayer(Bukkit.getOfflinePlayer(seller), sell);
                                     player.getInventory().addItem(new ItemStack(itemSold, amount));
                                     if(isDouble){
                                         doubleChest.getInventory().removeItem(new ItemStack(itemSold, amount));
@@ -119,7 +120,7 @@ public class ChestShops {
                             }
                             player.getInventory().removeItem(new ItemStack(itemSold, amount));
                             AllShop.econ.depositPlayer(player, buy);
-                            AllShop.econ.withdrawPlayer(Bukkit.getPlayer(seller), buy);
+                            AllShop.econ.withdrawPlayer(Bukkit.getOfflinePlayer(seller), buy);
                             player.sendMessage(AllShop.PREFIX + ChatColor.GREEN + "You have sold " + amount + " " + itemSold.name() + " for " + buy);
                         } else {
                             player.sendMessage(AllShop.PREFIX + ChatColor.RED + "This shop is full!");
