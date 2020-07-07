@@ -1,11 +1,11 @@
-# AllShopMC 0.8.0
+# AllShopMC 0.9.0
 
 ### Features:
 - [x] Server GUI Shop for admins
 - [x] Player GUI Shop
 - [ ] GUI Auction House - *In Progress*
 - [x] Physical Player Shop
-- [ ] Physical Server Shop - *In Progress*
+- [x] Physical Server Shop - *In Progress*
 - [ ] Plugin Moderation Tools - *In Progress*
 - [ ] Search Feature
 - [ ] Staff for Physical Shops
@@ -26,7 +26,7 @@
   * bid {starting bid} - *Puts the item in your hand up for auction*
 * /Market - *Opens the player market*
   * sell {price} - *Sells anything in your hand*
-  * remove [ID] [optional: return item] - *Removes a listing from the player shop and can return the item*
+  * remove [ID] [optional: return item boolean] - *Removes a listing from the player shop and can return the item*
 * /Trade - *Trading command*
   * {Player} - *Initiates a trade with the requested player*
   * accept - *Accepts a requested trade*
@@ -45,9 +45,12 @@
 
 * Global:
   * Lore is overridden sometimes by product information
+  * Opening shops returns a null pointer when a new page is made with 1-4 items
+  * GUI (Auction too probably) Shops share the same amount of pages
   
 * Player Shop:
-  * none
+  * Weird message containing date appears when selling
+  * Remove command returns "must be an integer" when including a boolean
   
 * Auction House:
   * none
@@ -55,8 +58,17 @@
 * Server Shop:
   * none
   
+* Trading:
+  * Cancelling trade doesn't return items
+  * Cancelling trade doesn't close the inventories for both parties
+  * When a trade a successful, a message will be sent to both parties saying "trade cancelled"
+  
+* Chest Shops:
+  * none
+  
 ### Bug Fixes:
-  * none  
+  * Fixed a bug where chest's weren't properly protected with chest shops  
+  * Fixed a bug where instances of shops were not being deleted after use
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)
