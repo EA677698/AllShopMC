@@ -4,7 +4,7 @@ import allshop.allshop.gshops.Shop;
 import allshop.allshop.gshops.ShopType;
 import allshop.allshop.gshops.Trades;
 import allshop.allshop.pshops.ChestShops;
-import allshop.allshop.utils.ChestsUtil;
+import allshop.allshop.utils.DoubleChestsUtil;
 import allshop.allshop.utils.ColorUtils;
 import allshop.allshop.utils.ListingsUtil;
 import net.milkbowl.vault.economy.Economy;
@@ -319,14 +319,14 @@ public final class AllShop extends JavaPlugin implements Listener {
                         return;
                     } else {
                         Chest chest = (Chest) event.getClickedBlock().getState();
-                        if(ChestsUtil.isChestDoubleChest(chest)){
-                            if(ChestsUtil.getRightChest(chest).equals(chest)){
-                                if(checkSign(ChestsUtil.getLeftChest(chest).getBlock(),p)){
+                        if(DoubleChestsUtil.isChestDoubleChest(chest)){
+                            if(DoubleChestsUtil.getRightChest(chest).equals(chest)){
+                                if(checkSign(DoubleChestsUtil.getLeftChest(chest).getBlock(),p)){
                                     event.setCancelled(true);
                                     return;
                                 }
                             } else {
-                                if(checkSign(ChestsUtil.getRightChest(chest).getBlock(),p)){
+                                if(checkSign(DoubleChestsUtil.getRightChest(chest).getBlock(),p)){
                                     event.setCancelled(true);
                                     return;
                                 }
@@ -354,7 +354,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                 if (!sign.getLine(3).equals(p.getName()) && !p.hasPermission("allshop.admin")) {
                     String data = sign.getBlockData().getAsString();
                     String direction = data.substring(data.indexOf("facing=")+7,data.indexOf(","));
-                    Location temp = ChestsUtil.getBackChestLocation(direction,sign.getLocation());
+                    Location temp = DoubleChestsUtil.getBackChestLocation(direction,sign.getLocation());
                     if(temp.getBlock().equals(block)) {
                         return true;
                     }
@@ -411,14 +411,14 @@ public final class AllShop extends JavaPlugin implements Listener {
                         event.setCancelled(true);
                     } else {
                         Chest chest = (Chest) event.getBlock().getState();
-                        if(ChestsUtil.isChestDoubleChest(chest)){
-                            if(ChestsUtil.getRightChest(chest).equals(chest)){
-                                if(checkSign(ChestsUtil.getLeftChest(chest).getBlock(),event.getPlayer())){
+                        if(DoubleChestsUtil.isChestDoubleChest(chest)){
+                            if(DoubleChestsUtil.getRightChest(chest).equals(chest)){
+                                if(checkSign(DoubleChestsUtil.getLeftChest(chest).getBlock(),event.getPlayer())){
                                     event.setCancelled(true);
                                     return;
                                 }
                             } else {
-                                if(checkSign(ChestsUtil.getRightChest(chest).getBlock(),event.getPlayer())){
+                                if(checkSign(DoubleChestsUtil.getRightChest(chest).getBlock(),event.getPlayer())){
                                     event.setCancelled(true);
                                     return;
                                 }

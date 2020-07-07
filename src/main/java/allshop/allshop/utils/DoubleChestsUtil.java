@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.*;
 import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
-public class ChestsUtil {
+public class DoubleChestsUtil {
 
     public static Chest getRightChest(Chest chest){
         Chest temp;

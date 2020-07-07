@@ -197,13 +197,15 @@ public class ListingsUtil {
                             price = Integer.parseInt(args[1]);
                         }
                     } catch (NumberFormatException e) {
+                        if(AllShop.DEBUG){
+                            e.printStackTrace();
+                        }
                         sender.sendMessage(ChatColor.RED + "Price must be an integer");
                         return false;
                     }
                     String id = generateID(type);
                     AllShop.data.createSection(id);
                     if(type!=ShopType.SERVER_SHOP){
-                        System.out.println(java.time.LocalDate.now().toString());
                         AllShop.data.set(id + ".Date", java.time.LocalDate.now().toString());
                         AllShop.data.set(id + ".UUID", UUID);
                         AllShop.data.set(id + ".Name", player.getName());

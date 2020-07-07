@@ -28,13 +28,13 @@ public class ChestShops {
         this.chest = chest;
         this.player = player;
         this.seller = seller;
-        if (sign.getLine(2).contains("b")) {
-            buy = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("b") + 2, sign.getLine(2).indexOf("b") + 3));
+        if (sign.getLine(2).contains("s")) {
+            buy = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("s") + 2, sign.getLine(2).indexOf("s") + 3));
         } else {
             buy = -1;
         }
-        if (sign.getLine(2).contains("s")) {
-            sell = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("s") + 2,sign.getLine(2).indexOf("s") + 3));
+        if (sign.getLine(2).contains("b")) {
+            sell = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("b") + 2,sign.getLine(2).indexOf("b") + 3));
         } else {
             sell = -1;
         }

@@ -1,4 +1,4 @@
-# AllShopMC 0.9.0
+# AllShopMC 0.9.1
 
 ### Features:
 - [x] Server GUI Shop for admins
@@ -46,10 +46,8 @@
 * Global:
   * Lore is overridden sometimes by product information
   * Opening shops returns a null pointer when a new page is made with 1-4 items
-  * GUI (Auction too probably) Shops share the same amount of pages
   
 * Player Shop:
-  * Weird message containing date appears when selling
   * Remove command returns "must be an integer" when including a boolean
   
 * Auction House:
@@ -67,8 +65,8 @@
   * none
   
 ### Bug Fixes:
-  * Fixed a bug where chest's weren't properly protected with chest shops  
-  * Fixed a bug where instances of shops were not being deleted after use
+  * Fixed bug where GUI (Auction too probably) Shops share the same amount of pages
+  * Fixed bug where weird message containing date appears when selling
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)
