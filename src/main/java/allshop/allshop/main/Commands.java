@@ -125,7 +125,7 @@ public class Commands implements CommandExecutor {
                                 if(args.length==3){
                                     item = Boolean.valueOf(args[2]);
                                 } else {
-                                    item = false;
+                                    item = true;
                                 }
                                 ListingsUtil.removeListing((Player) sender, ShopType.PLAYER_SHOP, args[1], item, sender.hasPermission("allshop.admin"));
                             } else {

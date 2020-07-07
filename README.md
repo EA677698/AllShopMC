@@ -1,4 +1,4 @@
-# AllShopMC 0.9.1
+# AllShopMC 0.9.2
 
 ### Features:
 - [x] Server GUI Shop for admins
@@ -48,7 +48,7 @@
   * Opening shops returns a null pointer when a new page is made with 1-4 items
   
 * Player Shop:
-  * Remove command returns "must be an integer" when including a boolean
+  *none
   
 * Auction House:
   * none
@@ -57,9 +57,7 @@
   * none
   
 * Trading:
-  * Cancelling trade doesn't return items
-  * Cancelling trade doesn't close the inventories for both parties
-  * When a trade a successful, a message will be sent to both parties saying "trade cancelled"
+  *none
   
 * Chest Shops:
   * none
@@ -67,6 +65,10 @@
 ### Bug Fixes:
   * Fixed bug where GUI (Auction too probably) Shops share the same amount of pages
   * Fixed bug where weird message containing date appears when selling
+  * Fixed bug where the Remove command returns "must be an integer" when including a boolean
+  * Fixed bug where cancelling trade doesn't return items
+  * Fixed bug where cancelling trade doesn't close the inventories for both parties
+  * Fixed bug where when a trade is successful, a message will be sent to both parties saying "trade cancelled"
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)

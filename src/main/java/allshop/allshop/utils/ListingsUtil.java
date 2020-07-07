@@ -67,42 +67,44 @@ public class ListingsUtil {
         ItemStack temp = item;
         ItemMeta meta = temp.getItemMeta();
         CopyOnWriteArrayList<String> lore = new CopyOnWriteArrayList<>();
-        for(String line: meta.getLore()){
-            lore.add(line);
+        if(meta.getLore()!=null) {
+            for (String line : meta.getLore()) {
+                lore.add(line);
+            }
+            for (String line : lore) {
+                if (line.equals(ChatColor.LIGHT_PURPLE + "ID: " + getListingID(index, type))) {
+                    lore.remove(line);
+                    continue;
+                }
+                if (type != ShopType.SERVER_SHOP) {
+                    if (line.equals(ChatColor.LIGHT_PURPLE + "Seller: " + getSellerName(index, type))) {
+                        lore.remove(line);
+                        continue;
+                    }
+                    if (line.equals(ChatColor.LIGHT_PURPLE + "Added: " + getListingDate(index, type))) {
+                        lore.remove(line);
+                        continue;
+                    }
+                }
+                if (type != ShopType.AUCTION_HOUSE) {
+                    if (line.equals(ChatColor.LIGHT_PURPLE + "Price: " + getListingPrice(index, type))) {
+                        lore.remove(line);
+                        continue;
+                    }
+                } else if (type == ShopType.AUCTION_HOUSE) {
+                    if (line.equals(ChatColor.LIGHT_PURPLE + "Starting Bid: " + getMinBid(index))) {
+                        lore.remove(line);
+                        continue;
+                    }
+                    if (line.equals(ChatColor.LIGHT_PURPLE + "Current Bid: " + getCurrentBid(index))) {
+                        lore.remove(line);
+                        continue;
+                    }
+                }
+            }
+            meta.setLore(lore);
+            temp.setItemMeta(meta);
         }
-        for(String line : lore){
-            if(line.equals(ChatColor.LIGHT_PURPLE+"ID: "+getListingID(index, type))){
-                lore.remove(line);
-                continue;
-            }
-            if(type!=ShopType.SERVER_SHOP){
-                if(line.equals(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type))){
-                    lore.remove(line);
-                    continue;
-                }
-                if(line.equals(ChatColor.LIGHT_PURPLE+"Added: "+ getListingDate(index, type))){
-                    lore.remove(line);
-                    continue;
-                }
-            }
-            if(type!=ShopType.AUCTION_HOUSE){
-                if(line.equals(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index,type))){
-                    lore.remove(line);
-                    continue;
-                }
-            } else if(type==ShopType.AUCTION_HOUSE) {
-                if(line.equals(ChatColor.LIGHT_PURPLE+"Starting Bid: "+getMinBid(index))){
-                    lore.remove(line);
-                    continue;
-                }
-                if(line.equals(ChatColor.LIGHT_PURPLE+"Current Bid: "+getCurrentBid(index))){
-                    lore.remove(line);
-                    continue;
-                }
-            }
-        }
-        meta.setLore(lore);
-        temp.setItemMeta(meta);
         return temp;
     }
 
@@ -163,6 +165,7 @@ public class ListingsUtil {
             }
 
         } catch (Exception e){
+            e.printStackTrace();
             if(AllShop.DEBUG){
                 e.printStackTrace();
             }

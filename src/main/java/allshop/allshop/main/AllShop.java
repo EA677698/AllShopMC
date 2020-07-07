@@ -544,7 +544,16 @@ public final class AllShop extends JavaPlugin implements Listener {
         } else if(event.getView().getTitle().equals("Trade")){
             for(Trades trade : openTrades){
                 if(trade.getInv().equals(event.getInventory())){
-                    trade.sendMessageToParticipants(PREFIX+ChatColor.RED+"Trade Cancelled");
+                    if(event.getInventory().getViewers().size()>0){
+                        trade.sendMessageToParticipants(PREFIX+ChatColor.RED+"Trade Cancelled");
+                        trade.getTraderOne().getInventory().addItem(trade.getInv().getItem(3));
+                        trade.getTraderTwo().getInventory().addItem(trade.getInv().getItem(5));
+                    }
+                    if(event.getPlayer().equals(trade.getTraderOne())){
+                        trade.getTraderTwo().closeInventory();
+                    } else{
+                        trade.getTraderOne().closeInventory();
+                    }
                     openTrades.remove(trade);
                     break;
                 }
