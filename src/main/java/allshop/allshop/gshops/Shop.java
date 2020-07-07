@@ -16,6 +16,9 @@ public class Shop {
     private int currentPage = 1;
     private Player player;
     private ShopType type;
+    private boolean waiting;
+    private ItemStack selected;
+    private int storedSlot;
     private CopyOnWriteArrayList<ItemStack[]> pages;
 
     public Shop(Player player, ShopType type){
@@ -95,5 +98,30 @@ public class Shop {
                 ", player=" + player +
                 ", type=" + type +
                 '}';
+    }
+
+    public boolean isWaiting() {
+        return waiting;
+    }
+
+    public void setWaiting(boolean waiting) {
+        this.waiting = waiting;
+    }
+
+
+    public ItemStack getSelected() {
+        return selected;
+    }
+
+    public void setSelected(ItemStack selected) {
+        this.selected = selected;
+    }
+
+    public int getStoredSlot() {
+        return storedSlot;
+    }
+
+    public void setStoredSlot(int storedSlot) {
+        this.storedSlot = storedSlot;
     }
 }

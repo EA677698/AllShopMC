@@ -15,10 +15,6 @@ public class Commands implements CommandExecutor {
 
     public static String noPermission;
 
-    /*TODO:
-    *  Add remove command (Removes the item from the store but returns to the owner
-    * Add delete command (Removes the item from the store but doesnt return to the owner */
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("allshop") || command.getName().equalsIgnoreCase("as")) {

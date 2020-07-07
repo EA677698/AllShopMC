@@ -4,15 +4,12 @@ import allshop.allshop.gshops.Shop;
 import allshop.allshop.gshops.ShopType;
 import allshop.allshop.gshops.Trades;
 import allshop.allshop.pshops.ChestShops;
+import allshop.allshop.utils.ChestsUtil;
 import allshop.allshop.utils.ColorUtils;
 import allshop.allshop.utils.ListingsUtil;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
+import org.bukkit.*;
+import org.bukkit.block.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -20,10 +17,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -46,6 +43,7 @@ public final class AllShop extends JavaPlugin implements Listener {
     public static FileConfiguration data;
     public static CopyOnWriteArrayList<Shop> openShops = new CopyOnWriteArrayList<>();
     public static CopyOnWriteArrayList<Trades> openTrades = new CopyOnWriteArrayList<>();
+    public static CopyOnWriteArrayList<ChestShops> openTransactions = new CopyOnWriteArrayList<>();
     public static Object[] auctionListings;
     public static Object[] digitalListings;
     public static Object[] serverListings;
@@ -232,21 +230,31 @@ public final class AllShop extends JavaPlugin implements Listener {
                                 }
                                 if (econ.getBalance(player) > data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price")) {
                                     ItemStack item = event.getCurrentItem();
-                                    econ.withdrawPlayer(player, data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price"));
-                                    player.getInventory().addItem(ListingsUtil.removeListingInfo(item, ((shop.getCurrentPage() - 1) * 45) + (slot + 1), shop.getType()));
-                                    player.sendMessage(PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getType().name());
-                                    if (shop.getType() == ShopType.PLAYER_SHOP) {
-                                        econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".UUID"))), data.getInt("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price"));
-                                        data.set("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)], null);
+                                    if(shop.getType()==ShopType.SERVER_SHOP){
+                                        shop.setStoredSlot(slot);
+                                        shop.setWaiting(true);
+                                        shop.setSelected(item);
+                                        player.sendMessage(PREFIX+ChatColor.LIGHT_PURPLE+"Please enter in chat the amount of " + item.getType().name() + " you would like to buy.");
+                                        player.closeInventory();
+                                    } else {
+                                        econ.withdrawPlayer(player, data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price"));
+                                        player.getInventory().addItem(ListingsUtil.removeListingInfo(item, ((shop.getCurrentPage() - 1) * 45) + (slot + 1), shop.getType()));
+                                        player.sendMessage(PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getType().name());
+                                        if (shop.getType() == ShopType.PLAYER_SHOP) {
+                                            econ.depositPlayer(Bukkit.getPlayer(UUID.fromString(data.getString("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".UUID"))), data.getInt("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price"));
+                                            data.set("digital." + digitalListings[((shop.getCurrentPage() - 1) * 45) + (slot + 1)], null);
+                                        }
+                                        try {
+                                            data.save(new File(folder, "data.yml"));
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        loadData();
+                                        player.closeInventory();
+                                        if(shop.getType()!=ShopType.SERVER_SHOP) {
+                                            openShops.remove(shop);
+                                        }
                                     }
-                                    try {
-                                        data.save(new File(folder, "data.yml"));
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    loadData();
-                                    player.closeInventory();
-                                    openShops.remove(shop);
                                 } else {
                                     player.closeInventory();
                                     openShops.remove(shop);
@@ -301,32 +309,59 @@ public final class AllShop extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void chestOpen(PlayerInteractEvent event){
-        if(PHYSICAL_ENABLED){
-            if(event.getAction()==Action.RIGHT_CLICK_BLOCK){
+    public void chestOpen(PlayerInteractEvent event) {
+        if (PHYSICAL_ENABLED) {
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 Player p = event.getPlayer();
-                if(event.getClickedBlock().getState().getType()==Material.CHEST){
-                    Sign sign = null;
-                    String[] faces = {"EAST", "NORTH", "SOUTH", "WEST"};
-                    for (int i = 0; i < faces.length; i++) {
-                        if (event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getType() == Material.OAK_WALL_SIGN) {
-                            sign = (Sign) event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getState();
-                            if (DEBUG) {
-                                p.sendMessage(PREFIX + "Sign find on " + faces[i]);
-                            }
-                            break;
-                        }
-                    }
-                    if(sign!=null){
-                        if(sign.getLine(0).equals(ChatColor.YELLOW+"["+ChatColor.GREEN+"Shop"+ChatColor.YELLOW+"]")&&!sign.getLine(3).equals("")){
-                            if(!sign.getLine(3).equals(p)&&!p.hasPermission("allshop.admin")){
-                                event.setCancelled(true);
+                if (event.getClickedBlock().getState().getType() == Material.CHEST) {
+                    if(checkSign(event.getClickedBlock(),p)){
+                        event.setCancelled(true);
+                        return;
+                    } else {
+                        Chest chest = (Chest) event.getClickedBlock().getState();
+                        if(ChestsUtil.isChestDoubleChest(chest)){
+                            if(ChestsUtil.getRightChest(chest).equals(chest)){
+                                if(checkSign(ChestsUtil.getLeftChest(chest).getBlock(),p)){
+                                    event.setCancelled(true);
+                                    return;
+                                }
+                            } else {
+                                if(checkSign(ChestsUtil.getRightChest(chest).getBlock(),p)){
+                                    event.setCancelled(true);
+                                    return;
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    public boolean checkSign(Block block, Player p){
+        Sign sign = null;
+        String[] faces = {"EAST", "NORTH", "SOUTH", "WEST"};
+        for (int i = 0; i < faces.length; i++) {
+            if (block.getRelative(BlockFace.valueOf(faces[i])).getType() == Material.OAK_WALL_SIGN) {
+                sign = (Sign) block.getRelative(BlockFace.valueOf(faces[i])).getState();
+                if (DEBUG) {
+                    p.sendMessage(PREFIX + "Sign find on " + faces[i]);
+                }
+            }
+        }
+        if (sign != null) {
+            if (sign.getLine(0).equals(ChatColor.YELLOW + "[" + ChatColor.GREEN + "Shop" + ChatColor.YELLOW + "]") && !sign.getLine(3).equals("")) {
+                if (!sign.getLine(3).equals(p.getName()) && !p.hasPermission("allshop.admin")) {
+                    String data = sign.getBlockData().getAsString();
+                    String direction = data.substring(data.indexOf("facing=")+7,data.indexOf(","));
+                    Location temp = ChestsUtil.getBackChestLocation(direction,sign.getLocation());
+                    if(temp.getBlock().equals(block)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 
@@ -340,7 +375,15 @@ public final class AllShop extends JavaPlugin implements Listener {
                         if (event.getPlayer().hasPermission("allshop.chest")) {
                         sign.setEditable(true);
                         event.setLine(0, ChatColor.YELLOW + "[" + ChatColor.GREEN + "Shop" + ChatColor.YELLOW + "]");
-                        event.setLine(3, event.getPlayer().getName());
+                        if(event.getLine(3).equals("Server")){
+                            if(event.getPlayer().hasPermission("allshop.admin")){
+                                event.setLine(3,ChatColor.RED+"Server");
+                            } else {
+                                event.setLine(3, event.getPlayer().getName());
+                            }
+                        } else {
+                            event.setLine(3, event.getPlayer().getName());
+                        }
                         sign.setEditable(false);
                     } else {
                         event.getPlayer().sendMessage(Commands.noPermission);
@@ -351,7 +394,7 @@ public final class AllShop extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void signBreak(BlockBreakEvent event){
+    public void shopBreak(BlockBreakEvent event){
         if(PHYSICAL_ENABLED){
             if(event.getBlock().getState().getType()==Material.OAK_WALL_SIGN){
                 Sign sign = (Sign) event.getBlock().getState();
@@ -362,26 +405,23 @@ public final class AllShop extends JavaPlugin implements Listener {
                         }
                     }
                 }
-            }
-        }
-    }
-
-    @EventHandler
-    public void SignChecker(PlayerInteractEvent event){
-        if(PHYSICAL_ENABLED) {
-            Player p = event.getPlayer();
-            if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (event.getClickedBlock().getType() == Material.OAK_WALL_SIGN) {
-                    Sign s = (Sign) event.getClickedBlock().getState();
-                    if (s.getLine(0).equals(ChatColor.YELLOW+"["+ChatColor.GREEN+"Shop"+ChatColor.YELLOW+"]")) {
-                        String[] faces = {"EAST", "NORTH", "SOUTH", "WEST"};
-                        for (int i = 0; i < faces.length; i++) {
-                            if (event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getType() == Material.CHEST) {
-                                if (DEBUG) {
-                                    p.sendMessage(PREFIX + "Chest find on " + faces[i]);
+            } else {
+                if(event.getBlock().getState().getType()==Material.CHEST){
+                    if(checkSign(event.getBlock(), event.getPlayer())){
+                        event.setCancelled(true);
+                    } else {
+                        Chest chest = (Chest) event.getBlock().getState();
+                        if(ChestsUtil.isChestDoubleChest(chest)){
+                            if(ChestsUtil.getRightChest(chest).equals(chest)){
+                                if(checkSign(ChestsUtil.getLeftChest(chest).getBlock(),event.getPlayer())){
+                                    event.setCancelled(true);
+                                    return;
                                 }
-                                ChestShops.retrieveInformation(s, (Chest) event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getState(), p);
-                                break;
+                            } else {
+                                if(checkSign(ChestsUtil.getRightChest(chest).getBlock(),event.getPlayer())){
+                                    event.setCancelled(true);
+                                    return;
+                                }
                             }
                         }
                     }
@@ -391,12 +431,114 @@ public final class AllShop extends JavaPlugin implements Listener {
     }
 
     @EventHandler
+    public void catchQuantity(AsyncPlayerChatEvent e){
+        if(PHYSICAL_ENABLED) {
+            for (ChestShops shops : openTransactions) {
+                if (shops.getPlayer().equals(e.getPlayer()) || shops.getPlayer() == e.getPlayer()) {
+                    if (e.getMessage().toLowerCase().equals("cancel")) {
+                        openTransactions.remove(shops);
+                        e.getPlayer().sendMessage(PREFIX + ChatColor.RED + "Transaction Cancelled!");
+                        e.setCancelled(true);
+                    } else {
+                        try {
+                            shops.setAmount(Integer.parseInt(e.getMessage()));
+                            shops.processInformation();
+                            e.setCancelled(true);
+                        } catch (Exception ex) {
+                            if (DEBUG) {
+                                ex.printStackTrace();
+                            } else {
+                                e.getPlayer().sendMessage(PREFIX + ChatColor.RED + "Amount must be an integer!");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for(Shop shop:openShops){
+            if(!shop.isWaiting()){
+                continue;
+            } else {
+                if(e.getPlayer().equals(shop.getPlayer())){
+                    Player player = e.getPlayer();
+                    ItemStack item = shop.getSelected();
+                    ItemStack give = ListingsUtil.removeListingInfo(item, ((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1), shop.getType());
+                    try{
+                        if (econ.getBalance(player) > (data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1)] + ".Price"))*Integer.parseInt(e.getMessage())) {
+                            econ.withdrawPlayer(player, (data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1)] + ".Price"))*Integer.parseInt(e.getMessage()));
+                            give.setAmount(Integer.parseInt(e.getMessage()));
+                            player.getInventory().addItem(give);
+                            player.sendMessage(PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getType().name());
+                        } else {
+                            player.sendMessage(PREFIX + ChatColor.RED + "You do not have enough money to buy this!");
+                        }
+                        openShops.remove(shop);
+                        e.setCancelled(true);
+                    } catch (Exception e1){
+                        if(DEBUG){
+                            e1.printStackTrace();
+                        }
+                        player.sendMessage(PREFIX+ChatColor.RED+"Amount must be an integer!");
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void SignChecker(PlayerInteractEvent event){
+        if(PHYSICAL_ENABLED) {
+            Player p = event.getPlayer();
+            if (p.hasPermission("allshop.chest")) {
+                if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    if (event.getClickedBlock().getType() == Material.OAK_WALL_SIGN) {
+                        Sign s = (Sign) event.getClickedBlock().getState();
+                        if (s.getLine(0).equals(ChatColor.YELLOW + "[" + ChatColor.GREEN + "Shop" + ChatColor.YELLOW + "]")) {
+                            String[] faces = {"EAST", "NORTH", "SOUTH", "WEST"};
+                            for (int i = 0; i < faces.length; i++) {
+                                if (event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getType() == Material.CHEST) {
+                                    if (DEBUG) {
+                                        p.sendMessage(PREFIX + "Chest find on " + faces[i]);
+                                    }
+                                    if (!s.getLine(3).equals(ChatColor.RED + "Server")) {
+                                        new ChestShops(s, (Chest) event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getState(), p, s.getLine(3));
+                                        openTransactions.get(openTransactions.size() - 1).setAmount(Integer.parseInt(s.getLine(1).substring(s.getLine(1).indexOf(" ") + 1)));
+                                        openTransactions.get(openTransactions.size() - 1).processInformation();
+                                    } else {
+                                        new ChestShops(s, (Chest) event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getState(), p, s.getLine(3));
+                                        Material itemSold;
+                                        if (!s.getLine(3).equals(ChatColor.RED + "Server")) {
+                                            itemSold = Material.getMaterial(s.getLine(1).substring(0, s.getLine(1).indexOf(" ")).toUpperCase());
+                                        } else {
+                                            itemSold = Material.getMaterial(s.getLine(1).toUpperCase());
+                                        }
+                                        if (itemSold == p.getInventory().getItemInMainHand().getType()) {
+                                            p.sendMessage(PREFIX + ChatColor.LIGHT_PURPLE + "Please enter in chat the amount of " + s.getLine(1) + " you would like to sell.");
+                                        } else {
+                                            p.sendMessage(PREFIX + ChatColor.LIGHT_PURPLE + "Please enter in chat the amount of " + s.getLine(1) + " you would like to buy.");
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                p.sendMessage(Commands.noPermission);
+            }
+        }
+    }
+
+    @EventHandler
     public void digitalShopClosed(InventoryCloseEvent event){
         if(event.getView().getTitle().equals("Market")||event.getView().getTitle().equals("Server Shop")||event.getView().getTitle().equals("Auctions")){
             for(Shop shop : openShops){
-                if(shop.getPlayer().equals(event.getPlayer())){
-                    openShops.remove(shop);
-                    break;
+                if(!shop.isWaiting()) {
+                    if (shop.getPlayer().equals(event.getPlayer())) {
+                        openShops.remove(shop);
+                        break;
+                    }
                 }
             }
         } else if(event.getView().getTitle().equals("Trade")){
