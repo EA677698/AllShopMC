@@ -31,6 +31,21 @@ public class ListingsUtil {
     }
 
     public static void loadListings(Shop shop, ShopType type){
+        if(type==ShopType.PLAYER_SHOP) {
+            for (int i = 1; i < getListings(type).length; i++) {
+                if (isListingExpired(type, i)) {
+                    AllShop.data.set(getMainKey(type) + getListings(type)[i], null);
+                }
+            }
+            try {
+                AllShop.data.save(new File(AllShop.folder, "data.yml"));
+            } catch (IOException e) {
+                if (AllShop.DEBUG) {
+                    e.printStackTrace();
+                }
+            }
+            AllShop.loadData();
+        }
         Object[] listings = getListings(type);
         if(AllShop.DEBUG){
             System.out.println(AllShop.PREFIX+"ShopType: "+type);
@@ -56,6 +71,18 @@ public class ListingsUtil {
         }
     }
 
+    public static boolean isListingExpired(ShopType type, int index){
+        String day = getListingDate(index, type).substring(getListingDate(index, type).lastIndexOf("-")+1);
+        String now = java.time.LocalDate.now().toString().substring(java.time.LocalDate.now().toString().lastIndexOf("-")+1);
+        if(day.contains("0")){
+            day = day.substring(1);
+        }
+        if(now.contains("0")){
+            now = now.substring(1);
+        }
+        return Integer.parseInt(now)-Integer.parseInt(day)>=AllShop.EXPIRATION;
+    }
+
     public static void loadPage(Shop shop){
         int index = 0;
         for(ItemStack item: shop.getPage(shop.getCurrentPage())){
@@ -64,11 +91,11 @@ public class ListingsUtil {
         }
     }
 
+    @SuppressWarnings("UnnecessaryContinue")
     public static ItemStack removeListingInfo(ItemStack item, int index, ShopType type){
         ItemMeta meta = item.getItemMeta();
-        CopyOnWriteArrayList<String> lore = new CopyOnWriteArrayList<>();
         if(meta.getLore()!=null) {
-            lore.addAll(meta.getLore());
+            CopyOnWriteArrayList<String> lore = new CopyOnWriteArrayList<>(meta.getLore());
             for (String line : lore) {
                 if (line.equals(ChatColor.LIGHT_PURPLE + "ID: " + getListingID(index, type))) {
                     lore.remove(line);
@@ -219,7 +246,7 @@ public class ListingsUtil {
                     }
                     AllShop.data.set(id + ".Items", player.getInventory().getItemInMainHand());
                     ItemStack item = player.getInventory().getItemInMainHand();
-                    String name = "";
+                    String name;
                     if(item.hasItemMeta()){
                         name = item.getItemMeta().getDisplayName();
                     }

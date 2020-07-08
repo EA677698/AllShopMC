@@ -41,7 +41,7 @@ public enum ColorUtils {
         return this.input;
     }
     public static String format(String message) {
-        String msg = "";
+        String msg;
         if(!message.contains("&")){
             msg = "&f"+message;
         } else{

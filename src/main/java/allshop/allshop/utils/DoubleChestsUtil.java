@@ -124,7 +124,7 @@ public class DoubleChestsUtil {
     }
 
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "MismatchedReadAndWriteOfArray"})
     public static Chest[] getDoubleChest(Chest chest){
         Chest[] doubleChest = new Chest[2];
         doubleChest[0] = getLeftChest(chest);

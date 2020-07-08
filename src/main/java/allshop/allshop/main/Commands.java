@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 public class Commands implements CommandExecutor {
 
     public static String noPermission;
@@ -52,7 +54,7 @@ public class Commands implements CommandExecutor {
                             }
                             if(sender.hasPermission("allshop.admin")) {
                                 if(AllShop.DEBUG) {
-                                    System.out.println("ListingsUtil.CreateListing(" + ShopType.SERVER_SHOP + "," + sender + "," + args);
+                                    System.out.println("ListingsUtil.CreateListing(" + ShopType.SERVER_SHOP + "," + sender + "," + Arrays.toString(args));
                                 }
                                 ListingsUtil.createListing(ShopType.SERVER_SHOP, sender, args);
                             } else {
@@ -92,7 +94,7 @@ public class Commands implements CommandExecutor {
                     if (AllShop.AUCTIONS_ENABLED) {
                         if (args.length > 0 && args[0].equalsIgnoreCase("bid")) {
                             if(AllShop.DEBUG) {
-                                System.out.println("ListingsUtil.CreateListing(" + ShopType.AUCTION_HOUSE + "," + sender + "," + args);
+                                System.out.println("ListingsUtil.CreateListing(" + ShopType.AUCTION_HOUSE + "," + sender + "," + Arrays.toString(args));
                             }
                             ListingsUtil.createListing(ShopType.AUCTION_HOUSE, sender, args);
                         } else {

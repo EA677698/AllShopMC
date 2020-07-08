@@ -1,4 +1,4 @@
-# AllShopMC 0.9.4
+# AllShopMC 1.0.0
 
 ### Features:
 - [x] Server GUI Shop for admins
@@ -62,8 +62,7 @@
   * none
   
 ### Bug Fixes:
-  * Fixed a bug where Lore is overridden sometimes by product information
-  * Fixed a bug where trades weren't cancelling properly
+  * none
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)

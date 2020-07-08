@@ -46,6 +46,7 @@ public final class AllShop extends JavaPlugin implements Listener {
     public static Object[] serverListings;
     public static File folder;
     public static int LISTINGS_LIMIT;
+    public static int EXPIRATION;
     public static boolean DIGITAL_ENABLED;
     public static boolean AUCTIONS_ENABLED;
     public static boolean PHYSICAL_ENABLED;
@@ -101,6 +102,7 @@ public final class AllShop extends JavaPlugin implements Listener {
         PHYSICAL_ENABLED = config.getBoolean("chest-shop-enabled");
         SERVER_SHOP_ENABLED = config.getBoolean("server-shop-enabled");
         TRADING_ENABLED = config.getBoolean("trading-enabled");
+        EXPIRATION = config.getInt("days-before-removal");
         AUCTIONS_ENABLED = false;
         if(DIGITAL_ENABLED){
             digitalListings = data.getConfigurationSection("digital").getKeys(false).toArray();
@@ -329,6 +331,7 @@ public final class AllShop extends JavaPlugin implements Listener {
         }
     }
 
+    @SuppressWarnings("UnnecessaryReturnStatement")
     @EventHandler
     public void chestOpen(PlayerInteractEvent event) {
         if (PHYSICAL_ENABLED) {
@@ -476,7 +479,6 @@ public final class AllShop extends JavaPlugin implements Listener {
         }
         for(Shop shop:openShops){
             if(!shop.isWaiting()){
-                continue;
             } else {
                 if(e.getPlayer().equals(shop.getPlayer())){
                     Player player = e.getPlayer();
