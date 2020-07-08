@@ -15,6 +15,9 @@
 - [x] Customizable Prefix
 - [x] Player trading
 - [ ] Per world Support
+- [x] 1.14 Compatibility
+- [x] 1.15 Compatibility
+- [x] 1.16 Compatibility
 
 ### Commands:
 * /AllShop (aka /as) - *Main command*

@@ -33,7 +33,11 @@ public class Shop {
         } else {
             inv = Bukkit.createInventory(null, 54, "Server Shop");
         }
-        totalPages = ((int)Math.ceil(((double) (ListingsUtil.getListings(type).length-1)/45.0)));
+        if((ListingsUtil.getListings(type).length-1)==0){
+            totalPages = 1;
+        } else {
+            totalPages = ((int) Math.ceil(((double) (ListingsUtil.getListings(type).length - 1) / 45.0)));
+        }
         ListingsUtil.loadOptions(inv, currentPage, totalPages);
         for(int i = 0; i<totalPages; i++){
             pages.add(new ItemStack[45]);
@@ -47,8 +51,11 @@ public class Shop {
     }
 
     public void refresh(){
-        totalPages = ((int)Math.ceil(((double) (ListingsUtil.getListings(type).length-1)/45.0)));
-        ListingsUtil.loadOptions(inv, currentPage, totalPages);
+        if((ListingsUtil.getListings(type).length-1)==0){
+            totalPages = 1;
+        } else {
+            totalPages = ((int) Math.ceil(((double) (ListingsUtil.getListings(type).length - 1) / 45.0)));
+        }        ListingsUtil.loadOptions(inv, currentPage, totalPages);
         ListingsUtil.loadListings(this, type);
         if(AllShop.DEBUG) {
             System.out.println(AllShop.PREFIX+"Listings size: "+ListingsUtil.getListings(type).length);

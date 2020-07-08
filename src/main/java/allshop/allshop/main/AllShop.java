@@ -1,5 +1,6 @@
 package allshop.allshop.main;
 
+import allshop.allshop.Metrics;
 import allshop.allshop.gshops.Shop;
 import allshop.allshop.gshops.ShopType;
 import allshop.allshop.gshops.Trades;
@@ -64,6 +65,8 @@ public final class AllShop extends JavaPlugin implements Listener {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+        int pluginId = 8125; // <-- Replace with the id of your plugin!
+        Metrics metrics = new Metrics(this, pluginId);
         plugin = this;
         getServer().getPluginManager().registerEvents(this,this);
         getCommand("allshop").setExecutor(commands);
@@ -481,6 +484,12 @@ public final class AllShop extends JavaPlugin implements Listener {
             if(!shop.isWaiting()){
             } else {
                 if(e.getPlayer().equals(shop.getPlayer())){
+                    if (e.getMessage().toLowerCase().equals("cancel")) {
+                        openShops.remove(shop);
+                        e.getPlayer().sendMessage(PREFIX + ChatColor.RED + "Transaction Cancelled!");
+                        e.setCancelled(true);
+                        return;
+                    }
                     Player player = e.getPlayer();
                     ItemStack item = shop.getSelected();
                     ItemStack give = ListingsUtil.removeListingInfo(item, ((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1), shop.getType());
