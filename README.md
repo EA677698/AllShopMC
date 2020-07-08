@@ -59,7 +59,7 @@
   * none
   
 * Trading:
-  *none
+  * none
   
 * Chest Shops:
   * none
@@ -69,3 +69,4 @@
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)
+* Any economy plugin
