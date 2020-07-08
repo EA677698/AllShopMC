@@ -51,8 +51,6 @@ public class ListingsUtil {
                 System.out.println(AllShop.PREFIX+"index: "+ index);
 
             }
-            System.out.println(shop.getPage(page));
-            System.out.println(shop.getPage(page)[item]);
             shop.getPage(page)[item] = addListingInfo(getListingItem(index, type), index, type);
             item++;
         }
@@ -67,13 +65,10 @@ public class ListingsUtil {
     }
 
     public static ItemStack removeListingInfo(ItemStack item, int index, ShopType type){
-        ItemStack temp = item;
-        ItemMeta meta = temp.getItemMeta();
+        ItemMeta meta = item.getItemMeta();
         CopyOnWriteArrayList<String> lore = new CopyOnWriteArrayList<>();
         if(meta.getLore()!=null) {
-            for (String line : meta.getLore()) {
-                lore.add(line);
-            }
+            lore.addAll(meta.getLore());
             for (String line : lore) {
                 if (line.equals(ChatColor.LIGHT_PURPLE + "ID: " + getListingID(index, type))) {
                     lore.remove(line);
@@ -106,9 +101,9 @@ public class ListingsUtil {
                 }
             }
             meta.setLore(lore);
-            temp.setItemMeta(meta);
+            item.setItemMeta(meta);
         }
-        return temp;
+        return item;
     }
 
     public static String generateID(ShopType type){
@@ -178,7 +173,7 @@ public class ListingsUtil {
     }
 
 
-    public static boolean createListing(ShopType type, CommandSender sender, String[] args) {
+    public static void createListing(ShopType type, CommandSender sender, String[] args) {
         int count = 0;
         if(AllShop.LISTINGS_LIMIT != -1) {
             if (type != ShopType.SERVER_SHOP) {
@@ -207,7 +202,7 @@ public class ListingsUtil {
                             e.printStackTrace();
                         }
                         sender.sendMessage(ChatColor.RED + "Price must be an integer");
-                        return false;
+                        return;
                     }
                     String id = generateID(type);
                     AllShop.data.createSection(id);
@@ -259,12 +254,10 @@ public class ListingsUtil {
         } else {
             sender.sendMessage(AllShop.PREFIX+ChatColor.RED + "You have reached the maximum listings limit");
         }
-        return false;
     }
 
     private static ItemStack addListingInfo(ItemStack item, int index, ShopType type){
-        ItemStack temp = item;
-        ItemMeta meta = temp.getItemMeta();
+        ItemMeta meta = item.getItemMeta();
         List<String> lore;
         if(meta.hasLore()){
             lore = meta.getLore();
@@ -292,8 +285,8 @@ public class ListingsUtil {
             lore.add(ChatColor.LIGHT_PURPLE+"Starting Bid: "+getMinBid(index));
             lore.add(ChatColor.LIGHT_PURPLE+"Current Bid: "+getCurrentBid(index));
         }meta.setLore(lore);
-        temp.setItemMeta(meta);
-        return temp;
+        item.setItemMeta(meta);
+        return item;
     }
 
     public static ItemStack createGuiItem(final Material material, final String name, final String... lore) {

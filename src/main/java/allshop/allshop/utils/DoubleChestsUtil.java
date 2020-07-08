@@ -124,6 +124,7 @@ public class DoubleChestsUtil {
     }
 
 
+    @SuppressWarnings("unused")
     public static Chest[] getDoubleChest(Chest chest){
         Chest[] doubleChest = new Chest[2];
         doubleChest[0] = getLeftChest(chest);
@@ -131,12 +132,12 @@ public class DoubleChestsUtil {
         return new Chest[2];
     }
 
+    @SuppressWarnings("unused")
     public static DoubleChest getDoubleChestInventory(Chest chest){
         if (chest instanceof Chest) {
             Inventory inventory = chest.getInventory();
             if (inventory instanceof DoubleChestInventory) {
-                DoubleChest doubleChest = (DoubleChest) inventory.getHolder();
-                return doubleChest;
+                return (DoubleChest) inventory.getHolder();
             }
         }
         return null;
@@ -145,9 +146,7 @@ public class DoubleChestsUtil {
     public static boolean isChestDoubleChest(Chest chest){
         if (chest instanceof Chest) {
             Inventory inventory = chest.getInventory();
-            if (inventory instanceof DoubleChestInventory) {
-                return true;
-            }
+            return inventory instanceof DoubleChestInventory;
         }
         return false;
     }

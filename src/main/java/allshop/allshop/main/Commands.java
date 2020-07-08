@@ -123,7 +123,7 @@ public class Commands implements CommandExecutor {
                             if (args.length > 1) {
                                 boolean item;
                                 if(args.length==3){
-                                    item = Boolean.valueOf(args[2]);
+                                    item = Boolean.parseBoolean(args[2]);
                                 } else {
                                     item = true;
                                 }
@@ -170,13 +170,20 @@ public class Commands implements CommandExecutor {
                                     }
                                 }
                             } else if (!(args[0].equals(sender.getName()))) {
-                                if(Bukkit.getPlayer(args[0]).isOnline()) {
-                                    AllShop.openTrades.add(new Trades((Player) sender, Bukkit.getPlayer(args[0])));
-                                    sender.sendMessage(AllShop.PREFIX + ChatColor.GREEN + "Trade request successfully sent!");
-                                    Bukkit.getPlayer(args[0]).sendMessage(AllShop.PREFIX + ChatColor.GREEN + ((Player) sender).getDisplayName() + " is requesting to trade with you!");
-                                    Bukkit.getPlayer(args[0]).sendMessage(AllShop.PREFIX + ChatColor.YELLOW + "Do " + ChatColor.GREEN + "(/trade accept)" + ChatColor.YELLOW +
-                                            " or " + ChatColor.RED + "(/trade deny)" + ChatColor.YELLOW + " to reply!");
-                                } else {
+                                try {
+                                    if (Bukkit.getPlayer(args[0]).isOnline()) {
+                                        AllShop.openTrades.add(new Trades((Player) sender, Bukkit.getPlayer(args[0])));
+                                        sender.sendMessage(AllShop.PREFIX + ChatColor.GREEN + "Trade request successfully sent!");
+                                        Bukkit.getPlayer(args[0]).sendMessage(AllShop.PREFIX + ChatColor.GREEN + ((Player) sender).getDisplayName() + " is requesting to trade with you!");
+                                        Bukkit.getPlayer(args[0]).sendMessage(AllShop.PREFIX + ChatColor.YELLOW + "Do " + ChatColor.GREEN + "(/trade accept)" + ChatColor.YELLOW +
+                                                " or " + ChatColor.RED + "(/trade deny)" + ChatColor.YELLOW + " to reply!");
+                                    } else {
+                                        sender.sendMessage(AllShop.PREFIX + ChatColor.RED + "Player not online!");
+                                    }
+                                } catch (Exception e){
+                                    if(AllShop.DEBUG){
+                                        e.printStackTrace();
+                                    }
                                     sender.sendMessage(AllShop.PREFIX + ChatColor.RED + "Player not online!");
                                 }
                             } else {

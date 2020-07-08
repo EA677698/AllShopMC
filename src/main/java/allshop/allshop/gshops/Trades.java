@@ -11,11 +11,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Trades {
 
-    private Inventory inv;
-    private Player one, two;
-    private boolean ready1, ready2, commenced;
+    private final Inventory inv;
+    private final Player one;
+    private final Player two;
+    private boolean ready1, ready2, commenced, completed;
     public Trades(Player one, Player two){
         this.one = one;
+        completed = false;
         this.two = two;
         inv = Bukkit.createInventory(null, 9, "Trade");
         expiration();
@@ -100,5 +102,13 @@ public class Trades {
 
     public boolean isReady2() {
         return ready2;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

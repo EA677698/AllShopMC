@@ -15,28 +15,40 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 
+@SuppressWarnings("unused")
 public class ChestShops {
 
     private int buy, sell, amount;
     private String seller;
-    Chest chest;
-    Sign sign;
-    Player player;
+    final Chest chest;
+    final Sign sign;
+    final Player player;
 
     public ChestShops(Sign sign, Chest chest, Player player, String seller){
         this.sign = sign;
         this.chest = chest;
         this.player = player;
         this.seller = seller;
-        if (sign.getLine(2).contains("s")) {
-            buy = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("s") + 2, sign.getLine(2).indexOf("s") + 3));
+        boolean sellAndBuy = sign.getLine(2).contains("s")&&sign.getLine(2).contains("b");
+        if(sellAndBuy){
+            if(sign.getLine(2).indexOf("b")<sign.getLine(2).indexOf("s")){
+                buy = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("s") + 2));
+                sell = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("b") + 2,sign.getLine(2).indexOf("s")-1));
+            } else {
+                buy = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("s") + 2,sign.getLine(2).indexOf("b")-1));
+                sell = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("b") + 2));
+            }
         } else {
-            buy = -1;
-        }
-        if (sign.getLine(2).contains("b")) {
-            sell = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("b") + 2,sign.getLine(2).indexOf("b") + 3));
-        } else {
-            sell = -1;
+            if (sign.getLine(2).contains("s")) {
+                buy = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("s") + 2, sign.getLine(2).indexOf("s") + 3));
+            } else {
+                buy = -1;
+            }
+            if (sign.getLine(2).contains("b")) {
+                sell = Integer.parseInt(sign.getLine(2).substring(sign.getLine(2).indexOf("b") + 2,sign.getLine(2).indexOf("b") + 3));
+            } else {
+                sell = -1;
+            }
         }
         if(!seller.equals(ChatColor.RED+"Server")){
             this.seller = sign.getLine(3);
@@ -79,8 +91,8 @@ public class ChestShops {
                 if (player.getInventory().getItemInMainHand().getType() != itemSold) {
                         if (sell != -1) {
                             if(serverStore){
-                                if((AllShop.econ.getBalance(player)) >=sell*(amount)){
-                                    AllShop.econ.withdrawPlayer(player, sell*amount);
+                                if((AllShop.econ.getBalance(player)) >=(sell*amount)){
+                                    AllShop.econ.withdrawPlayer(player, (sell*amount));
                                     player.getInventory().addItem(new ItemStack(itemSold, amount));
                                     player.sendMessage(AllShop.PREFIX + ChatColor.GREEN + "You have bought " + amount + " " + itemSold.name() + " for " + (sell*amount));
                                 } else {
@@ -110,8 +122,8 @@ public class ChestShops {
                     if (buy != -1) {
                         if(serverStore){
                             player.getInventory().removeItem(new ItemStack(itemSold, amount));
-                            AllShop.econ.depositPlayer(player, buy*amount);
-                            player.sendMessage(AllShop.PREFIX + ChatColor.GREEN + "You have sold " + amount + " " + itemSold.name() + " for " + buy*amount);
+                            AllShop.econ.depositPlayer(player, (buy*amount));
+                            player.sendMessage(AllShop.PREFIX + ChatColor.GREEN + "You have sold " + amount + " " + itemSold.name() + " for " + (buy*amount));
                         } else if (!isFull) {
                             if(isDouble){
                                 doubleChest.getInventory().addItem(new ItemStack(itemSold, amount));

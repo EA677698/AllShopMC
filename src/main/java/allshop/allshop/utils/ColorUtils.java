@@ -29,7 +29,7 @@ public enum ColorUtils {
     private final String input;
     private final String MinecraftColor;
 
-    private ColorUtils(String input, String MinecraftColor) { this.input = input;
+    ColorUtils(String input, String MinecraftColor) { this.input = input;
         this.MinecraftColor = MinecraftColor; }
 
     public String getMinecraftColor()

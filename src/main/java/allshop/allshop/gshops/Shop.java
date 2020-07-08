@@ -9,17 +9,18 @@ import org.bukkit.inventory.ItemStack;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class Shop {
 
     private final Inventory inv;
     private int totalPages;
     private int currentPage = 1;
-    private Player player;
-    private ShopType type;
+    private final Player player;
+    private final ShopType type;
     private boolean waiting;
     private ItemStack selected;
     private int storedSlot;
-    private CopyOnWriteArrayList<ItemStack[]> pages;
+    private final CopyOnWriteArrayList<ItemStack[]> pages;
 
     public Shop(Player player, ShopType type){
         this.player = player;

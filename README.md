@@ -1,4 +1,4 @@
-# AllShopMC 0.9.3
+# AllShopMC 0.9.4
 
 ### Features:
 - [x] Server GUI Shop for admins
@@ -44,10 +44,10 @@
 ### Known Bugs:
 
 * Global:
-  * Lore is overridden sometimes by product information
+  * none
   
 * Player Shop:
-  *none
+  * none
   
 * Auction House:
   * none
@@ -62,7 +62,8 @@
   * none
   
 ### Bug Fixes:
-  * Opening shops returns a null pointer when a new page is made with 1-4 items
+  * Fixed a bug where Lore is overridden sometimes by product information
+  * Fixed a bug where trades weren't cancelling properly
   
 ### Dependencies:
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)

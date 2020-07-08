@@ -28,9 +28,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-//import java.sql.Connection;
-//import java.sql.DriverManager;
-//import java.sql.SQLException;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
@@ -41,9 +38,9 @@ public final class AllShop extends JavaPlugin implements Listener {
     public static Economy econ = null;
     public static FileConfiguration config;
     public static FileConfiguration data;
-    public static CopyOnWriteArrayList<Shop> openShops = new CopyOnWriteArrayList<>();
-    public static CopyOnWriteArrayList<Trades> openTrades = new CopyOnWriteArrayList<>();
-    public static CopyOnWriteArrayList<ChestShops> openTransactions = new CopyOnWriteArrayList<>();
+    public static final CopyOnWriteArrayList<Shop> openShops = new CopyOnWriteArrayList<>();
+    public static final CopyOnWriteArrayList<Trades> openTrades = new CopyOnWriteArrayList<>();
+    public static final CopyOnWriteArrayList<ChestShops> openTransactions = new CopyOnWriteArrayList<>();
     public static Object[] auctionListings;
     public static Object[] digitalListings;
     public static Object[] serverListings;
@@ -57,7 +54,7 @@ public final class AllShop extends JavaPlugin implements Listener {
     public static boolean DEBUG;
     public static String PREFIX;
     public static JavaPlugin plugin;
-    Commands commands = new Commands();
+    final Commands commands = new Commands();
 
     @Override
     public void onEnable() {
@@ -191,6 +188,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                         }
                     }
                     if (trade.isReady1() && trade.isReady2()) {
+                        trade.setCompleted(true);
                         trade.getTraderOne().sendMessage(PREFIX + ChatColor.GREEN + " You have successfully traded for [" + event.getInventory().getItem(5).getAmount() + "] " + event.getClickedInventory().getItem(5).getType().name());
                         trade.getTraderTwo().sendMessage(PREFIX + ChatColor.GREEN + " You have successfully traded for [" + event.getInventory().getItem(3).getAmount() + "] " + event.getClickedInventory().getItem(3).getType().name());
                         trade.getTraderOne().getInventory().addItem(event.getClickedInventory().getItem(5));
@@ -320,6 +318,9 @@ public final class AllShop extends JavaPlugin implements Listener {
 
                             }
                         } catch (Exception e) {
+                            if(DEBUG){
+                                e.printStackTrace();
+                            }
                         }
                     }
                     event.setCancelled(true);
@@ -361,11 +362,11 @@ public final class AllShop extends JavaPlugin implements Listener {
     public boolean checkSign(Block block, Player p){
         Sign sign = null;
         String[] faces = {"EAST", "NORTH", "SOUTH", "WEST"};
-        for (int i = 0; i < faces.length; i++) {
-            if (block.getRelative(BlockFace.valueOf(faces[i])).getType() == Material.OAK_WALL_SIGN) {
-                sign = (Sign) block.getRelative(BlockFace.valueOf(faces[i])).getState();
+        for (String face : faces) {
+            if (block.getRelative(BlockFace.valueOf(face)).getType() == Material.OAK_WALL_SIGN) {
+                sign = (Sign) block.getRelative(BlockFace.valueOf(face)).getState();
                 if (DEBUG) {
-                    p.sendMessage(PREFIX + "Sign find on " + faces[i]);
+                    p.sendMessage(PREFIX + "Sign find on " + face);
                 }
             }
         }
@@ -375,9 +376,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                     String data = sign.getBlockData().getAsString();
                     String direction = data.substring(data.indexOf("facing=")+7,data.indexOf(","));
                     Location temp = DoubleChestsUtil.getBackChestLocation(direction,sign.getLocation());
-                    if(temp.getBlock().equals(block)) {
-                        return true;
-                    }
+                    return temp.getBlock().equals(block);
                 }
             }
         }
@@ -515,17 +514,17 @@ public final class AllShop extends JavaPlugin implements Listener {
                         Sign s = (Sign) event.getClickedBlock().getState();
                         if (s.getLine(0).equals(ChatColor.YELLOW + "[" + ChatColor.GREEN + "Shop" + ChatColor.YELLOW + "]")) {
                             String[] faces = {"EAST", "NORTH", "SOUTH", "WEST"};
-                            for (int i = 0; i < faces.length; i++) {
-                                if (event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getType() == Material.CHEST) {
+                            for (String face : faces) {
+                                if (event.getClickedBlock().getRelative(BlockFace.valueOf(face)).getType() == Material.CHEST) {
                                     if (DEBUG) {
-                                        p.sendMessage(PREFIX + "Chest find on " + faces[i]);
+                                        p.sendMessage(PREFIX + "Chest find on " + face);
                                     }
                                     if (!s.getLine(3).equals(ChatColor.RED + "Server")) {
-                                        new ChestShops(s, (Chest) event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getState(), p, s.getLine(3));
+                                        new ChestShops(s, (Chest) event.getClickedBlock().getRelative(BlockFace.valueOf(face)).getState(), p, s.getLine(3));
                                         openTransactions.get(openTransactions.size() - 1).setAmount(Integer.parseInt(s.getLine(1).substring(s.getLine(1).indexOf(" ") + 1)));
                                         openTransactions.get(openTransactions.size() - 1).processInformation();
                                     } else {
-                                        new ChestShops(s, (Chest) event.getClickedBlock().getRelative(BlockFace.valueOf(faces[i])).getState(), p, s.getLine(3));
+                                        new ChestShops(s, (Chest) event.getClickedBlock().getRelative(BlockFace.valueOf(face)).getState(), p, s.getLine(3));
                                         Material itemSold;
                                         if (!s.getLine(3).equals(ChatColor.RED + "Server")) {
                                             itemSold = Material.getMaterial(s.getLine(1).substring(0, s.getLine(1).indexOf(" ")).toUpperCase());
@@ -564,17 +563,18 @@ public final class AllShop extends JavaPlugin implements Listener {
         } else if(event.getView().getTitle().equals("Trade")){
             for(Trades trade : openTrades){
                 if(trade.getInv().equals(event.getInventory())){
-                    if(event.getInventory().getViewers().size()>0){
+                    if(!trade.isCompleted()){
                         trade.sendMessageToParticipants(PREFIX+ChatColor.RED+"Trade Cancelled");
                         trade.getTraderOne().getInventory().addItem(trade.getInv().getItem(3));
                         trade.getTraderTwo().getInventory().addItem(trade.getInv().getItem(5));
                     }
                     if(event.getPlayer().equals(trade.getTraderOne())){
+                        openTrades.remove(trade);
                         trade.getTraderTwo().closeInventory();
                     } else{
+                        openTrades.remove(trade);
                         trade.getTraderOne().closeInventory();
                     }
-                    openTrades.remove(trade);
                     break;
                 }
             }
