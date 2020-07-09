@@ -3,6 +3,7 @@ package me.phantomknight.allshop.main;
 import me.phantomknight.allshop.gshops.Shop;
 import me.phantomknight.allshop.gshops.ShopType;
 import me.phantomknight.allshop.gshops.Trades;
+import me.phantomknight.allshop.utils.ColorUtils;
 import me.phantomknight.allshop.utils.ListingsUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,8 +22,6 @@ public class Commands implements CommandExecutor {
         this.allShop = allShop;
     }
 
-    public String noPermission;
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("allshop") || command.getName().equalsIgnoreCase("as")) {
@@ -35,7 +34,7 @@ public class Commands implements CommandExecutor {
                         allShop.loadData();
                         sender.sendMessage(allShop.PREFIX + ChatColor.GREEN + "Successfully reloaded plugin");
                     } else {
-                        sender.sendMessage(noPermission);
+                        sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
                     }
                 } else {
                     sender.sendMessage(allShop.PREFIX+ChatColor.GREEN + "Place holder for main command");
@@ -64,7 +63,7 @@ public class Commands implements CommandExecutor {
                                 }
                                 ListingsUtil.createListing(ShopType.SERVER_SHOP, sender, args);
                             } else {
-                                sender.sendMessage(noPermission);
+                                sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
                             }
                         } else if(args.length>0 && args[0].equalsIgnoreCase("remove")){
                             if(sender.hasPermission("allShop.admin")) {
@@ -74,7 +73,7 @@ public class Commands implements CommandExecutor {
                                     sender.sendMessage(allShop.PREFIX + ChatColor.RED + "You must include the item ID!");
                                 }
                             } else {
-                                sender.sendMessage(noPermission);
+                                sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
                             }
                         } else {
                             if (allShop.DEBUG) {
@@ -86,7 +85,7 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(allShop.PREFIX + ChatColor.RED + "The Server Shop is disabled on this server!");
                     }
                 } else {
-                    sender.sendMessage(noPermission);
+                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
                 }
             }
             if(command.getName().equalsIgnoreCase("auction")){
@@ -113,7 +112,7 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(allShop.PREFIX + ChatColor.RED + "Auctions are disabled on this server!");
                     }
                 } else {
-                    sender.sendMessage(noPermission);
+                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
                 }
             }
             if(command.getName().equalsIgnoreCase("market")) {
@@ -146,10 +145,10 @@ public class Commands implements CommandExecutor {
                             allShop.openShops.add(new Shop(allShop,(Player) sender, ShopType.PLAYER_SHOP));
                         }
                     } else {
-                        sender.sendMessage(allShop.PREFIX + ChatColor.RED + "The Digital Shop is disabled on this server!");
+                        sender.sendMessage(allShop.PREFIX + ChatColor.RED + "The Player Shop is disabled on this server!");
                     }
                 } else {
-                    sender.sendMessage(noPermission);
+                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
                 }
             }
             if(command.getName().equalsIgnoreCase("trade")){
@@ -204,7 +203,7 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(allShop.PREFIX + ChatColor.RED + "Trading is disabled on this server");
                     }
                 } else {
-                    sender.sendMessage(noPermission);
+                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
                 }
             }
         } else {

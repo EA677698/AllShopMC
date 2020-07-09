@@ -37,23 +37,14 @@ public final class AllShop extends JavaPlugin implements Listener {
 
     private final Logger log = Logger.getLogger("Minecraft");
     public Economy econ = null;
-    public FileConfiguration config;
-    public FileConfiguration data;
+    public FileConfiguration config,data,messages;
     public final CopyOnWriteArrayList<Shop> openShops = new CopyOnWriteArrayList<>();
     public final CopyOnWriteArrayList<Trades> openTrades = new CopyOnWriteArrayList<>();
     public final CopyOnWriteArrayList<ChestShops> openTransactions = new CopyOnWriteArrayList<>();
-    public Object[] auctionListings;
-    public Object[] digitalListings;
-    public Object[] serverListings;
+    public Object[] auctionListings, digitalListings, serverListings;
     public File folder;
-    public int LISTINGS_LIMIT;
-    public int EXPIRATION;
-    public boolean DIGITAL_ENABLED;
-    public boolean AUCTIONS_ENABLED;
-    public boolean PHYSICAL_ENABLED;
-    public boolean SERVER_SHOP_ENABLED;
-    public boolean TRADING_ENABLED;
-    public boolean DEBUG;
+    public int LISTINGS_LIMIT, EXPIRATION;
+    public boolean DIGITAL_ENABLED, AUCTIONS_ENABLED, PHYSICAL_ENABLED, SERVER_SHOP_ENABLED, TRADING_ENABLED, DEBUG;
     public String PREFIX;
     public final Commands commands = new Commands(this);
     public static AllShop instance;
@@ -80,7 +71,6 @@ public final class AllShop extends JavaPlugin implements Listener {
         saveResource("data.yml",false);
         config = getConfig();
         loadData();
-        commands.noPermission = PREFIX+ChatColor.RED+" You do not have permission to do this!";
 
     }
 
@@ -98,7 +88,10 @@ public final class AllShop extends JavaPlugin implements Listener {
     }
 
     public void loadData(){
+        reloadConfig();
+        config = getConfig();
         data = YamlConfiguration.loadConfiguration(new File(folder, "data.yml"));
+        messages = YamlConfiguration.loadConfiguration(new File(folder,"messages.yml"));
         DEBUG = config.getBoolean("debug");
         LISTINGS_LIMIT = config.getInt("shop-listings-limit");
         DIGITAL_ENABLED = config.getBoolean("player-shop-enabled");
@@ -167,7 +160,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                 System.out.println(PREFIX+shop.toString());
             }
         }
-        if(event.getView().getTitle().equals("Trade")) {
+        if(event.getView().getTitle().equals(messages.getString("gui-trading"))) {
             if (openTrades.size() > 0 && TRADING_ENABLED) {
                 Trades trade = null;
                 for (Trades trades : openTrades) {
@@ -411,7 +404,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                         }
                         sign.setEditable(false);
                     } else {
-                        event.getPlayer().sendMessage(commands.noPermission);
+                        event.getPlayer().sendMessage(PREFIX+ ColorUtils.format(messages.getString("no-permission")));
                     }
                 }
             }
@@ -555,7 +548,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                     }
                 }
             } else {
-                p.sendMessage(commands.noPermission);
+                p.sendMessage(PREFIX+ ColorUtils.format(messages.getString("no-permission")));
             }
         }
     }
@@ -571,7 +564,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                     }
                 }
             }
-        } else if(event.getView().getTitle().equals("Trade")){
+        } else if(event.getView().getTitle().equals(messages.getString("gui-trading"))){
             for(Trades trade : openTrades){
                 if(trade.getInv().equals(event.getInventory())){
                     if(!trade.isCompleted()){

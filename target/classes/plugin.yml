@@ -1,6 +1,6 @@
 name: AllShop
-version: 1.0.0
-main: allshop.allshop.main.AllShop
+version: 1.0.1
+main: me.phantomknight.allshop.main.AllShop
 api-version: 1.13
 prefix: AllShop
 authors: [PhantomKnight]

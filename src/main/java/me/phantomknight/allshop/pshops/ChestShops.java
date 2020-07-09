@@ -1,6 +1,7 @@
 package me.phantomknight.allshop.pshops;
 
 import me.phantomknight.allshop.main.AllShop;
+import me.phantomknight.allshop.utils.ColorUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -144,7 +145,7 @@ public class ChestShops {
                     player.sendMessage(allShop.PREFIX+ChatColor.RED+"You do not have enough "+itemSold.name()+" to sell!");
                 }
             } else {
-                player.sendMessage(allShop.commands.noPermission);
+                player.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
             }
         } catch (Exception e){
             e.printStackTrace();

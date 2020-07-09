@@ -21,7 +21,7 @@ public class Trades {
         this.one = one;
         completed = false;
         this.two = two;
-        inv = Bukkit.createInventory(null, 9, "Trade");
+        inv = Bukkit.createInventory(null, 9, allShop.messages.getString("gui-trading"));
         expiration();
     }
 
@@ -30,8 +30,8 @@ public class Trades {
             @Override
             public void run() {
                 if(!commenced){
-                    one.sendMessage(allShop.PREFIX+ ChatColor.RED+" The trade has expired!");
-                    two.sendMessage(allShop.PREFIX+ ChatColor.RED+" The trade has expired!");
+                    one.sendMessage(allShop.PREFIX+ ChatColor.RED+"The trade has expired!");
+                    two.sendMessage(allShop.PREFIX+ ChatColor.RED+"The trade has expired!");
                     allShop.openTrades.remove(this);
                 } else {
                     this.cancel();
