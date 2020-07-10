@@ -26,18 +26,22 @@ public class Commands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("allshop") || command.getName().equalsIgnoreCase("as")) {
             if (args.length > 0) {
-                if(args[0].equalsIgnoreCase("reload")){
-                    if(allShop.DEBUG){
-                        System.out.println(allShop.PREFIX+"has permission allShop.admin "+sender.hasPermission("allShop.admin"));
-                    }
-                    if(sender.hasPermission("allShop.admin")) {
+                if(sender.hasPermission("allshop.admin")){
+                    if(args[0].equalsIgnoreCase("reload")) {
+                        if (allShop.DEBUG) {
+                            System.out.println(allShop.PREFIX + "has permission allShop.admin " + sender.hasPermission("allShop.admin"));
+                        }
                         allShop.loadData();
                         sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[0]));
                     } else {
-                        sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[27]));
+                        if(args[0].equalsIgnoreCase("version")){
+                            sender.sendMessage(allShop.PREFIX+"You are using version 1.1.0");
+                        } else {
+                            sender.sendMessage(allShop.PREFIX+ChatColor.RED+"Unknown command!");
+                        }
                     }
                 } else {
-                    sender.sendMessage(allShop.PREFIX+ChatColor.GREEN + "Place holder for main command");
+                    sender.sendMessage(allShop.PREFIX+ColorUtils.format(allShop.customMessages[27]));
                 }
             } else {
                 sender.sendMessage(allShop.PREFIX+ChatColor.GREEN + "Place holder for main command");
