@@ -1,0 +1,36 @@
+####### MESSAGES ########
+messages:
+  successfully-reloaded: '&aSuccessfully reloaded plugin' #0
+  item-id-missing: '&cYou must include the item ID!' #1
+  id-not-an-integer: '&cThe ID must be an integer!' #2
+  price-not-an-integer: '&cPrice must be an integer' #3
+  amount-not-an-integer: '&cAmount must be an integer!' #4
+  server-shop-disabled: '&cThe Server Shop is disabled on this server!' #5
+  player-shop-disabled: '&cThe Player Shop is disabled on this server!' #6
+  empty-hand: '&cYour hand cannot be empty!' #7
+  maximum-listings-reached: '&cYou have reached the maximum listings limit' #8
+  missing-price: '&cYou must give a price!' #9
+  trading-disabled: '&cTrading is disabled on this server' #10
+  trade-denied: '&cTrade successfully denied!' #11
+  trade-canceled: '&cTrade Cancelled' #12
+  trade-sent: '&aTrade request successfully sent!' #13
+  transaction-canceled: '&aTransaction Cancelled!' #14
+  player-offline: '&cPlayer not online!' #15
+  not-a-player: '&cYou must be a player to execute this command!' #16
+  cannot-trade-with-yourself: '&cYou cannot trade with yourself!' #17
+  command-must-include-name: '&cCommand input must include player name!' #18
+  cannot-remove-other-players-item: '&cYou cannot remove another players item!' #19
+  not-enough-money: '&cYou do not have enough money for this!' #20
+  chest-shop-out-of-stock: '&cThis shop is out of stock!' #21
+  cannot-buy-from-chest-shop: '&cYou cannot buy from this shop!' #22
+  cannot-sell-to-chest-shop: '&cYou cannot sell to this shop!' #23
+  chest-shop-is-full: '&cThis shop is full!' #24
+  trade-expired: '&cThe trade has expired!' #25
+  listing-removed: '&aItem removed successfully!' #26
+  no-permission: '&cYou do not have permission to do this!' #27
+  id-not-found: '&cItem ID not found!' #28
+  seller-not-enough-money: '&cThe seller does not have enough money!' #29
+  #DO NOT INCLUDE COLOR FOR THE ONES BELOW!!
+  gui-server-shop-name: 'Server Shop' #30
+  gui-player-shop-name: 'Market' #31
+  gui-trading: 'Trade' #32

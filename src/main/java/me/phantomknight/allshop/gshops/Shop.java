@@ -29,11 +29,11 @@ public class Shop {
         this.type = type;
         pages = new CopyOnWriteArrayList<>();
         if(type==ShopType.PLAYER_SHOP){
-            inv = Bukkit.createInventory(null,54, "Market");
+            inv = Bukkit.createInventory(null,54, allShop.customMessages[31]);
         } else if(type==ShopType.AUCTION_HOUSE) {
             inv = Bukkit.createInventory(null,54, "Auctions");
         } else {
-            inv = Bukkit.createInventory(null, 54, "Server Shop");
+            inv = Bukkit.createInventory(null, 54, allShop.customMessages[30]);
         }
         if((ListingsUtil.getListings(type).length-1)==0){
             totalPages = 1;

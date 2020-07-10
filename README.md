@@ -1,4 +1,4 @@
-# AllShopMC Snapshot 1.1.0
+# AllShopMC 1.1.0
 
 ### Features:
 - [x] Server GUI Shop for admins
@@ -11,7 +11,7 @@
 - [ ] Staff for Physical Shops
 - [ ] Group Specific Shops
 - [ ] MYSQL support
-- [ ] Customizable messages - *In Progress*
+- [x] Customizable messages
 - [x] Customizable Prefix
 - [x] Player trading
 - [ ] Per world Support

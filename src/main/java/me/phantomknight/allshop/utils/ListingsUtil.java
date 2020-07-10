@@ -167,9 +167,9 @@ public class ListingsUtil {
                             e.printStackTrace();
                         }
                         AllShop.instance.loadData();
-                        player.sendMessage(AllShop.instance.PREFIX+ChatColor.GREEN+"Item removed successfully!");
+                        player.sendMessage(AllShop.instance.PREFIX+ColorUtils.format(AllShop.instance.customMessages[26]));
                     } else {
-                        player.sendMessage(AllShop.instance.PREFIX+ChatColor.RED+"You cannot remove another player's items!");
+                        player.sendMessage(AllShop.instance.PREFIX+ColorUtils.format(AllShop.instance.customMessages[19]));
                     }
                 } else {
                     if(returnItem){
@@ -182,10 +182,10 @@ public class ListingsUtil {
                         e.printStackTrace();
                     }
                     AllShop.instance.loadData();
-                    player.sendMessage(AllShop.instance.PREFIX+ChatColor.GREEN+"Item removed successfully!");
+                    player.sendMessage(AllShop.instance.PREFIX+ColorUtils.format(AllShop.instance.customMessages[26]));
                 }
             } else {
-                player.sendMessage(AllShop.instance.PREFIX+ChatColor.RED+"Item ID not found!");
+                player.sendMessage(AllShop.instance.PREFIX+ColorUtils.format(AllShop.instance.customMessages[28]));
             }
 
         } catch (Exception e){
@@ -193,7 +193,7 @@ public class ListingsUtil {
             if(AllShop.instance.DEBUG){
                 e.printStackTrace();
             }
-            player.sendMessage(AllShop.instance.PREFIX+ChatColor.RED+"The ID must be an integer!");
+            player.sendMessage(AllShop.instance.PREFIX+AllShop.instance.customMessages[2]);
             return;
         }
     }
@@ -227,7 +227,7 @@ public class ListingsUtil {
                         if(AllShop.instance.DEBUG){
                             e.printStackTrace();
                         }
-                        sender.sendMessage(ChatColor.RED + "Price must be an integer");
+                        sender.sendMessage(AllShop.instance.PREFIX+AllShop.instance.customMessages[3]);
                         return;
                     }
                     String id = generateID(type);
@@ -269,16 +269,16 @@ public class ListingsUtil {
                     AllShop.instance.loadData();
                 } else {
                     if (type==ShopType.PLAYER_SHOP) {
-                        sender.sendMessage(AllShop.instance.PREFIX+ChatColor.RED + "You must give a price!");
+                        sender.sendMessage(AllShop.instance.PREFIX+ColorUtils.format(AllShop.instance.customMessages[9]));
                     } else {
                         sender.sendMessage(AllShop.instance.PREFIX+ChatColor.RED + "You must give a starting bid!");
                     }
                 }
             } else {
-                sender.sendMessage(AllShop.instance.PREFIX+ChatColor.RED + "Your hand cannot be empty!");
+                sender.sendMessage(AllShop.instance.PREFIX+ColorUtils.format(AllShop.instance.customMessages[7]));
             }
         } else {
-            sender.sendMessage(AllShop.instance.PREFIX+ChatColor.RED + "You have reached the maximum listings limit");
+            sender.sendMessage(AllShop.instance.PREFIX+ColorUtils.format(AllShop.instance.customMessages[8]));
         }
     }
 

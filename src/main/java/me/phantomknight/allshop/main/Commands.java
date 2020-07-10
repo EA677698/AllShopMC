@@ -32,9 +32,9 @@ public class Commands implements CommandExecutor {
                     }
                     if(sender.hasPermission("allShop.admin")) {
                         allShop.loadData();
-                        sender.sendMessage(allShop.PREFIX + ChatColor.GREEN + "Successfully reloaded plugin");
+                        sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[0]));
                     } else {
-                        sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
+                        sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[27]));
                     }
                 } else {
                     sender.sendMessage(allShop.PREFIX+ChatColor.GREEN + "Place holder for main command");
@@ -63,17 +63,17 @@ public class Commands implements CommandExecutor {
                                 }
                                 ListingsUtil.createListing(ShopType.SERVER_SHOP, sender, args);
                             } else {
-                                sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
+                                sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[27]));
                             }
                         } else if(args.length>0 && args[0].equalsIgnoreCase("remove")){
                             if(sender.hasPermission("allShop.admin")) {
                                 if (args.length > 1) {
                                     ListingsUtil.removeListing((Player) sender, ShopType.SERVER_SHOP, args[1], false, true);
                                 } else {
-                                    sender.sendMessage(allShop.PREFIX + ChatColor.RED + "You must include the item ID!");
+                                    sender.sendMessage(allShop.PREFIX + ChatColor.RED + ColorUtils.format(allShop.customMessages[1]));
                                 }
                             } else {
-                                sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
+                                sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[27]));
                             }
                         } else {
                             if (allShop.DEBUG) {
@@ -82,10 +82,10 @@ public class Commands implements CommandExecutor {
                             allShop.openShops.add(new Shop(allShop,(Player) sender, ShopType.SERVER_SHOP));
                         }
                     } else {
-                        sender.sendMessage(allShop.PREFIX + ChatColor.RED + "The Server Shop is disabled on this server!");
+                        sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[5]));
                     }
                 } else {
-                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
+                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[27]));
                 }
             }
             if(command.getName().equalsIgnoreCase("auction")){
@@ -112,7 +112,7 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(allShop.PREFIX + ChatColor.RED + "Auctions are disabled on this server!");
                     }
                 } else {
-                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
+                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[27]));
                 }
             }
             if(command.getName().equalsIgnoreCase("market")) {
@@ -136,7 +136,7 @@ public class Commands implements CommandExecutor {
                                 }
                                 ListingsUtil.removeListing((Player) sender, ShopType.PLAYER_SHOP, args[1], item, sender.hasPermission("allShop.admin"));
                             } else {
-                                sender.sendMessage(allShop.PREFIX + ChatColor.RED + "You must include the item ID!");
+                                sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[1]));
                             }
                         } else {
                             if(allShop.DEBUG) {
@@ -145,10 +145,10 @@ public class Commands implements CommandExecutor {
                             allShop.openShops.add(new Shop(allShop,(Player) sender, ShopType.PLAYER_SHOP));
                         }
                     } else {
-                        sender.sendMessage(allShop.PREFIX + ChatColor.RED + "The Player Shop is disabled on this server!");
+                        sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[6]));
                     }
                 } else {
-                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
+                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[27]));
                 }
             }
             if(command.getName().equalsIgnoreCase("trade")){
@@ -172,7 +172,7 @@ public class Commands implements CommandExecutor {
                                 for (Trades trade : allShop.openTrades) {
                                     if (trade.getTraderTwo().equals(sender)) {
                                         trade.getTraderOne().sendMessage(allShop.PREFIX + trade.getTraderTwo().getDisplayName() +ChatColor.RED+ " has denied your request!");
-                                        sender.sendMessage(allShop.PREFIX + ChatColor.RED + "Trade successfully denied!");
+                                        sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[11]));
                                         allShop.openTrades.remove(trade);
                                     }
                                 }
@@ -180,34 +180,34 @@ public class Commands implements CommandExecutor {
                                 try {
                                     if (Bukkit.getPlayer(args[0]).isOnline()) {
                                         allShop.openTrades.add(new Trades(allShop,(Player) sender, Bukkit.getPlayer(args[0])));
-                                        sender.sendMessage(allShop.PREFIX + ChatColor.GREEN + "Trade request successfully sent!");
+                                        sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[13]));
                                         Bukkit.getPlayer(args[0]).sendMessage(allShop.PREFIX + ChatColor.GREEN + ((Player) sender).getDisplayName() + " is requesting to trade with you!");
                                         Bukkit.getPlayer(args[0]).sendMessage(allShop.PREFIX + ChatColor.YELLOW + "Do " + ChatColor.GREEN + "(/trade accept)" + ChatColor.YELLOW +
                                                 " or " + ChatColor.RED + "(/trade deny)" + ChatColor.YELLOW + " to reply!");
                                     } else {
-                                        sender.sendMessage(allShop.PREFIX + ChatColor.RED + "Player not online!");
+                                        sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[15]));
                                     }
                                 } catch (Exception e){
                                     if(allShop.DEBUG){
                                         e.printStackTrace();
                                     }
-                                    sender.sendMessage(allShop.PREFIX + ChatColor.RED + "Player not online!");
+                                    sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[15]));
                                 }
                             } else {
-                                sender.sendMessage(allShop.PREFIX+ ChatColor.RED+"You cannot trade with yourself!");
+                                sender.sendMessage(allShop.PREFIX+ allShop.customMessages[17]);
                             }
                         } else {
-                            sender.sendMessage(allShop.PREFIX + ChatColor.RED + "Command input must include player name!");
+                            sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[18]));
                         }
                     } else {
-                        sender.sendMessage(allShop.PREFIX + ChatColor.RED + "Trading is disabled on this server");
+                        sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[10]));
                     }
                 } else {
-                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
+                    sender.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[27]));
                 }
             }
         } else {
-            sender.sendMessage(allShop.PREFIX+"You must be a player to execute this command!");
+            sender.sendMessage(allShop.PREFIX+ColorUtils.format(allShop.customMessages[16]));
         }
         return false;
     }

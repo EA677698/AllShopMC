@@ -97,7 +97,7 @@ public class ChestShops {
                                     player.getInventory().addItem(new ItemStack(itemSold, amount));
                                     player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have bought " + amount + " " + itemSold.name() + " for " + (sell*amount));
                                 } else {
-                                    player.sendMessage(allShop.PREFIX+ChatColor.RED+"You do not have enough money for this!");
+                                    player.sendMessage(allShop.PREFIX+allShop.customMessages[20]);
                                 }
                             } else if (chest.getBlockInventory().containsAtLeast(new ItemStack(itemSold), amount)) {
                                 if (allShop.econ.getBalance(player) >= sell) {
@@ -111,13 +111,13 @@ public class ChestShops {
                                     }
                                     player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have bought " + amount + " " + itemSold.name() + " for " + sell);
                             } else {
-                                player.sendMessage(allShop.PREFIX+ChatColor.RED+"You do not have enough money for this!");
+                                player.sendMessage(allShop.PREFIX+ColorUtils.format(allShop.customMessages[20]));
                             }
                         } else {
-                            player.sendMessage(allShop.PREFIX + ChatColor.RED + "This shop is out of stock!");
+                            player.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[21]));
                         }
                     } else {
-                        player.sendMessage(allShop.PREFIX + ChatColor.RED + "You cannot buy from this shop!");
+                        player.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[22]));
                     }
                 } else if (player.getInventory().getItemInMainHand().getAmount() >= amount) {
                     if (buy != -1) {
@@ -126,26 +126,30 @@ public class ChestShops {
                             allShop.econ.depositPlayer(player, (buy*amount));
                             player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have sold " + amount + " " + itemSold.name() + " for " + (buy*amount));
                         } else if (!isFull) {
-                            if(isDouble){
-                                doubleChest.getInventory().addItem(new ItemStack(itemSold, amount));
+                            if(allShop.econ.getBalance(Bukkit.getOfflinePlayer(seller))>buy) {
+                                if (isDouble) {
+                                    doubleChest.getInventory().addItem(new ItemStack(itemSold, amount));
+                                } else {
+                                    chest.getInventory().addItem(new ItemStack(itemSold, amount));
+                                }
+                                player.getInventory().removeItem(new ItemStack(itemSold, amount));
+                                allShop.econ.depositPlayer(player, buy);
+                                allShop.econ.withdrawPlayer(Bukkit.getOfflinePlayer(seller), buy);
+                                player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have sold " + amount + " " + itemSold.name() + " for " + buy);
                             } else {
-                                chest.getInventory().addItem(new ItemStack(itemSold, amount));
+                                player.sendMessage(allShop.PREFIX+ColorUtils.format(allShop.customMessages[29]));
                             }
-                            player.getInventory().removeItem(new ItemStack(itemSold, amount));
-                            allShop.econ.depositPlayer(player, buy);
-                            allShop.econ.withdrawPlayer(Bukkit.getOfflinePlayer(seller), buy);
-                            player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have sold " + amount + " " + itemSold.name() + " for " + buy);
                         } else {
-                            player.sendMessage(allShop.PREFIX + ChatColor.RED + "This shop is full!");
+                            player.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[24]));
                         }
                     } else {
-                        player.sendMessage(allShop.PREFIX + ChatColor.RED + "You cannot sell to this shop!");
+                        player.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[23]));
                     }
                 } else {
                     player.sendMessage(allShop.PREFIX+ChatColor.RED+"You do not have enough "+itemSold.name()+" to sell!");
                 }
             } else {
-                player.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.messages.getString("no-permission")));
+                player.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[27]));
             }
         } catch (Exception e){
             e.printStackTrace();

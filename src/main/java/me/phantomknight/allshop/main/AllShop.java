@@ -42,6 +42,7 @@ public final class AllShop extends JavaPlugin implements Listener {
     public final CopyOnWriteArrayList<Trades> openTrades = new CopyOnWriteArrayList<>();
     public final CopyOnWriteArrayList<ChestShops> openTransactions = new CopyOnWriteArrayList<>();
     public Object[] auctionListings, digitalListings, serverListings;
+    public String[] customMessages;
     public File folder;
     public int LISTINGS_LIMIT, EXPIRATION;
     public boolean DIGITAL_ENABLED, AUCTIONS_ENABLED, PHYSICAL_ENABLED, SERVER_SHOP_ENABLED, TRADING_ENABLED, DEBUG;
@@ -68,6 +69,7 @@ public final class AllShop extends JavaPlugin implements Listener {
         saveDefaultConfig();
         folder = getDataFolder();
         data = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "data.yml"));
+        saveResource("messages.yml",false);
         saveResource("data.yml",false);
         config = getConfig();
         loadData();
@@ -92,6 +94,10 @@ public final class AllShop extends JavaPlugin implements Listener {
         config = getConfig();
         data = YamlConfiguration.loadConfiguration(new File(folder, "data.yml"));
         messages = YamlConfiguration.loadConfiguration(new File(folder,"messages.yml"));
+        customMessages = new String[33];
+        for(int i = 0; i<messages.getConfigurationSection("messages").getKeys(false).toArray().length; i++){
+            customMessages[i] = messages.getString("messages."+messages.getConfigurationSection("messages").getKeys(false).toArray()[i]);
+        }
         DEBUG = config.getBoolean("debug");
         LISTINGS_LIMIT = config.getInt("shop-listings-limit");
         DIGITAL_ENABLED = config.getBoolean("player-shop-enabled");
@@ -160,7 +166,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                 System.out.println(PREFIX+shop.toString());
             }
         }
-        if(event.getView().getTitle().equals(messages.getString("gui-trading"))) {
+        if(event.getView().getTitle().equals(customMessages[32])) {
             if (openTrades.size() > 0 && TRADING_ENABLED) {
                 Trades trade = null;
                 for (Trades trades : openTrades) {
@@ -200,7 +206,7 @@ public final class AllShop extends JavaPlugin implements Listener {
         }
         if(openShops.size()>0) {
             if (DIGITAL_ENABLED || SERVER_SHOP_ENABLED) {
-                if (event.getView().getTitle().equals("Market") || event.getView().getTitle().equals("Server Shop")) {
+                if (event.getView().getTitle().equals(customMessages[31]) || event.getView().getTitle().equals(customMessages[30])) {
                     Shop shop = null;
                     for (Shop shops : openShops) {
                         if (shops.getType() == ShopType.PLAYER_SHOP || shops.getType() == ShopType.SERVER_SHOP) {
@@ -271,7 +277,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                                 } else {
                                     player.closeInventory();
                                     openShops.remove(shop);
-                                    player.sendMessage(PREFIX + ChatColor.RED + "You do not have enough money to buy this!");
+                                    player.sendMessage(PREFIX + ColorUtils.format(customMessages[20]));
                                 }
                             }
                         } catch (Exception e) {
@@ -404,7 +410,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                         }
                         sign.setEditable(false);
                     } else {
-                        event.getPlayer().sendMessage(PREFIX+ ColorUtils.format(messages.getString("no-permission")));
+                        event.getPlayer().sendMessage(PREFIX+ ColorUtils.format(customMessages[27]));
                     }
                 }
             }
@@ -455,7 +461,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                 if (shops.getPlayer().equals(e.getPlayer()) || shops.getPlayer() == e.getPlayer()) {
                     if (e.getMessage().toLowerCase().equals("cancel")) {
                         openTransactions.remove(shops);
-                        e.getPlayer().sendMessage(PREFIX + ChatColor.RED + "Transaction Cancelled!");
+                        e.getPlayer().sendMessage(PREFIX + ColorUtils.format(customMessages[14]));
                         e.setCancelled(true);
                     } else {
                         try {
@@ -466,7 +472,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                             if (DEBUG) {
                                 ex.printStackTrace();
                             } else {
-                                e.getPlayer().sendMessage(PREFIX + ChatColor.RED + "Amount must be an integer!");
+                                e.getPlayer().sendMessage(PREFIX + ColorUtils.format(customMessages[4]));
                             }
                         }
                     }
@@ -479,7 +485,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                 if(e.getPlayer().equals(shop.getPlayer())){
                     if (e.getMessage().toLowerCase().equals("cancel")) {
                         openShops.remove(shop);
-                        e.getPlayer().sendMessage(PREFIX + ChatColor.RED + "Transaction Cancelled!");
+                        e.getPlayer().sendMessage(PREFIX + ColorUtils.format(customMessages[14]));
                         e.setCancelled(true);
                         return;
                     }
@@ -493,7 +499,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                             player.getInventory().addItem(give);
                             player.sendMessage(PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getType().name());
                         } else {
-                            player.sendMessage(PREFIX + ChatColor.RED + "You do not have enough money to buy this!");
+                            player.sendMessage(PREFIX + ColorUtils.format(customMessages[20]));
                         }
                         openShops.remove(shop);
                         e.setCancelled(true);
@@ -501,7 +507,7 @@ public final class AllShop extends JavaPlugin implements Listener {
                         if(DEBUG){
                             e1.printStackTrace();
                         }
-                        player.sendMessage(PREFIX+ChatColor.RED+"Amount must be an integer!");
+                        player.sendMessage(PREFIX+ColorUtils.format(customMessages[4]));
                     }
                 }
             }
@@ -548,14 +554,14 @@ public final class AllShop extends JavaPlugin implements Listener {
                     }
                 }
             } else {
-                p.sendMessage(PREFIX+ ColorUtils.format(messages.getString("no-permission")));
+                p.sendMessage(PREFIX+ ColorUtils.format(customMessages[27]));
             }
         }
     }
 
     @EventHandler
     public void digitalShopClosed(InventoryCloseEvent event){
-        if(event.getView().getTitle().equals("Market")||event.getView().getTitle().equals("Server Shop")||event.getView().getTitle().equals("Auctions")){
+        if(event.getView().getTitle().equals(customMessages[31])||event.getView().getTitle().equals(customMessages[30])||event.getView().getTitle().equals("Auctions")){
             for(Shop shop : openShops){
                 if(!shop.isWaiting()) {
                     if (shop.getPlayer().equals(event.getPlayer())) {
@@ -564,11 +570,11 @@ public final class AllShop extends JavaPlugin implements Listener {
                     }
                 }
             }
-        } else if(event.getView().getTitle().equals(messages.getString("gui-trading"))){
+        } else if(event.getView().getTitle().equals(customMessages[32])){
             for(Trades trade : openTrades){
                 if(trade.getInv().equals(event.getInventory())){
                     if(!trade.isCompleted()){
-                        trade.sendMessageToParticipants(PREFIX+ChatColor.RED+"Trade Cancelled");
+                        trade.sendMessageToParticipants(PREFIX+ColorUtils.format(customMessages[12]));
                         trade.getTraderOne().getInventory().addItem(trade.getInv().getItem(3));
                         trade.getTraderTwo().getInventory().addItem(trade.getInv().getItem(5));
                     }
