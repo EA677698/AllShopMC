@@ -265,7 +265,9 @@ public class ListingsUtil {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                    if(type!=ShopType.SERVER_SHOP) {
+                        player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                    }
                     AllShop.instance.loadData();
                 } else {
                     if (type==ShopType.PLAYER_SHOP) {
