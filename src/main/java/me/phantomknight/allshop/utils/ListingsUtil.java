@@ -11,9 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,21 +33,21 @@ public class ListingsUtil {
     public static void loadListings(Shop shop, ShopType type){
         if(type==ShopType.PLAYER_SHOP) {
             for (int i = 1; i < getListings(type).length; i++) {
-                if (isListingExpired(type, i)) {
+                if (isListingExpired(type, i)&&AllShop.instance.config.getInt("days-before-removal")!=0) {
+                    Bukkit.getOfflinePlayer(UUID.fromString(getSellerUUID(i,type))).getPlayer().getInventory().addItem(getListingItem(i,type));
                     AllShop.instance.data.set(getMainKey(type) + getListings(type)[i], null);
                 }
             }
             try {
                 AllShop.instance.data.save(new File(AllShop.instance.folder, "data.yml"));
             } catch (IOException e) {
-                if (AllShop.instance.DEBUG) {
-                    e.printStackTrace();
-                }
+                e.printStackTrace();
             }
             AllShop.instance.loadData();
         }
         Object[] listings = getListings(type);
         if(AllShop.instance.DEBUG){
+            System.out.println(AllShop.instance.PREFIX+"LOAD LISTINGS SECTION");
             System.out.println(AllShop.instance.PREFIX+"ShopType: "+type);
             System.out.println(AllShop.instance.PREFIX+"Listings size: "+(listings.length-1));
         }
@@ -71,18 +72,29 @@ public class ListingsUtil {
     }
 
     public static boolean isListingExpired(ShopType type, int index){
-        String day = getListingDate(index, type).substring(getListingDate(index, type).lastIndexOf("-")+1);
-        String now = java.time.LocalDate.now().toString().substring(java.time.LocalDate.now().toString().lastIndexOf("-")+1);
-        if(day.contains("0")){
-            day = day.substring(1);
-        }
-        if(now.contains("0")){
-            now = now.substring(1);
-        }
-        return Integer.parseInt(now)-Integer.parseInt(day)>=AllShop.instance.EXPIRATION;
+        return LocalDateTime.now().isAfter(LocalDateTime.parse(getListingDate(index, type)).plusDays(1));
     }
 
-    public static void loadPage(Shop shop){
+    public static String timeUntilExpiration(ShopType type, int index){
+        if(!isListingExpired(type, index)) {
+            if(AllShop.instance.config.getInt("days-before-removal")==0){
+                return "never";
+            }
+            Duration duration = Duration.between(LocalDateTime.now()
+                    ,LocalDateTime.parse(getListingDate(index, type)).plusDays(AllShop.instance.config.getInt("days-before-removal")));
+            long seconds = duration.getSeconds();
+            long absSeconds = Math.abs(seconds);
+            String positive = String.format(
+                    "%d:%02d:%02d",
+                    absSeconds / 3600,
+                    (absSeconds % 3600) / 60,
+                    absSeconds % 60);
+            return seconds < 0 ? "-" + positive : positive;
+        }
+        return null;
+    }
+
+        public static void loadPage(Shop shop){
         int index = 0;
         for(ItemStack item: shop.getPage(shop.getCurrentPage())){
             shop.getInv().setItem(index,item);
@@ -90,41 +102,20 @@ public class ListingsUtil {
         }
     }
 
-    @SuppressWarnings("UnnecessaryContinue")
-    public static ItemStack removeListingInfo(ItemStack item, int index, ShopType type){
+    public static ItemStack removeListingInfo(ItemStack item, ShopType type){
         ItemMeta meta = item.getItemMeta();
         if(meta.getLore()!=null) {
             CopyOnWriteArrayList<String> lore = new CopyOnWriteArrayList<>(meta.getLore());
-            for (String line : lore) {
-                if (line.equals(ChatColor.LIGHT_PURPLE + "ID: " + getListingID(index, type))) {
-                    lore.remove(line);
-                    continue;
-                }
-                if (type != ShopType.SERVER_SHOP) {
-                    if (line.equals(ChatColor.LIGHT_PURPLE + "Seller: " + getSellerName(index, type))) {
-                        lore.remove(line);
-                        continue;
-                    }
-                    if (line.equals(ChatColor.LIGHT_PURPLE + "Added: " + getListingDate(index, type))) {
-                        lore.remove(line);
-                        continue;
-                    }
-                }
-                if (type != ShopType.AUCTION_HOUSE) {
-                    if (line.equals(ChatColor.LIGHT_PURPLE + "Price: " + getListingPrice(index, type))) {
-                        lore.remove(line);
-                        continue;
-                    }
-                } else if (type == ShopType.AUCTION_HOUSE) {
-                    if (line.equals(ChatColor.LIGHT_PURPLE + "Starting Bid: " + getMinBid(index))) {
-                        lore.remove(line);
-                        continue;
-                    }
-                    if (line.equals(ChatColor.LIGHT_PURPLE + "Current Bid: " + getCurrentBid(index))) {
-                        lore.remove(line);
-                        continue;
-                    }
-                }
+            int indexes;
+            switch (type){
+                case SERVER_SHOP: indexes = AllShop.instance.server.size();
+                    break;
+                default: indexes = AllShop.instance.market.size();
+                    break;
+            }
+            for(int i = lore.size()-1; indexes!=0; i--){
+                lore.remove(i);
+                indexes--;
             }
             meta.setLore(lore);
             item.setItemMeta(meta);
@@ -158,7 +149,7 @@ public class ListingsUtil {
                 if(!admin){
                     if(getSellerName(index, type).equals(player.getName())){
                         if(returnItem){
-                            Bukkit.getOfflinePlayer(UUID.fromString(getSellerUUID(index,type))).getPlayer().getInventory().addItem(ListingsUtil.removeListingInfo(getListingItem(index,type),index,type));
+                            Bukkit.getOfflinePlayer(UUID.fromString(getSellerUUID(index,type))).getPlayer().getInventory().addItem(ListingsUtil.removeListingInfo(getListingItem(index,type),type));
                         }
                         AllShop.instance.data.set(getMainKey(type) + id, null);
                         try {
@@ -173,7 +164,7 @@ public class ListingsUtil {
                     }
                 } else {
                     if(returnItem){
-                        Bukkit.getOfflinePlayer(UUID.fromString(getSellerUUID(index,type))).getPlayer().getInventory().addItem(ListingsUtil.removeListingInfo(getListingItem(index,type),index,type));
+                        Bukkit.getOfflinePlayer(UUID.fromString(getSellerUUID(index,type))).getPlayer().getInventory().addItem(ListingsUtil.removeListingInfo(getListingItem(index,type),type));
                     }
                     AllShop.instance.data.set(getMainKey(type) + id, null);
                     try {
@@ -190,9 +181,6 @@ public class ListingsUtil {
 
         } catch (Exception e){
             e.printStackTrace();
-            if(AllShop.instance.DEBUG){
-                e.printStackTrace();
-            }
             player.sendMessage(AllShop.instance.PREFIX+AllShop.instance.customMessages[2]);
             return;
         }
@@ -224,16 +212,15 @@ public class ListingsUtil {
                             price = Integer.parseInt(args[1]);
                         }
                     } catch (NumberFormatException e) {
-                        if(AllShop.instance.DEBUG){
-                            e.printStackTrace();
-                        }
+                        e.printStackTrace();
                         sender.sendMessage(AllShop.instance.PREFIX+AllShop.instance.customMessages[3]);
                         return;
                     }
                     String id = generateID(type);
                     AllShop.instance.data.createSection(id);
                     if(type!=ShopType.SERVER_SHOP){
-                        AllShop.instance.data.set(id + ".Date", java.time.LocalDate.now().toString());
+                        String time = LocalDateTime.now().toString();
+                        AllShop.instance.data.set(id + ".Date", time);
                         AllShop.instance.data.set(id + ".UUID", UUID);
                         AllShop.instance.data.set(id + ".Name", player.getName());
                     }
@@ -242,6 +229,7 @@ public class ListingsUtil {
                     } else {
                         AllShop.instance.data.set(id + ".minBid", Integer.parseInt(args[1]));
                         AllShop.instance.data.set(id + ".Bid", Integer.parseInt(args[1]));
+                        AllShop.instance.data.set(id + ".Bidder", player.getUniqueId());
                     }
                     AllShop.instance.data.set(id + ".Items", player.getInventory().getItemInMainHand());
                     ItemStack item = player.getInventory().getItemInMainHand();
@@ -250,7 +238,7 @@ public class ListingsUtil {
                         name = item.getItemMeta().getDisplayName();
                     }
                     else{
-                        name = item.getType().toString();
+                        name = item.getType().name();
                     }
                     if(type!=ShopType.AUCTION_HOUSE) {
                         player.sendMessage(AllShop.instance.PREFIX + ChatColor.GREEN + "You have successfully sold your " + name + "["
@@ -287,32 +275,31 @@ public class ListingsUtil {
     private static ItemStack addListingInfo(ItemStack item, int index, ShopType type){
         ItemMeta meta = item.getItemMeta();
         List<String> lore;
+        List<String> addOnLore;
+        switch (type){
+            case SERVER_SHOP: addOnLore = AllShop.instance.server;
+            break;
+            default: addOnLore = AllShop.instance.market;
+            break;
+        }
         if(meta.hasLore()){
             lore = meta.getLore();
         } else {
             lore = new ArrayList<>();
         }
-        for(String line : lore){
-            if(type==ShopType.SERVER_SHOP){
-                if(line.equals(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index,type))){
-                    return item;
+        int count = 0;
+        for(String message:addOnLore){
+            for(String line:lore){
+                if(line.equals(message)){
+                    count++;
                 }
-            } else if(line.equals(ChatColor.LIGHT_PURPLE+"Seller: "+getSellerName(index, type))){
-                return item;
             }
+            lore.add(ColorUtils.format(PlaceHolderUtil.format(message,index,type)));
         }
-        //lore.add("");
-        lore.add(ChatColor.LIGHT_PURPLE+"ID: "+getListingID(index, type));
-        if(type!=ShopType.SERVER_SHOP) {
-            lore.add(ChatColor.LIGHT_PURPLE + "Seller: " + getSellerName(index, type));
-            lore.add(ChatColor.LIGHT_PURPLE + "Added: " + getListingDate(index, type));
+        if(count==addOnLore.size()){
+            return item;
         }
-        if(type==ShopType.PLAYER_SHOP||type==ShopType.SERVER_SHOP){
-            lore.add(ChatColor.LIGHT_PURPLE+"Price: "+getListingPrice(index,type));
-        } else if(type==ShopType.AUCTION_HOUSE) {
-            lore.add(ChatColor.LIGHT_PURPLE+"Starting Bid: "+getMinBid(index));
-            lore.add(ChatColor.LIGHT_PURPLE+"Current Bid: "+getCurrentBid(index));
-        }meta.setLore(lore);
+        meta.setLore(lore);
         item.setItemMeta(meta);
         return item;
     }
@@ -338,7 +325,7 @@ public class ListingsUtil {
     }
 
     public static ItemStack getListingItem(int index, ShopType type){
-            return AllShop.instance.data.getItemStack(getMainKey(type)+getListings(type)[index]+".Items").clone();
+        return AllShop.instance.data.getItemStack(getMainKey(type)+getListings(type)[index]+".Items").clone();
     }
 
     public static String getSellerName(int index, ShopType type){

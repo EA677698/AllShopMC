@@ -33,16 +33,16 @@ public class DoubleChestsUtil {
         return null;
     }
 
-    public static Location getBackChestLocation(String direction, Location location){
+    public static Location getBackChestLocation(String direction, Location chestLocation){
         switch (direction.toUpperCase()){
             case "NORTH":
-                return location.add(0,0,1);
+                return chestLocation.add(0,0,1);
             case "EAST":
-                return location.add(-1,0,0);
+                return chestLocation.add(-1,0,0);
             case "SOUTH":
-                return location.add(0,0,-1);
+                return chestLocation.add(0,0,-1);
             default:
-                return location.add(1,0,0);
+                return chestLocation.add(1,0,0);
         }
     }
 
@@ -72,7 +72,7 @@ public class DoubleChestsUtil {
         return null;
     }
 
-    public static Chest getNextChest(Chest chest, String chest1){
+    public static Chest getNextChest(Chest chest, String chestSide){
         Chest two;
         String data = chest.getBlockData().getAsString();
         String direction = data.substring(data.indexOf("facing=")+7,data.indexOf(","));
@@ -81,10 +81,10 @@ public class DoubleChestsUtil {
         float yaw1 = chest.getLocation().getYaw();
         float pitch2;
         float yaw2;
-        if(chest1.equalsIgnoreCase("right")){
-            face = getRightCompass(direction);
+        if(chestSide.equalsIgnoreCase("right")){
+            face = getNextClockWiseDirection(direction);
         } else {
-            face = getLEFTCompass(direction);
+            face = getNextCounterClockWiseDirection(direction);
         }
         if (chest.getBlock().getRelative(BlockFace.valueOf(face)).getType() == Material.CHEST) {
             two = (Chest) chest.getBlock().getRelative(BlockFace.valueOf(face)).getState();
@@ -97,7 +97,7 @@ public class DoubleChestsUtil {
         return null;
     }
 
-    private static String getRightCompass(String direction){
+    private static String getNextClockWiseDirection(String direction){
         switch (direction.toUpperCase()){
             case "NORTH":
                 return "EAST";
@@ -110,7 +110,7 @@ public class DoubleChestsUtil {
         }
     }
 
-    private static String getLEFTCompass(String direction){
+    private static String getNextCounterClockWiseDirection(String direction){
         switch (direction.toUpperCase()){
             case "NORTH":
                 return "WEST";

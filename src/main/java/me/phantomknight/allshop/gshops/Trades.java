@@ -18,7 +18,7 @@ public class Trades {
     private final Player one;
     private final Player two;
     private boolean ready1, ready2, commenced, completed;
-    private ItemStack ready3,notReady1, ready4, notready2;
+    private ItemStack ready3,notReady1, ready4, notReady2;
     public Trades(AllShop allShop, Player one, Player two){
         this.allShop = allShop;
         this.one = one;
@@ -27,7 +27,7 @@ public class Trades {
         ready3 = ListingsUtil.createGuiItem(Material.GREEN_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.GREEN+" is ready!");
         ready4 = ListingsUtil.createGuiItem(Material.GREEN_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.GREEN+" is ready!");
         notReady1 = ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.RED+" is not ready!");
-        notready2 = ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.RED+" is not ready!");
+        notReady2 = ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.RED+" is not ready!");
         inv = Bukkit.createInventory(null, 9, allShop.customMessages[32]);
         expiration();
     }
@@ -53,9 +53,9 @@ public class Trades {
         inv.setItem(1, notReady1);
         inv.setItem(2, notReady1);
         inv.setItem(4, ListingsUtil.createGuiItem(Material.WHITE_STAINED_GLASS_PANE,ChatColor.LIGHT_PURPLE+"Click on the glass panes on your side to change your status!"));
-        inv.setItem(6, notready2);
-        inv.setItem(7, notready2);
-        inv.setItem(8, notready2);
+        inv.setItem(6, notReady2);
+        inv.setItem(7, notReady2);
+        inv.setItem(8, notReady2);
         one.openInventory(inv);
         two.openInventory(inv);
     }
@@ -81,9 +81,9 @@ public class Trades {
             inv.setItem(8, ready4);
             ready2 = true;
         } else {
-            inv.setItem(6, notready2);
-            inv.setItem(7, notready2);
-            inv.setItem(8, notready2);
+            inv.setItem(6, notReady2);
+            inv.setItem(7, notReady2);
+            inv.setItem(8, notReady2);
             ready2 = false;
         }
     }

@@ -30,7 +30,20 @@ messages:
   no-permission: '&cYou do not have permission to do this!'
   id-not-found: '&cItem ID not found!'
   seller-not-enough-money: '&cThe seller does not have enough money!'
-  #DO NOT INCLUDE COLOR FOR THE ONES BELOW!!
   gui-server-shop-name: 'Server Shop'
   gui-player-shop-name: 'Market'
   gui-trading: 'Trade'
+market-listing:
+  - ''
+  - '&d---------------------'
+  - '&aID: %id%'
+  - '&aSeller: %seller%'
+  - '&aPrice: %price%'
+  - '&aExpires In: %expires%'
+  - '&d---------------------'
+server-listing:
+  - ''
+  - '&d---------------------'
+  - '&aID: %id%'
+  - '&aPrice: %price%'
+  - '&d---------------------'

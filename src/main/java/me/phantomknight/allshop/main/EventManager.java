@@ -26,7 +26,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
@@ -54,7 +53,7 @@ public class EventManager implements Listener {
                 System.out.println(allShop.PREFIX+shop.toString());
             }
         }
-        if(event.getView().getTitle().equals(allShop.customMessages[32])) {
+        if(event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[32]))) {
             if (allShop.openTrades.size() > 0 && allShop.TRADING_ENABLED) {
                 Trades trade = null;
                 for (Trades trades : allShop.openTrades) {
@@ -94,7 +93,7 @@ public class EventManager implements Listener {
         }
         if(allShop.openShops.size()>0) {
             if (allShop.DIGITAL_ENABLED || allShop.SERVER_SHOP_ENABLED) {
-                if (event.getView().getTitle().equals(allShop.customMessages[31]) || event.getView().getTitle().equals(allShop.customMessages[30])) {
+                if (event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[31])) || event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[30]))) {
                     Shop shop = null;
                     for (Shop shops : allShop.openShops) {
                         if (shops.getType() == ShopType.PLAYER_SHOP || shops.getType() == ShopType.SERVER_SHOP) {
@@ -109,6 +108,7 @@ public class EventManager implements Listener {
                             if (event.getClickedInventory().getItem(slot) != null) {
                                 String ID = ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)].toString();
                                 if (allShop.DEBUG) {
+                                    System.out.println(allShop.PREFIX+"ITEMS BLOCK SECTION");
                                     System.out.println(allShop.PREFIX + ListingsUtil.getMainKey(shop.getType()));
                                     System.out.println(allShop.PREFIX + shop.getType());
                                     System.out.println(allShop.PREFIX + ListingsUtil.getListings(shop.getType()).length);
@@ -124,11 +124,12 @@ public class EventManager implements Listener {
                                         shop.setWaiting(true);
                                         shop.setSelected(item);
                                         player.sendMessage(allShop.PREFIX + ChatColor.LIGHT_PURPLE + "Please enter in chat the amount of " + item.getType().name() + " you would like to buy.");
+                                        player.sendMessage(allShop.PREFIX+ChatColor.LIGHT_PURPLE+"Type in chat 'Cancel' to cancel");
                                         player.closeInventory();
                                     } else {
                                         allShop.econ.withdrawPlayer(player, allShop.data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price"));
-                                        player.getInventory().addItem(ListingsUtil.removeListingInfo(item, ((shop.getCurrentPage() - 1) * 45) + (slot + 1), shop.getType()));
-                                        player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getType().name());
+                                        player.getInventory().addItem(ListingsUtil.removeListingInfo(item, shop.getType()));
+                                        player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have purchased " + item.getType().name()+" [" + item.getAmount() + "]");
                                         if (shop.getType() == ShopType.PLAYER_SHOP) {
                                             allShop.econ.depositPlayer(Bukkit.getOfflinePlayer(UUID.fromString(allShop.data.getString("digital." + ID + ".UUID"))), allShop.data.getInt("digital." + ID + ".Price"));
                                             allShop.data.set("digital." + ID, null);
@@ -153,6 +154,7 @@ public class EventManager implements Listener {
                                 }
                             }
                         } else {
+                            event.setCancelled(true);
                             return;
                         }
                     } catch (Exception e) {
@@ -177,6 +179,7 @@ public class EventManager implements Listener {
                         if(!blockOptionsPickUp(shop,event,slot)) {
                             if (event.getClickedInventory().getItem(slot) != null) {
                                 if (allShop.DEBUG) {
+                                    System.out.println(allShop.PREFIX+"AUCTIONS ITEM BLOCK SECTION");
                                     System.out.println(ListingsUtil.getMainKey(shop.getType()));
                                     System.out.println(shop.getType());
                                     System.out.println(ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)]);
@@ -205,12 +208,14 @@ public class EventManager implements Listener {
             if (shop.getCurrentPage() < shop.getTotalPages()) {
                 shop.setCurrentPage(shop.getCurrentPage() + 1);
                 shop.refresh();
+                shop.getPlayer().updateInventory();
                 return true;
             }
         } else if (slot == 45) {
             if (shop.getCurrentPage() > 1) {
                 shop.setCurrentPage(shop.getCurrentPage() - 1);
                 shop.refresh();
+                shop.getPlayer().updateInventory();
                 return true;
             }
         }
@@ -375,7 +380,7 @@ public class EventManager implements Listener {
                     }
                     Player player = e.getPlayer();
                     ItemStack item = shop.getSelected();
-                    ItemStack give = ListingsUtil.removeListingInfo(item, ((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1), shop.getType());
+                    ItemStack give = ListingsUtil.removeListingInfo(item, shop.getType());
                     try{
                         if (allShop.econ.getBalance(player) > (allShop.data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1)] + ".Price"))*Integer.parseInt(e.getMessage())) {
                             allShop.econ.withdrawPlayer(player, (allShop.data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1)] + ".Price"))*Integer.parseInt(e.getMessage()));
@@ -429,7 +434,9 @@ public class EventManager implements Listener {
                                             p.sendMessage(allShop.PREFIX + ChatColor.LIGHT_PURPLE + "Please enter in chat the amount of " + s.getLine(1) + " you would like to sell.");
                                         } else {
                                             p.sendMessage(allShop.PREFIX + ChatColor.LIGHT_PURPLE + "Please enter in chat the amount of " + s.getLine(1) + " you would like to buy.");
+
                                         }
+                                        p.sendMessage(allShop.PREFIX+ChatColor.LIGHT_PURPLE+"Type in chat 'Cancel' to cancel");
                                     }
                                     break;
                                 }
@@ -445,7 +452,7 @@ public class EventManager implements Listener {
 
     @EventHandler
     public void digitalShopClosed(InventoryCloseEvent event){
-        if(event.getView().getTitle().equals(allShop.customMessages[31])||event.getView().getTitle().equals(allShop.customMessages[30])||event.getView().getTitle().equals("Auctions")){
+        if(event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[31]))||event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[30]))||event.getView().getTitle().equals("Auctions")){
             for(Shop shop : allShop.openShops){
                 if(!shop.isWaiting()) {
                     if (shop.getPlayer().equals(event.getPlayer())) {
@@ -454,7 +461,7 @@ public class EventManager implements Listener {
                     }
                 }
             }
-        } else if(event.getView().getTitle().equals(allShop.customMessages[32])){
+        } else if(event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[32]))){
             for(Trades trade : allShop.openTrades){
                 if(trade.getInv().equals(event.getInventory())){
                     if(!trade.isCompleted()){

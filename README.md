@@ -1,11 +1,11 @@
-# AllShopMC 1.1.2
+# AllShopMC 1.2.0
 
 ### Features:
 - [x] Server GUI Shop for admins
 - [x] Player GUI Shop
 - [ ] GUI Auction House - *In Progress*
 - [x] Physical Player Shop
-- [x] Physical Server Shop - *In Progress*
+- [x] Physical Server Shop
 - [ ] Plugin Moderation Tools - *In Progress*
 - [ ] Search Feature
 - [ ] Staff for Physical Shops

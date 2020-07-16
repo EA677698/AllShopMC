@@ -1,6 +1,7 @@
 package me.phantomknight.allshop.gshops;
 
 import me.phantomknight.allshop.main.AllShop;
+import me.phantomknight.allshop.utils.ColorUtils;
 import me.phantomknight.allshop.utils.ListingsUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -29,11 +30,11 @@ public class Shop {
         this.type = type;
         pages = new CopyOnWriteArrayList<>();
         if(type==ShopType.PLAYER_SHOP){
-            inv = Bukkit.createInventory(null,54, allShop.customMessages[31]);
+            inv = Bukkit.createInventory(null,54, ColorUtils.format(allShop.customMessages[31]));
         } else if(type==ShopType.AUCTION_HOUSE) {
             inv = Bukkit.createInventory(null,54, "Auctions");
         } else {
-            inv = Bukkit.createInventory(null, 54, allShop.customMessages[30]);
+            inv = Bukkit.createInventory(null, 54, ColorUtils.format(allShop.customMessages[30]));
         }
         if((ListingsUtil.getListings(type).length-1)==0){
             totalPages = 1;
@@ -60,6 +61,7 @@ public class Shop {
         }        ListingsUtil.loadOptions(inv, currentPage, totalPages);
         ListingsUtil.loadListings(this, type);
         if(allShop.DEBUG) {
+            System.out.println(allShop.PREFIX+"SHOP REFRESH SECTION");
             System.out.println(allShop.PREFIX+"Listings size: "+ListingsUtil.getListings(type).length);
             System.out.println(allShop.PREFIX + toString());
         }

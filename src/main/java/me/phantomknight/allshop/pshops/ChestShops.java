@@ -97,7 +97,7 @@ public class ChestShops {
                                     player.getInventory().addItem(new ItemStack(itemSold, amount));
                                     player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have bought " + amount + " " + itemSold.name() + " for " + (sell*amount));
                                 } else {
-                                    player.sendMessage(allShop.PREFIX+allShop.customMessages[20]);
+                                    player.sendMessage(allShop.PREFIX+ColorUtils.format(allShop.customMessages[20]));
                                 }
                             } else if (chest.getBlockInventory().containsAtLeast(new ItemStack(itemSold), amount)) {
                                 if (allShop.econ.getBalance(player) >= sell) {
