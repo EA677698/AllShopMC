@@ -32,7 +32,7 @@ import java.util.UUID;
 
 public class EventManager implements Listener {
 
-    public AllShop allShop;
+    public final AllShop allShop;
 
     public EventManager(AllShop allShop){
         allShop.getServer().getPluginManager().registerEvents(this,allShop);
@@ -328,12 +328,10 @@ public class EventManager implements Listener {
                             if(DoubleChestsUtil.getRightChest(chest).equals(chest)){
                                 if(checkSign(DoubleChestsUtil.getLeftChest(chest).getBlock(),event.getPlayer())){
                                     event.setCancelled(true);
-                                    return;
                                 }
                             } else {
                                 if(checkSign(DoubleChestsUtil.getRightChest(chest).getBlock(),event.getPlayer())){
                                     event.setCancelled(true);
-                                    return;
                                 }
                             }
                         }
@@ -369,8 +367,7 @@ public class EventManager implements Listener {
             }
         }
         for(Shop shop:allShop.openShops){
-            if(!shop.isWaiting()){
-            } else {
+            if(shop.isWaiting()){
                 if(e.getPlayer().equals(shop.getPlayer())){
                     if (e.getMessage().toLowerCase().equals("cancel")) {
                         allShop.openShops.remove(shop);

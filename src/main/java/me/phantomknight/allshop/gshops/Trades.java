@@ -18,7 +18,10 @@ public class Trades {
     private final Player one;
     private final Player two;
     private boolean ready1, ready2, commenced, completed;
-    private ItemStack ready3,notReady1, ready4, notReady2;
+    private final ItemStack ready3;
+    private final ItemStack notReady1;
+    private final ItemStack ready4;
+    private final ItemStack notReady2;
     public Trades(AllShop allShop, Player one, Player two){
         this.allShop = allShop;
         this.one = one;
@@ -29,17 +32,17 @@ public class Trades {
         notReady1 = ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,one.getDisplayName()+ChatColor.RED+" is not ready!");
         notReady2 = ListingsUtil.createGuiItem(Material.RED_STAINED_GLASS_PANE,two.getDisplayName()+ChatColor.RED+" is not ready!");
         inv = Bukkit.createInventory(null, 9, allShop.customMessages[32]);
-        expiration();
+        expiration(this);
     }
 
-    public void expiration(){
+    public void expiration(Trades trades){
         new BukkitRunnable(){
             @Override
             public void run() {
                 if(!commenced){
                     one.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[25]));
                     two.sendMessage(allShop.PREFIX+ ColorUtils.format(allShop.customMessages[25]));
-                    allShop.openTrades.remove(this);
+                    allShop.openTrades.remove(trades);
                 } else {
                     this.cancel();
                 }

@@ -182,7 +182,6 @@ public class ListingsUtil {
         } catch (Exception e){
             e.printStackTrace();
             player.sendMessage(AllShop.instance.PREFIX+AllShop.instance.customMessages[2]);
-            return;
         }
     }
 

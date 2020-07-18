@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class Shop {
 
     final Inventory inv;

@@ -69,9 +69,8 @@ public class ChestShops {
                 boolean isDouble = false;
                 DoubleChest doubleChest = null;
                 Chest chestState = chest;
-                if (chestState instanceof Chest) {
-                    Chest chest = chestState;
-                    Inventory inventory = chest.getInventory();
+                if (chestState != null) {
+                    Inventory inventory = chestState.getInventory();
                     if (inventory instanceof DoubleChestInventory) {
                          doubleChest = (DoubleChest) inventory.getHolder();
                          isDouble = true;

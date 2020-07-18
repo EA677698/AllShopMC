@@ -30,7 +30,7 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[0]));
                     } else {
                         if(args[0].equalsIgnoreCase("version")){
-                            sender.sendMessage(allShop.PREFIX+"You are using version 1.2.0");
+                            sender.sendMessage(allShop.PREFIX+"You are using version 1.2.1");
                         } else {
                             sender.sendMessage(allShop.PREFIX+ChatColor.RED+"Unknown command!");
                         }
@@ -39,17 +39,11 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(allShop.PREFIX+ColorUtils.format(allShop.customMessages[27]));
                 }
             } else {
-                sender.sendMessage(allShop.PREFIX+ChatColor.LIGHT_PURPLE + "Commands:");
-                sender.sendMessage(ChatColor.GREEN+"/as reload");
-                sender.sendMessage(ChatColor.GREEN+"/Shop");
-                sender.sendMessage(ChatColor.GREEN+"/Shop sell [price]");
-                sender.sendMessage(ChatColor.GREEN+"/Shop remove [id] [return boolean]");
-                sender.sendMessage(ChatColor.GREEN+"/Market");
-                sender.sendMessage(ChatColor.GREEN+"/Market sell [price]");
-                sender.sendMessage(ChatColor.GREEN+"/Market remove [id] [return boolean]");
-                sender.sendMessage(ChatColor.GREEN+"/Trade [Player]");
-                sender.sendMessage(ChatColor.GREEN+"/Trade deny");
-                sender.sendMessage(ChatColor.GREEN+"/Trade accept");
+                sender.sendMessage(allShop.PREFIX+ChatColor.LIGHT_PURPLE + "Commands:"+"\n"+
+                        ChatColor.GREEN+"/as reload"+"\n"+ChatColor.GREEN+"/Shop"+"\n"+ChatColor.GREEN+"/Shop sell [price]"+
+                        "\n"+ChatColor.GREEN+"/Shop remove [id] [return boolean]"+"\n"+ChatColor.GREEN+"/Market"+"\n"+
+                        ChatColor.GREEN+"/Market sell [price]"+"\n"+ChatColor.GREEN+"/Market remove [id] [return boolean]"+"\n"+
+                        ChatColor.GREEN+"/Trade [Player]"+"\n"+ChatColor.GREEN+"/Trade deny"+"\n"+ChatColor.GREEN+"/Trade accept");
             }
         }
         if(sender instanceof Player){

@@ -134,7 +134,7 @@ public class DoubleChestsUtil {
 
     @SuppressWarnings("unused")
     public static DoubleChest getDoubleChestInventory(Chest chest){
-        if (chest instanceof Chest) {
+        if (chest != null) {
             Inventory inventory = chest.getInventory();
             if (inventory instanceof DoubleChestInventory) {
                 return (DoubleChest) inventory.getHolder();
@@ -144,7 +144,7 @@ public class DoubleChestsUtil {
     }
 
     public static boolean isChestDoubleChest(Chest chest){
-        if (chest instanceof Chest) {
+        if (chest != null) {
             Inventory inventory = chest.getInventory();
             return inventory instanceof DoubleChestInventory;
         }
