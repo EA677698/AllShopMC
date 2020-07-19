@@ -37,6 +37,7 @@ messages:
   bid-not-an-integer: '&cBid must be an integer!'
   bid-not-bigger-than-current-bid: '&cYou must include a bigger bid than the current one!'
   starting-bid-missing: '&cYou must give a starting bid!'
+  #PLACE HOLDERS FOR LISTING INFORMATION: %id%, %seller%, %price%, %amount%, %item%, %date%, %UUID%, %expires%, %minBid%, %bid%, %bidder%,
 market-listing:
   - ''
   - '&d---------------------'
