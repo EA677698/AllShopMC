@@ -46,9 +46,9 @@ public class ListingsUtil {
                         player = Bukkit.getOfflinePlayer(getCurrentBidder(i)).getPlayer();
                         player.getInventory().addItem(getListingItem(i, type));
                         AllShop.instance.econ.withdrawPlayer(player, getCurrentBid(i));
-                        AllShop.instance.econ.depositPlayer(Bukkit.getPlayer(getSellerUUID(i, type)), getCurrentBid(i));
+                        AllShop.instance.econ.depositPlayer(Bukkit.getOfflinePlayer(getSellerUUID(i, type)), getCurrentBid(i));
                         if (player.isOnline()) {
-                            if(player.equals(Bukkit.getPlayer(getSellerUUID(i,type)).getPlayer())){
+                            if(player.equals(Bukkit.getOfflinePlayer(getSellerUUID(i,type)).getPlayer())){
                                 player.sendMessage(AllShop.instance.PREFIX+ChatColor.GREEN+"Your item has been returned");
                             } else {
                                 player.sendMessage(AllShop.instance.PREFIX + ChatColor.GREEN + "You have successfully won an auction!");

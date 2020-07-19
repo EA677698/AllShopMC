@@ -191,6 +191,8 @@ public class EventManager implements Listener {
                                         player.sendMessage(allShop.PREFIX + ChatColor.LIGHT_PURPLE + "Please enter in chat how much you would like to bid for the "+item.getType().name());
                                         player.sendMessage(allShop.PREFIX+ChatColor.LIGHT_PURPLE+"Type in chat 'Cancel' to cancel");
                                         player.closeInventory();
+                                    } else{
+                                        player.sendMessage(allShop.PREFIX+ChatColor.RED+"You do not have enough money to bid on this item!");
                                     }
 
                                 }

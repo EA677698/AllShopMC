@@ -57,7 +57,7 @@ public class PlaceHolderUtil {
             finds++;
         }
         if(message.contains("%bidder%")){
-            message = message.replace("%bidder%", Bukkit.getPlayer(ListingsUtil.getCurrentBidder(index)).getPlayer().getName());
+            message = message.replace("%bidder%", Bukkit.getOfflinePlayer(ListingsUtil.getCurrentBidder(index)).getName());
         }
         if(finds>0){
             return format(message, index, type);
