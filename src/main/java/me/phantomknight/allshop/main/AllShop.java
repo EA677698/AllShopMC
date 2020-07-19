@@ -26,8 +26,7 @@ public final class AllShop extends JavaPlugin {
     public final CopyOnWriteArrayList<ChestShops> openTransactions = new CopyOnWriteArrayList<>();
     public Object[] auctionListings, digitalListings, serverListings;
     public String[] customMessages;
-    public List<String> market;
-    public List<String> server;
+    public List<String> market, server, auction;
     public File folder;
     public int LISTINGS_LIMIT, EXPIRATION;
     public boolean DIGITAL_ENABLED, AUCTIONS_ENABLED, PHYSICAL_ENABLED, SERVER_SHOP_ENABLED, TRADING_ENABLED, DEBUG;
@@ -81,7 +80,7 @@ public final class AllShop extends JavaPlugin {
         config = getConfig();
         data = YamlConfiguration.loadConfiguration(new File(folder, "data.yml"));
         messages = YamlConfiguration.loadConfiguration(new File(folder,"messages.yml"));
-        customMessages = new String[33];
+        customMessages = new String[37];
         for(int i = 0; i<messages.getConfigurationSection("messages").getKeys(false).toArray().length; i++){
             customMessages[i] = messages.getString("messages."+messages.getConfigurationSection("messages").getKeys(false).toArray()[i]);
         }
@@ -93,7 +92,7 @@ public final class AllShop extends JavaPlugin {
         TRADING_ENABLED = config.getBoolean("trading-enabled");
         EXPIRATION = config.getInt("days-before-removal");
         stop = !config.getBoolean("real-time-shop-updates");
-        AUCTIONS_ENABLED = false;
+        AUCTIONS_ENABLED = config.getBoolean("auctions-enabled");
         if(DIGITAL_ENABLED){
             digitalListings = data.getConfigurationSection("digital").getKeys(false).toArray();
             market = messages.getStringList("market-listing");
@@ -104,6 +103,7 @@ public final class AllShop extends JavaPlugin {
         }
         if(AUCTIONS_ENABLED){
             auctionListings = data.getConfigurationSection("auction").getKeys(false).toArray();
+            auction = messages.getStringList("auction-listing");
         }
         PREFIX = ColorUtils.format(config.getString("prefix"));
         PREFIX = PREFIX+" ";

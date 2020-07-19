@@ -28,7 +28,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 public class EventManager implements Listener {
 
@@ -106,18 +105,18 @@ public class EventManager implements Listener {
                     try {
                         if(!blockOptionsPickUp(shop,event,slot)) {
                             if (event.getClickedInventory().getItem(slot) != null) {
-                                String ID = ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)].toString();
+                                int index = (((shop.getCurrentPage() - 1) * 45) + (slot + 1));
                                 if (allShop.DEBUG) {
                                     System.out.println(allShop.PREFIX+"ITEMS BLOCK SECTION");
                                     System.out.println(allShop.PREFIX + ListingsUtil.getMainKey(shop.getType()));
                                     System.out.println(allShop.PREFIX + shop.getType());
                                     System.out.println(allShop.PREFIX + ListingsUtil.getListings(shop.getType()).length);
-                                    System.out.println(allShop.PREFIX + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)]);
-                                    System.out.println(allShop.PREFIX + "ID: " + ID);
+                                    System.out.println(allShop.PREFIX + ListingsUtil.getListings(shop.getType())[index]);
+                                    System.out.println(allShop.PREFIX + "ID: " + index);
                                     System.out.println(allShop.PREFIX + shop.getCurrentPage());
                                     System.out.println(allShop.PREFIX + slot);
                                 }
-                                if (allShop.econ.getBalance(player) > allShop.data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price")) {
+                                if (allShop.econ.getBalance(player) > ListingsUtil.getListingPrice(index, shop.getType())) {
                                     ItemStack item = event.getCurrentItem();
                                     if (shop.getType() == ShopType.SERVER_SHOP) {
                                         shop.setStoredSlot(slot);
@@ -127,12 +126,12 @@ public class EventManager implements Listener {
                                         player.sendMessage(allShop.PREFIX+ChatColor.LIGHT_PURPLE+"Type in chat 'Cancel' to cancel");
                                         player.closeInventory();
                                     } else {
-                                        allShop.econ.withdrawPlayer(player, allShop.data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)] + ".Price"));
+                                        allShop.econ.withdrawPlayer(player, ListingsUtil.getListingPrice(index, shop.getType()));
                                         player.getInventory().addItem(ListingsUtil.removeListingInfo(item, shop.getType()));
-                                        player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have purchased " + item.getType().name()+" [" + item.getAmount() + "]");
+                                        player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have purchased "+"[" + item.getAmount() + "] "+ item.getType().name());
                                         if (shop.getType() == ShopType.PLAYER_SHOP) {
-                                            allShop.econ.depositPlayer(Bukkit.getOfflinePlayer(UUID.fromString(allShop.data.getString("digital." + ID + ".UUID"))), allShop.data.getInt("digital." + ID + ".Price"));
-                                            allShop.data.set("digital." + ID, null);
+                                            allShop.econ.depositPlayer(Bukkit.getOfflinePlayer(ListingsUtil.getSellerUUID(index, shop.getType())), ListingsUtil.getListingPrice(index,shop.getType()));
+                                            allShop.data.set("digital." + ListingsUtil.getListings(shop.getType())[index], null);
                                         }
                                         try {
                                             allShop.data.save(new File(allShop.folder, "data.yml"));
@@ -163,39 +162,50 @@ public class EventManager implements Listener {
                         }
                     }
                     event.setCancelled(true);
-                }
-            } else if(allShop.AUCTIONS_ENABLED){
-                if(event.getView().getTitle().equals("Auctions")){
-                    Shop shop = null;
-                    for (Shop shops : allShop.openShops) {
-                        if (shop.getType()==ShopType.AUCTION_HOUSE) {
-                            if (shops.getPlayer().equals(player)) {
-                                shop = shops;
-                                break;
-                            }
-                        }
-                    }
-                    try {
-                        if(!blockOptionsPickUp(shop,event,slot)) {
-                            if (event.getClickedInventory().getItem(slot) != null) {
-                                if (allShop.DEBUG) {
-                                    System.out.println(allShop.PREFIX+"AUCTIONS ITEM BLOCK SECTION");
-                                    System.out.println(ListingsUtil.getMainKey(shop.getType()));
-                                    System.out.println(shop.getType());
-                                    System.out.println(ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (slot + 1)]);
+                } else if(allShop.AUCTIONS_ENABLED){
+                    if(event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[33]))){
+                        Shop auction = null;
+                        for (Shop shops : allShop.openShops) {
+                            if (shops.getType()==ShopType.AUCTION_HOUSE) {
+                                if (shops.getPlayer().equals(player)) {
+                                    auction = shops;
+                                    break;
                                 }
-
                             }
-                        } else {
-                            return;
                         }
-                    } catch (Exception e) {
-                        if(allShop.DEBUG){
-                            e.printStackTrace();
+                        try {
+                            if(!blockOptionsPickUp(auction,event,slot)) {
+                                if (event.getClickedInventory().getItem(slot) != null) {
+                                    int index = (((auction.getCurrentPage() - 1) * 45) + (slot + 1));
+                                    if (allShop.DEBUG) {
+                                        System.out.println(allShop.PREFIX+"AUCTIONS ITEM BLOCK SECTION");
+                                        System.out.println(ListingsUtil.getMainKey(auction.getType()));
+                                        System.out.println(auction.getType());
+                                        System.out.println(ListingsUtil.getListings(auction.getType())[index]);
+                                    }
+                                    if(allShop.econ.getBalance(player)>ListingsUtil.getCurrentBid(index)){
+                                        ItemStack item = ListingsUtil.getListingItem(index,auction.getType());
+                                        auction.setStoredSlot(slot);
+                                        auction.setWaiting(true);
+                                        auction.setSelected(item);
+                                        player.sendMessage(allShop.PREFIX + ChatColor.LIGHT_PURPLE + "Please enter in chat how much you would like to bid for the "+item.getType().name());
+                                        player.sendMessage(allShop.PREFIX+ChatColor.LIGHT_PURPLE+"Type in chat 'Cancel' to cancel");
+                                        player.closeInventory();
+                                    }
+
+                                }
+                            } else {
+                                event.setCancelled(true);
+                                return;
+                            }
+                        } catch (Exception e) {
+                            if(allShop.DEBUG){
+                                e.printStackTrace();
+                            }
                         }
                     }
+                    event.setCancelled(true);
                 }
-                event.setCancelled(true);
             }
         }
     }
@@ -209,15 +219,15 @@ public class EventManager implements Listener {
                 shop.setCurrentPage(shop.getCurrentPage() + 1);
                 shop.refresh();
                 shop.getPlayer().updateInventory();
-                return true;
             }
+            return true;
         } else if (slot == 45) {
             if (shop.getCurrentPage() > 1) {
                 shop.setCurrentPage(shop.getCurrentPage() - 1);
                 shop.refresh();
                 shop.getPlayer().updateInventory();
-                return true;
             }
+            return true;
         }
         return false;
     }
@@ -360,40 +370,72 @@ public class EventManager implements Listener {
                                 ex.printStackTrace();
                             } else {
                                 e.getPlayer().sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[4]));
+                                e.setCancelled(true);
                             }
                         }
                     }
                 }
             }
         }
-        for(Shop shop:allShop.openShops){
-            if(shop.isWaiting()){
-                if(e.getPlayer().equals(shop.getPlayer())){
-                    if (e.getMessage().toLowerCase().equals("cancel")) {
-                        allShop.openShops.remove(shop);
-                        e.getPlayer().sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[14]));
-                        e.setCancelled(true);
-                        return;
-                    }
-                    Player player = e.getPlayer();
-                    ItemStack item = shop.getSelected();
-                    ItemStack give = ListingsUtil.removeListingInfo(item, shop.getType());
-                    try{
-                        if (allShop.econ.getBalance(player) > (allShop.data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1)] + ".Price"))*Integer.parseInt(e.getMessage())) {
-                            allShop.econ.withdrawPlayer(player, (allShop.data.getInt(ListingsUtil.getMainKey(shop.getType()) + ListingsUtil.getListings(shop.getType())[((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1)] + ".Price"))*Integer.parseInt(e.getMessage()));
-                            give.setAmount(Integer.parseInt(e.getMessage()));
-                            player.getInventory().addItem(give);
-                            player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getType().name());
-                        } else {
-                            player.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[20]));
+        for (Shop shop : allShop.openShops) {
+            if (shop.isWaiting()) {
+                if (e.getPlayer().equals(shop.getPlayer())) {
+                    if (shop.getType() == ShopType.SERVER_SHOP) {
+                        if (e.getMessage().toLowerCase().equals("cancel")) {
+                            allShop.openShops.remove(shop);
+                            e.getPlayer().sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[14]));
+                            e.setCancelled(true);
+                            return;
                         }
-                        allShop.openShops.remove(shop);
-                        e.setCancelled(true);
-                    } catch (Exception e1){
-                        if(allShop.DEBUG){
-                            e1.printStackTrace();
+                        Player player = e.getPlayer();
+                        ItemStack item = shop.getSelected();
+                        ItemStack give = ListingsUtil.removeListingInfo(item, shop.getType());
+                        int index = (((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1));
+                        try {
+                            if (allShop.econ.getBalance(player) > (ListingsUtil.getListingPrice(index,shop.getType())) * Integer.parseInt(e.getMessage())) {
+                                allShop.econ.withdrawPlayer(player, (ListingsUtil.getListingPrice(index,shop.getType())) * Integer.parseInt(e.getMessage()));
+                                give.setAmount(Integer.parseInt(e.getMessage()));
+                                player.getInventory().addItem(give);
+                                player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have purchased [" + item.getAmount() + "] " + item.getType().name());
+                            } else {
+                                player.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[20]));
+                                e.setCancelled(true);
+                            }
+                            allShop.openShops.remove(shop);
+                            e.setCancelled(true);
+                        } catch (Exception e1) {
+                            if (allShop.DEBUG) {
+                                e1.printStackTrace();
+                            }
+                            player.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[4]));
                         }
-                        player.sendMessage(allShop.PREFIX+ColorUtils.format(allShop.customMessages[4]));
+                    } else if(shop.getType()==ShopType.AUCTION_HOUSE){
+                        if (e.getMessage().toLowerCase().equals("cancel")) {
+                            allShop.openShops.remove(shop);
+                            e.getPlayer().sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[14]));
+                            e.setCancelled(true);
+                            return;
+                        }
+                        Player player = e.getPlayer();
+                        int index = (((shop.getCurrentPage() - 1) * 45) + (shop.getStoredSlot() + 1));
+                        try{
+                            if(Integer.parseInt(e.getMessage())>ListingsUtil.getCurrentBid(index)){
+                                if(Integer.parseInt(e.getMessage())<=allShop.econ.getBalance(player)) {
+                                    player.sendMessage(allShop.PREFIX + ChatColor.GREEN + "You have bid " + Integer.parseInt(e.getMessage()) + " for the " + shop.getSelected().getType().name());
+                                    allShop.data.set("auction." + ListingsUtil.getListings(ShopType.AUCTION_HOUSE)[index] + ".Bid", Integer.parseInt(e.getMessage()));
+                                    allShop.data.set("auction." + ListingsUtil.getListings(ShopType.AUCTION_HOUSE)[index] + ".Bidder", String.valueOf(player.getUniqueId()));
+                                    allShop.openShops.remove(shop);
+                                } else {
+                                    player.sendMessage(allShop.PREFIX+ChatColor.RED+"You do not have enough money for this!");
+                                }
+                            } else {
+                                player.sendMessage(allShop.PREFIX+ColorUtils.format(allShop.customMessages[35]));
+                            }
+                            e.setCancelled(true);
+                        } catch (Exception error){
+                            player.sendMessage(allShop.PREFIX+ColorUtils.format(allShop.customMessages[34]));
+                            e.setCancelled(true);
+                        }
                     }
                 }
             }
@@ -449,7 +491,7 @@ public class EventManager implements Listener {
 
     @EventHandler
     public void digitalShopClosed(InventoryCloseEvent event){
-        if(event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[31]))||event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[30]))||event.getView().getTitle().equals("Auctions")){
+        if(event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[31]))||event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[30]))||event.getView().getTitle().equals(ColorUtils.format(allShop.customMessages[33]))){
             for(Shop shop : allShop.openShops){
                 if(!shop.isWaiting()) {
                     if (shop.getPlayer().equals(event.getPlayer())) {

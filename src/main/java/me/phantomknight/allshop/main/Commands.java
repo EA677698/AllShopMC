@@ -30,7 +30,7 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[0]));
                     } else {
                         if(args[0].equalsIgnoreCase("version")){
-                            sender.sendMessage(allShop.PREFIX+"You are using version 1.2.1");
+                            sender.sendMessage(allShop.PREFIX+"You are using version 1.3.0");
                         } else {
                             sender.sendMessage(allShop.PREFIX+ChatColor.RED+"Unknown command!");
                         }
@@ -81,6 +81,18 @@ public class Commands implements CommandExecutor {
                     if (allShop.AUCTIONS_ENABLED) {
                         if (args.length > 0 && args[0].equalsIgnoreCase("bid")) {
                             ListingsUtil.createListing(ShopType.AUCTION_HOUSE, sender, args);
+                        } else if(args.length>0&&args[0].equals("remove")){
+                            if (args.length > 1) {
+                                boolean item;
+                                if(args.length==3){
+                                    item = Boolean.parseBoolean(args[2]);
+                                } else {
+                                    item = true;
+                                }
+                                ListingsUtil.removeListing((Player) sender, ShopType.AUCTION_HOUSE, args[1], item, sender.hasPermission("allShop.admin"));
+                            } else {
+                                sender.sendMessage(allShop.PREFIX + ColorUtils.format(allShop.customMessages[1]));
+                            }
                         } else {
                             allShop.openShops.add(new Shop(allShop,(Player) sender, ShopType.AUCTION_HOUSE));
                         }

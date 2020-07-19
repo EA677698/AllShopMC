@@ -1,6 +1,7 @@
 package me.phantomknight.allshop.utils;
 
 import me.phantomknight.allshop.gshops.ShopType;
+import org.bukkit.Bukkit;
 
 
 public class PlaceHolderUtil {
@@ -40,12 +41,23 @@ public class PlaceHolderUtil {
             finds++;
         }
         if(message.contains("%UUID%")){
-            message = message.replace("%UUID%",ListingsUtil.getSellerUUID(index, type));
+            message = message.replace("%UUID%",ListingsUtil.getSellerUUID(index, type).toString());
             finds++;
         }
         if(message.contains("%expires%")){
             message = message.replace("%expires%",ListingsUtil.timeUntilExpiration(type, index));
             finds++;
+        }
+        if(message.contains("%minBid%")){
+            message = message.replace("%minBid%",String.valueOf(ListingsUtil.getMinBid(index)));
+            finds++;
+        }
+        if(message.contains("%bid%")){
+            message = message.replace("%bid%", String.valueOf(ListingsUtil.getCurrentBid(index)));
+            finds++;
+        }
+        if(message.contains("%bidder%")){
+            message = message.replace("%bidder%", Bukkit.getPlayer(ListingsUtil.getCurrentBidder(index)).getPlayer().getName());
         }
         if(finds>0){
             return format(message, index, type);

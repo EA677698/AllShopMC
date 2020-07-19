@@ -31,7 +31,7 @@ public class Shop {
         if(type==ShopType.PLAYER_SHOP){
             inv = Bukkit.createInventory(null,54, ColorUtils.format(allShop.customMessages[31]));
         } else if(type==ShopType.AUCTION_HOUSE) {
-            inv = Bukkit.createInventory(null,54, "Auctions");
+            inv = Bukkit.createInventory(null,54, ColorUtils.format(allShop.customMessages[33]));
         } else {
             inv = Bukkit.createInventory(null, 54, ColorUtils.format(allShop.customMessages[30]));
         }

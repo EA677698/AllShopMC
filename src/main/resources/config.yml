@@ -3,6 +3,8 @@
 player-shop-enabled: true
 # If there is a server shop
 server-shop-enabled: true
+#If auctions are enabled
+auctions-enabled: true
 # If player trading is enabled
 trading-enabled: true
 # If players can use and make chest shops
