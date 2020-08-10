@@ -106,16 +106,6 @@ public class EventManager implements Listener {
                         if(!blockOptionsPickUp(shop,event,slot)) {
                             if (event.getClickedInventory().getItem(slot) != null) {
                                 int index = (((shop.getCurrentPage() - 1) * 45) + (slot + 1));
-                                if (allShop.DEBUG) {
-                                    System.out.println(allShop.PREFIX+"ITEMS BLOCK SECTION");
-                                    System.out.println(allShop.PREFIX + ListingsUtil.getMainKey(shop.getType()));
-                                    System.out.println(allShop.PREFIX + shop.getType());
-                                    System.out.println(allShop.PREFIX + ListingsUtil.getListings(shop.getType()).length);
-                                    System.out.println(allShop.PREFIX + ListingsUtil.getListings(shop.getType())[index]);
-                                    System.out.println(allShop.PREFIX + "ID: " + index);
-                                    System.out.println(allShop.PREFIX + shop.getCurrentPage());
-                                    System.out.println(allShop.PREFIX + slot);
-                                }
                                 if (allShop.econ.getBalance(player) > ListingsUtil.getListingPrice(index, shop.getType())) {
                                     ItemStack item = event.getCurrentItem();
                                     if (shop.getType() == ShopType.SERVER_SHOP) {
@@ -177,12 +167,6 @@ public class EventManager implements Listener {
                             if(!blockOptionsPickUp(auction,event,slot)) {
                                 if (event.getClickedInventory().getItem(slot) != null) {
                                     int index = (((auction.getCurrentPage() - 1) * 45) + (slot + 1));
-                                    if (allShop.DEBUG) {
-                                        System.out.println(allShop.PREFIX+"AUCTIONS ITEM BLOCK SECTION");
-                                        System.out.println(ListingsUtil.getMainKey(auction.getType()));
-                                        System.out.println(auction.getType());
-                                        System.out.println(ListingsUtil.getListings(auction.getType())[index]);
-                                    }
                                     if(allShop.econ.getBalance(player)>ListingsUtil.getCurrentBid(index)){
                                         ItemStack item = ListingsUtil.getListingItem(index,auction.getType());
                                         auction.setStoredSlot(slot);

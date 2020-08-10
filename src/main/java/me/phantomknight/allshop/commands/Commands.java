@@ -1,8 +1,9 @@
-package me.phantomknight.allshop.main;
+package me.phantomknight.allshop.commands;
 
 import me.phantomknight.allshop.gshops.Shop;
 import me.phantomknight.allshop.gshops.ShopType;
 import me.phantomknight.allshop.gshops.Trades;
+import me.phantomknight.allshop.main.AllShop;
 import me.phantomknight.allshop.utils.ColorUtils;
 import me.phantomknight.allshop.utils.ListingsUtil;
 import org.bukkit.Bukkit;
