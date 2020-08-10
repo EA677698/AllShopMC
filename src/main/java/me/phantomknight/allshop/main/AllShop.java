@@ -1,6 +1,7 @@
 package me.phantomknight.allshop.main;
 
 import me.phantomknight.allshop.Metrics;
+import me.phantomknight.allshop.commands.Commands;
 import me.phantomknight.allshop.gshops.Shop;
 import me.phantomknight.allshop.gshops.Trades;
 import me.phantomknight.allshop.pshops.ChestShops;
@@ -14,11 +15,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Logger;
 
 public final class AllShop extends JavaPlugin {
 
-    private final Logger log = Logger.getLogger("Minecraft");
     public Economy econ = null;
     public FileConfiguration config,data,messages;
     public final CopyOnWriteArrayList<Shop> openShops = new CopyOnWriteArrayList<>();
@@ -40,7 +39,7 @@ public final class AllShop extends JavaPlugin {
     public void onEnable() {
         instance = this;
         if (!setupEconomy() ) {
-            log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -131,7 +130,7 @@ public final class AllShop extends JavaPlugin {
     public void onDisable() {
         stop = true;
         data = YamlConfiguration.loadConfiguration(new File(folder, "data.yml"));
-        log.info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
+        getLogger().info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
 //        if(mysql){
 //            try {
 //                if (connection!=null && !connection.isClosed()){
