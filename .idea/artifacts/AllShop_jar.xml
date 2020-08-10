@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="AllShop:jar">
+    <output-path>$PROJECT_DIR$/../rank plugin tests/plugins</output-path>
+    <root id="archive" name="AllShop.jar">
+      <element id="module-output" name="AllShop" />
+    </root>
+  </artifact>
+</component>

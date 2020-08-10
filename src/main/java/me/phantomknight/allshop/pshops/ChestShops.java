@@ -58,6 +58,7 @@ public class ChestShops {
 
     }
 
+    @SuppressWarnings("deprecation")
     public void processInformation() {
         boolean serverStore = seller.equals(ChatColor.RED+"Server");
         try {

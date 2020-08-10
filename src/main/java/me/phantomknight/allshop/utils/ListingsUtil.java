@@ -16,7 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ListingsUtil {
@@ -34,18 +37,18 @@ public class ListingsUtil {
                 if (AllShop.instance.config.getInt("days-before-removal") != 0&&isListingExpired(type, i)) {
                     Player player;
                     if (type == ShopType.PLAYER_SHOP) {
-                        player = Bukkit.getOfflinePlayer(Objects.requireNonNull(getSellerUUID(i, type))).getPlayer();
-                        Objects.requireNonNull(player).getInventory().addItem(getListingItem(i, type));
+                        player = Bukkit.getOfflinePlayer(getSellerUUID(i, type)).getPlayer();
+                        player.getInventory().addItem(getListingItem(i, type));
                         if (player.isOnline()) {
                             player.sendMessage(AllShop.instance.PREFIX + ChatColor.GREEN + "Your item has been returned");
                         }
                     } else {
                         player = Bukkit.getOfflinePlayer(getCurrentBidder(i)).getPlayer();
-                        Objects.requireNonNull(player).getInventory().addItem(getListingItem(i, type));
+                        player.getInventory().addItem(getListingItem(i, type));
                         AllShop.instance.econ.withdrawPlayer(player, getCurrentBid(i));
-                        AllShop.instance.econ.depositPlayer(Bukkit.getOfflinePlayer(Objects.requireNonNull(getSellerUUID(i, type))), getCurrentBid(i));
+                        AllShop.instance.econ.depositPlayer(Bukkit.getOfflinePlayer(getSellerUUID(i, type)), getCurrentBid(i));
                         if (player.isOnline()) {
-                            if(player.equals(Bukkit.getOfflinePlayer(Objects.requireNonNull(getSellerUUID(i, type))).getPlayer())){
+                            if(player.equals(Bukkit.getOfflinePlayer(getSellerUUID(i,type)).getPlayer())){
                                 player.sendMessage(AllShop.instance.PREFIX+ChatColor.GREEN+"Your item has been returned");
                             } else {
                                 player.sendMessage(AllShop.instance.PREFIX + ChatColor.GREEN + "You have successfully won an auction!");
@@ -63,6 +66,11 @@ public class ListingsUtil {
             AllShop.instance.loadData();
         }
         Object[] listings = getListings(type);
+        if (AllShop.instance.DEBUG) {
+            System.out.println(AllShop.instance.PREFIX + "LOAD LISTINGS SECTION");
+            System.out.println(AllShop.instance.PREFIX + "ShopType: " + type);
+            System.out.println(AllShop.instance.PREFIX + "Listings size: " + (listings.length - 1));
+        }
         int page = 1;
         int item = 0;
         for (int index = 1; index < listings.length; index++) {
@@ -70,13 +78,21 @@ public class ListingsUtil {
                 page++;
                 item = 0;
             }
+            if (AllShop.instance.DEBUG) {
+                System.out.println(AllShop.instance.PREFIX + "Listings size: " + getListings(type).length);
+                System.out.println(AllShop.instance.PREFIX + "Available Pages: " + shop.getPages().size());
+                System.out.println(AllShop.instance.PREFIX + "Page: " + page);
+                System.out.println(AllShop.instance.PREFIX + "item: " + item);
+                System.out.println(AllShop.instance.PREFIX + "index: " + index);
+
+            }
             shop.getPage(page)[item] = addListingInfo(getListingItem(index, type), index, type);
             item++;
         }
     }
 
     public static boolean isListingExpired(ShopType type, int index) {
-        return LocalDateTime.now().isAfter(LocalDateTime.parse(Objects.requireNonNull(getListingDate(index, type))).plusDays(AllShop.instance.config.getInt("days-before-removal")));
+        return LocalDateTime.now().isAfter(LocalDateTime.parse(getListingDate(index, type)).plusDays(AllShop.instance.config.getInt("days-before-removal")));
     }
 
     public static String timeUntilExpiration(ShopType type, int index) {
@@ -85,7 +101,7 @@ public class ListingsUtil {
                 return "never";
             }
             Duration duration = Duration.between(LocalDateTime.now()
-                    , LocalDateTime.parse(Objects.requireNonNull(getListingDate(index, type))).plusDays(AllShop.instance.config.getInt("days-before-removal")));
+                    , LocalDateTime.parse(getListingDate(index, type)).plusDays(AllShop.instance.config.getInt("days-before-removal")));
             long seconds = duration.getSeconds();
             long absSeconds = Math.abs(seconds);
             String positive = String.format(
@@ -108,8 +124,8 @@ public class ListingsUtil {
 
     public static ItemStack removeListingInfo(ItemStack item, ShopType type) {
         ItemMeta meta = item.getItemMeta();
-        if (Objects.requireNonNull(meta).getLore() != null) {
-            CopyOnWriteArrayList<String> lore = new CopyOnWriteArrayList<>(Objects.requireNonNull(meta.getLore()));
+        if (meta.getLore() != null) {
+            CopyOnWriteArrayList<String> lore = new CopyOnWriteArrayList<>(meta.getLore());
             int indexes;
             switch (type) {
                 case SERVER_SHOP:
@@ -156,9 +172,9 @@ public class ListingsUtil {
             }
             if (located) {
                 if (!admin) {
-                    if (Objects.requireNonNull(getSellerName(index, type)).equals(player.getName())) {
+                    if (getSellerName(index, type).equals(player.getName())) {
                         if (returnItem) {
-                            Objects.requireNonNull(Bukkit.getOfflinePlayer(Objects.requireNonNull(getSellerUUID(index, type))).getPlayer()).getInventory().addItem(removeListingInfo(getListingItem(index, type), type));
+                            Bukkit.getOfflinePlayer(getSellerUUID(index, type)).getPlayer().getInventory().addItem(removeListingInfo(getListingItem(index, type), type));
                         }
                         AllShop.instance.data.set(getMainKey(type) + id, null);
                         try {
@@ -173,7 +189,7 @@ public class ListingsUtil {
                     }
                 } else {
                     if (returnItem) {
-                        Objects.requireNonNull(Bukkit.getOfflinePlayer(Objects.requireNonNull(getSellerUUID(index, type))).getPlayer()).getInventory().addItem(removeListingInfo(getListingItem(index, type), type));
+                        Bukkit.getOfflinePlayer(getSellerUUID(index, type)).getPlayer().getInventory().addItem(removeListingInfo(getListingItem(index, type), type));
                     }
                     AllShop.instance.data.set(getMainKey(type) + id, null);
                     try {
@@ -203,7 +219,7 @@ public class ListingsUtil {
                     if (AllShop.instance.data.getString(getMainKey(type) + getListings(type)[i] + ".Name") == null) {
                         continue;
                     }
-                    if (Objects.requireNonNull(AllShop.instance.data.getString(getMainKey(type) + getListings(type)[i] + ".Name")).equals(sender.getName())) {
+                    if (AllShop.instance.data.getString(getMainKey(type) + getListings(type)[i] + ".Name").equals(sender.getName())) {
                         count++;
                     }
                 }
@@ -243,7 +259,7 @@ public class ListingsUtil {
                     ItemStack item = player.getInventory().getItemInMainHand();
                     String name;
                     if (item.hasItemMeta()) {
-                        name = Objects.requireNonNull(item.getItemMeta()).getDisplayName();
+                        name = item.getItemMeta().getDisplayName();
                     } else {
                         name = item.getType().name();
                     }
@@ -294,15 +310,15 @@ public class ListingsUtil {
                 addOnLore = AllShop.instance.market;
                 break;
         }
-        if (Objects.requireNonNull(meta).hasLore()) {
+        if (meta.hasLore()) {
             lore = meta.getLore();
         } else {
             lore = new ArrayList<>();
         }
         int count = 0;
         for (String message : addOnLore) {
-            for (String line : Objects.requireNonNull(lore)) {
-                if (message.equals(line)) {
+            for (String line : lore) {
+                if (line.equals(message)) {
                     count++;
                 }
             }
@@ -321,7 +337,7 @@ public class ListingsUtil {
         final ItemMeta meta = item.getItemMeta();
 
         // Set the name of the item
-        Objects.requireNonNull(meta).setDisplayName(name);
+        meta.setDisplayName(name);
 
         // Set the lore of the item
         meta.setLore(Arrays.asList(lore));
@@ -337,7 +353,7 @@ public class ListingsUtil {
     }
 
     public static ItemStack getListingItem(int index, ShopType type) {
-        return Objects.requireNonNull(AllShop.instance.data.getItemStack(getMainKey(type) + getListings(type)[index] + ".Items")).clone();
+        return AllShop.instance.data.getItemStack(getMainKey(type) + getListings(type)[index] + ".Items").clone();
     }
 
     public static String getSellerName(int index, ShopType type) {
@@ -349,7 +365,7 @@ public class ListingsUtil {
 
     public static UUID getSellerUUID(int index, ShopType type) {
         if (type != ShopType.SERVER_SHOP) {
-            return UUID.fromString(Objects.requireNonNull(AllShop.instance.data.getString(getMainKey(type) + getListings(type)[index] + ".UUID")));
+            return UUID.fromString(AllShop.instance.data.getString(getMainKey(type) + getListings(type)[index] + ".UUID"));
         }
         return null;
     }
@@ -377,7 +393,7 @@ public class ListingsUtil {
     }
 
     public static UUID getCurrentBidder(int index) {
-        return UUID.fromString(Objects.requireNonNull(AllShop.instance.data.getString("auction." + AllShop.instance.auctionListings[index] + ".Bidder")));
+        return UUID.fromString(AllShop.instance.data.getString("auction." + AllShop.instance.auctionListings[index] + ".Bidder"));
     }
 
     public static String getMainKey(ShopType type) {
