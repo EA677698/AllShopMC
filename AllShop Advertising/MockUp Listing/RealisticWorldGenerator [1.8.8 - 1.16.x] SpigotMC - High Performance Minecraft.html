@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html id="XenForo" lang="en-US" dir="LTR" class="Public NoJs uix_javascriptNeedsInit LoggedIn Sidebar  Responsive pageIsLtr   hasTabLinks  hasSearch   is-sidebarOpen hasRightSidebar is-setWidth navStyle_0 pageStyle_1 hasFlexbox" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="https://www.spigotmc.org/" />
+<script>
+			var _b = document.getElementsByTagName('base')[0], _bH = "https://www.spigotmc.org/";
+			if (_b && _b.href != _bH) _b.href = _bH;
+		</script>
+<title>RealisticWorldGenerator [1.8.8 - 1.16.x] | SpigotMC - High Performance Minecraft</title>
+<noscript><style>.JsOnly, .jsOnly { display: none !important; }</style></noscript>
+<link rel="stylesheet" href="css.php?css=xenforo,form,public&amp;style=16&amp;dir=LTR&amp;d=1593870679" />
+<link rel="stylesheet" href="css.php?css=bb_code,dark_postrating,likes_summary,message_simple,moderator_bar,nat_public_css,rating,resource_review,resource_update,resource_view,resource_view_header,resource_view_tabs&amp;style=16&amp;dir=LTR&amp;d=1593870679" />
+<link rel="stylesheet" href="css.php?css=uix,spigot&amp;style=16&amp;dir=LTR&amp;d=1593870679" />
+<style>
+	/*** UIX -- PER USER STYLES ***/
+
+	
+
+	
+
+
+	
+
+</style>
+<link rel="stylesheet" href="css.php?css=EXTRA&amp;style=16&amp;dir=LTR&amp;d=1593870679" />
+<style>
+/* Node Styling */
+
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-35672664-3"></script>
+<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+	
+		gtag('config', 'UA-35672664-3', {
+			// <!-- slot: ga_config_start -->
+			
+			
+		});
+
+		ga('set', 'metric1', 'true');
+	</script>
+<link href="//static.spigotmc.org/styles/spigot/uix/css/font-awesome.min.css" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700|Ubuntu:400,700' rel='stylesheet' type='text/css'>
+<script src="//static.spigotmc.org/js/jquery/jquery-1.11.0.min.js"></script>
+<script src="//static.spigotmc.org/js/xenforo/xenforo.js?_v=4c0dbdc6"></script>
+<!--[if lt IE 9]>
+	
+		 
+        	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+	        
+	        <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+	        
+	        <script src="//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>
+	
+
+<![endif]-->
+<script>
+	uix = {
+		elm: {},
+		fn:{},
+		init: function(){
+			if (uix.betaMode) {
+				console.group('uix.%cinit()', 'color:#3498DB');
+			}
+			for(var x=0;x<uix.events.init.length;x++){
+				uix.events.init[x]()
+		  	}
+		  	console.groupEnd('uix.%cinit()','color:#3498DB')
+		},
+	  	events: {init:[]},
+	  	on: function(event, fn){
+	  		if(event=='init'){
+	  			uix.events.init.push(fn)
+	  		}
+	  	},
+
+		betaMode				: parseInt('0'),
+		jsPathUsed				: 'uix_style',
+		jsGlobal				: parseInt('0'),
+
+
+	  	version					: '1.5.22.0',
+	  	jsHeadVersion				: '1.5.16.0a',
+	  	addonVersion				: '1010270',
+	  	jsCacheBust				: '1',
+	  	contentTemplate				: 'resource_description',
+
+		javascriptInitHide			: parseInt('1'),
+		globalPadding 				: parseInt('16px'),
+		sidebarWidth				: parseInt('250px'),
+		mainContainerMargin  	        	: '266px',
+		maxResponsiveWideWidth   		: parseInt('800px'),
+		maxResponsiveMediumWidth 		: parseInt('610px'),
+		maxResponsiveNarrowWidth 		: parseInt('480px'),
+		sidebarMaxResponsiveWidth		: parseInt('800px'),
+		
+			responsiveMessageBreakpoint		: parseInt('610px'),
+		
+		sidebarMaxResponsiveWidthStr		: '800px',
+
+		
+			offCanvasRightTriggerWidth	: parseInt('800px'),
+		
+
+		
+			offCanvasLeftTriggerWidth	: parseInt('800px'),
+		
+
+		
+			
+				offCanvasNavTriggerWidth	: parseInt('800px'),
+			
+		
+		
+			
+				offCanvasVisitorTriggerWidth	: parseInt('800px'),
+			
+		
+
+		offcanvasTriggerAnimationDuration	: parseInt('300ms'),
+
+
+
+
+		dropdownMenuAnimationSpeed		: parseInt('0ms'),
+		inlineAlertBalloons			: (parseInt('1') && !parseInt('1')) || parseInt('1'),
+
+		jumpToFixedDelayHide			: parseInt('1'),
+
+		stickyNavigationMinWidth 		: parseInt('0'),
+		stickyNavigationMinHeight		: parseInt('600'),
+		stickyNavigationMaxWidth 		: parseInt('0'),
+		stickyNavigationMaxHeight		: parseInt('0'),
+		stickyNavigationPortraitMinWidth 	: parseInt('320'),
+		stickyNavigationPortraitMinHeight	: parseInt('500'),
+		stickyNavigationPortraitMaxWidth 	: parseInt('0'),
+		stickyNavigationPortraitMaxHeight	: parseInt('0'),
+		stickySidebar 				: 0,
+		
+			sidebarInnerFloat		: "right",
+		
+		RTL					: 0,
+		stickyItems 				: {},
+		stickyGlobalMinimumPosition		: parseInt('200px'),
+		stickyGlobalScrollUp			: parseInt('0'),
+		stickyDisableIOSThirdParty		: parseInt('1'),
+		preventAlwaysSticky			: parseInt('0'),
+
+		searchMinimalSize			: parseInt('610px'),
+
+		searchPosition				: parseInt('0'),
+
+		nodeStyle				: parseInt('0'),
+		pageStyle				: parseInt('1'),
+
+		enableBorderCheck			: parseInt('0'),
+		enableULManager				: parseInt('0'),
+
+		threadSlidingAvatar			: parseInt('0'),
+		threadSlidingExtra			: parseInt('0'),
+		threadSlidingHover			: parseInt('0'),
+		threadSlidingStaffShow			: parseInt('0'),
+		threadSlidingGlobalEnable		: parseInt('1'),
+
+		signatureHidingEnabled			: parseInt('0'),
+		signatureHidingEnabledAddon		: parseInt('1'),
+		signatureMaxHeight			: parseInt('150px'),
+		signatureHoverEnabled			: parseInt('0'),
+
+		enableStickyFooter 			: parseInt('1'),
+		stickyFooterBottomOffset 		: parseInt('16px') * 2,
+
+		
+			sidebarStickyBottomOffset	: parseInt(0),
+		
+
+	  	
+			offCanvasSidebar			: 1,
+
+			
+				offCanvasSidebarVisitorTabs		: 1,
+			
+
+		
+
+		offcanvasLeftStatic			: 1 && parseInt('0') && parseInt('1'),
+		offcanvasRightStatic			: 1 && parseInt('0') && parseInt('1'),
+		offcanvasLeftStaticBreakpoint		: parseInt('1300px'),
+		offcanvasRightStaticBreakpoint		: parseInt('1300px'),
+
+		reinsertWelcomeBlock			: parseInt('0'),
+
+		sidebarCookieExpire			: '',
+		canCollapseSidebar			: '',
+
+		cookiePrefix				: 'xf_',
+		sidebarLocation 			: parseInt('0'),
+
+		collapsibleSidebar			: parseInt('0'),
+		collapsedNodesDefault			: '',
+		nodeGridCollapseEnabled			: parseInt('1'),			
+		widthToggleUpper			: '100%',
+		widthToggleLower			: '1170px',
+		
+			toggleWidthEnabled		: parseInt('0'),
+		
+		toggleWidthBreakpoint			: parseInt('1202'),
+		collapsibleNodes			: parseInt('1'),
+		collapsibleSticky			: parseInt('0'),
+		ajaxWidthToggleLink			: 'uix/toggle-width',
+		ajaxStickyThreadToggleLink		: 'uix/toggle-sticky-threads',
+		ajaxStickyThreadExpandLink		: 'uix/expand-sticky-threads',
+		ajaxStickyThreadCollapseLink		: 'uix/collapse-sticky-threads',
+		ajaxSidebarToggleLink			: 'uix/toggle-sidebar',
+
+		stickySidebarDelayInit			: parseInt('1'),
+		stickySidebarLegacy			: parseInt('0'),
+		stickySidebarDisableIOS			: parseInt('1'),
+
+		user					: {
+								'themeName'		: 'SpigotMC',
+								'-themeParents'		: '16,15,0',
+								'-themeModified'	: '1593870679',
+								'-themeSelectable'	: '1',
+								languageName		: 'English (US)',
+								stickyEnableUserbar	: (parseInt('1') == parseInt('1')) ? parseInt('1') : true,
+								stickyEnableNav		: (parseInt('1') == parseInt('1')) ? parseInt('1') : true,
+								stickyEnableSidebar	: (parseInt('1') == parseInt('1')) ? parseInt('1') : true,
+								widthToggleState	: (parseInt('0') == parseInt('0')) ? parseInt('0') : parseInt('0'),
+								stickyThreadsState	: (parseInt('') == parseInt('')) ? (parseInt('') > 0) : 0,
+								
+									sidebarState	: 0,
+								
+								
+									collapseUserInfo : 1,
+								
+								
+									signatureHiding : 1,
+								
+								isAdmin			: parseInt('0"')
+							}
+	};
+
+	if(uix.stickyNavigationMaxWidth == 0){uix.stickyNavigationMaxWidth = 999999}
+	if(uix.stickyNavigationMaxHeight == 0){uix.stickyNavigationMaxHeight = 999999}
+	if(uix.stickyNavigationPortraitMaxWidth == 0){uix.stickyNavigationPortraitMaxWidth = 999999}
+	if(uix.stickyNavigationPortraitMaxHeight == 0){uix.stickyNavigationPortraitMaxHeight = 999999}
+
+	
+
+	
+
+	$(document).ready(function(){
+
+	//put jquery code here
+
+
+});
+
+	uix.debug = function() {
+		result = "\n\n############============   Begin Copying Here   ============############\n\n";
+		result += "Error: the functions file was not found.";
+		result += "\n\n############============   End Copying Here   ============############\n\n";
+
+		uix.fixJsVisibility();
+
+		console.log(result);
+	}
+
+</script>
+<script src="//static.spigotmc.org/js/audentio/uix_style/functions.min.js?_v=4c0dbdc6_1.5.22.0_1"></script>
+<script>
+	uix.adminJsError = function(errMsg) {
+		console.error(errMsg);
+
+		
+	}
+
+	uix.fixJsVisibility = function() {
+		var userBar = $('.hasJs #userBar');
+		var nodeList = $('.hasJs #forums, .hasJs .category_view .nodeList, .hasJs .watch_forums .nodeList');
+		var panels = $('.js-uix_panels')
+		if (userBar.length) userBar.css('display', 'block');
+		if (nodeList.length) nodeList.css('visibility', 'visible');
+		if (panels.length) $('.js-uix_panels').removeClass('needsInit');
+		$('html').removeClass('uix_javascriptNeedsInit');
+	}
+
+	uix.catchJsError = function(err) {
+		console.log("\n\n############============   Begin Copying Here   ============############\n\n")
+		var errMsg = "Uh Oh!  It looks like there's an error in your page's javascript.  There will likely be significant issues with the use of the forum until this is corrected.  If you are unable to resolve this and believe it is due to a bug in your Audentio Design theme, contact Audentio support and include a copy of the text between the designated areas from your javascript console.  This is the error: \n\n" + err ;
+		uix.fixJsVisibility();
+		uix.adminJsError(errMsg);
+		console.log("\n\n");
+		console.log(err);
+		console.log("\n\n");
+		try {
+			uix.debug(true);
+		} catch (err) {
+			console.log("Unable to include uix.debug();");
+		}
+
+		console.log("\n\n############============   End Copying Here   ============############\n\n");
+	}
+
+	$(document).ready(function(){
+		if (typeof(audentio) === 'undefined' || typeof(uix.jsVersion) === 'undefined') {
+			var errMsg = 'Uh Oh!  It looks like the javascript for your theme was not found in /js/audentio/uix_style/.\n\n';
+			if (uix.jsGlobal) {
+				errMsg += 'Your forum is set to use the same javascript directory for all your themes.  Consider disabling this or modifying the directory.  Options are located under Options > [UI.X] General.\n\n'
+			} else {
+				errMsg += 'Your theme has set the location of its javascript directory.  You may need to modify the javascript directory location style property located under [UI.X] Global Settings > Javascript Path.\n\n'
+			}
+			errMsg += 'If your files are in the directory specified, ensure that your file permissions allow them to be read.  There will likely be significant issues with the use of the forum until this is corrected.  If you are unable to resolve this, contact Audentio support.  This error has also been logged to the javascript console.';
+
+			uix.fixJsVisibility();
+
+			uix.adminJsError(errMsg);
+		} else if (uix.jsHeadVersion.split('_')[0] != uix.jsVersion.split('_')[0]) {
+			var errMsg = 'Uh Oh! It looks like the version of your javascript functions file does not match the version of your page_container_js_head template.  \n\nYour javascript functions file is version "' + uix.jsVersion + '". \nYour page_container_js_head is version "' + uix.jsHeadVersion + '".  \n\nIf your functions file version number is higher, ensure that you have merged all templates (especially page_container_js_head).  If your page_container_js_head version number is higher, ensure that you have correctly uploaded the latest version of the javascript functions file and that you have cleared anything that could cache an old version of the javascript (CDN / Cloudflare / etc.). \n\nThis issue could cause parts of your forum to not display or function correctly.  If this does not resolve the issue contact Audentio support.  This error has also been logged to the javascript console.';
+			
+			uix.fixJsVisibility();
+			
+			uix.adminJsError(errMsg);
+		}
+	});
+</script>
+<script>
+	try {
+		uix.dateHelper.phrase = {
+			now: 'now',
+			second: 's',
+			minute: 'm',
+			hour: 'h',
+			day: 'd',
+			week: 'w',
+			year: 'y',
+			century: 'c',
+			ago: '{time} ago',
+			future: 'in {time}'
+		}
+
+
+		uix.sticky.stickyMinDist = parseInt('50');
+
+		$(document).ready(function(){
+			try {
+				
+				
+
+				uix.initFunc();
+			} catch (err) {
+				uix.catchJsError(err);
+			}
+		});
+	} catch (err) {
+		uix.catchJsError(err);
+	}
+</script>
+<link href="/favicon.ico" rel="icon" type="image/x-icon" />
+<link rel="apple-touch-icon" href="https://static.spigotmc.org/img/spigot-og.png" />
+<link rel="alternate" type="application/rss+xml" title="RSS feed for SpigotMC - High Performance Minecraft" href="forums/-/index.rss" />
+<meta name="description" content="World Generator, Redefined | a fast, high customizable, beautiful world generator." />
+<link rel="canonical" href="https://www.spigotmc.org/resources/realisticworldgenerator-1-8-8-1-16-x.15905/" />
+<meta property="og:site_name" content="SpigotMC - High Performance Minecraft" />
+<meta property="og:image" content="https://static.spigotmc.org/img/spigot-og.png" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.spigotmc.org/resources/realisticworldgenerator-1-8-8-1-16-x.15905/" />
+<meta property="og:title" content="RealisticWorldGenerator [1.8.8 - 1.16.x]" />
+<meta name="theme-color" content="#ed8106">
+<meta name="msapplication-TileColor" content="#ed8106">
+</head>
+<body>
+<div class="js-uix_panels uix_panels ">
+<aside class="js-sidePanelWrapper sidePanelWrapper  sidePanelWrapper--left">
+<a href="#" class="js-panelMask uix_panelMask"></a>
+<div class="sidePanel sidePanel--nav">
+<nav>
+<ul class="sidePanel__navTabs">
+ 
+
+<li class="navTab articles ">
+<a href="https://www.spigotmc.org/" class="navLink">Home</a>
+<a href="https://www.spigotmc.org/" class="SplitCtrl"><i class="uix_icon js-offcanvasIcon uix_icon-expandDropdown"></i></a>
+<div class="tabLinks">
+<ul class="secondaryContent blockLinksList">
+<li><a href="watched/forums">Watched Forums</a></li>
+<li><a href="watched/threads">Watched Threads</a></li>
+<li><a href="find-new/posts" rel="nofollow">New Posts</a></li>
+<li><a href="recent-activity/">Recent Activity</a></li>
+<li style="width: 50px; height: 10px;"></li>
+</ul>
+</div>
+</li>
+
+<li class="navTab forums ">
+<a href="https://www.spigotmc.org/forums/" class="navLink">Forums</a>
+<a href="https://www.spigotmc.org/forums/" class="SplitCtrl"><i class="uix_icon js-offcanvasIcon uix_icon-expandDropdown"></i></a>
+<div class="tabLinks">
+<ul class="secondaryContent blockLinksList">
+<li><a href="forums/-/mark-read" class="OverlayTrigger">Mark Forums Read</a></li>
+<li><a href="search/?type=post">Search Forums</a></li>
+<li><a href="watched/forums">Watched Forums</a></li>
+<li><a href="watched/threads">Watched Threads</a></li>
+<li><a href="find-new/posts" rel="nofollow">New Posts</a></li>
+</ul>
+</div>
+</li>
+
+<li class="navTab resources selected">
+<a href="https://www.spigotmc.org/resources/" class="navLink">Resources</a>
+<a href="https://www.spigotmc.org/resources/" class="SplitCtrl"><i class="uix_icon js-offcanvasIcon uix_icon-expandDropdown"></i></a>
+<div class="tabLinks">
+<ul class="secondaryContent blockLinksList">
+<li><a href="search/?type=resource_update">Search Resources</a></li>
+<li><a href="resources/authors">Most Resources</a></li>
+<li><a href="resources/reviews">Latest Reviews</a></li>
+<li><a href="resources/authors/phantomknight.195725/">Your Resources</a></li>
+<li><a href="resources/watched-categories">Watched Categories</a></li>
+<li><a href="resources/watched">Watched Resources</a></li>
+<li><a href="resources/purchased">Purchased Resources</a></li>
+</ul>
+</div>
+</li>
+<li class="navTab wiki ">
+<a href="https://www.spigotmc.org/wiki/" class="navLink">Wiki</a>
+<a href="https://www.spigotmc.org/wiki/" class="SplitCtrl"><i class="uix_icon js-offcanvasIcon uix_icon-expandDropdown"></i></a>
+<div class="tabLinks">
+<ul class="secondaryContent blockLinksList">
+<li><a href="wiki/">Wiki Index</a></li>
+<li><a href="wiki/special/pages">Page List</a></li>
+<li><a href="wiki/special/recent">Recent Activity</a></li>
+<li><a href="wiki/special/create">Create New Page</a></li>
+</ul>
+</div>
+</li>
+<li class="navTab xfx_staff ">
+<a href="XenStaff/" class="navLink">Team</a>
+<a href="XenStaff/" class="SplitCtrl"><i class="uix_icon js-offcanvasIcon uix_icon-expandDropdown"></i></a>
+<div class="tabLinks">
+<ul class="secondaryContent blockLinksList">
+<li><a href="XenStaff/#Administrator">Administrator</a></li>
+<li><a href="XenStaff/#Moderator">Moderator</a></li>
+<li><a href="XenStaff/#Sponsor">Sponsor</a></li>
+ <li><a href="XenStaff/#Developer">Developer</a></li>
+<li><a href="XenStaff/#Wiki Team">Wiki Team</a></li>
+<li><a href="XenStaff/#Services Staff">Services Staff</a></li>
+<li><a href="XenStaff/#Junior Mod">Junior Mod</a></li>
+<li><a href="XenStaff/#Resource Staff">Resource Staff</a></li>
+<li><a href="XenStaff/#IRC Staff">IRC Staff</a></li>
+</ul>
+</div>
+</li>
+<li class="navTab nodetab31 ">
+<a href="https://www.spigotmc.org/link-forums/downloads.31/" class="navLink">Downloads</a>
+<a href="https://www.spigotmc.org/link-forums/downloads.31/" class="SplitCtrl"><i class="uix_icon js-offcanvasIcon uix_icon-expandDropdown"></i></a>
+<div class="tabLinks">
+<ul class="secondaryContent blockLinksList">
+<li class="natMenuLevel0">
+<a href="link-forums/spigot-buildtools.88/">Spigot / BuildTools</a>
+</li>
+<li class="natMenuLevel0">
+<a href="link-forums/bungeecord.28/">BungeeCord</a>
+</li>
+<li class="natMenuLevel0">
+<a href="link-forums/jenkins.29/">Jenkins</a>
+</li>
+</ul>
+</div>
+</li>
+<li class="navTab nodetab95 ">
+<a href="https://www.spigotmc.org/link-forums/discord.95/" class="navLink">Discord</a>
+</li>
+<li class="navTab nodetab75 ">
+<a href="https://www.spigotmc.org/link-forums/hub.75/" class="navLink">Hub</a>
+</li>
+<li class="navTab nodetab14 ">
+<a href="https://www.spigotmc.org/link-forums/issues.14/" class="navLink">Issues</a>
+</li>
+<li class="navTab nodetab19 ">
+<a href="https://www.spigotmc.org/pages/irc/" class="navLink">Chat</a>
+</li>
+
+<li class="navTab members ">
+<a href="https://www.spigotmc.org/members/" class="navLink">Members</a>
+<a href="https://www.spigotmc.org/members/" class="SplitCtrl"><i class="uix_icon js-offcanvasIcon uix_icon-expandDropdown"></i></a>
+<div class="tabLinks">
+<ul class="secondaryContent blockLinksList">
+<li><a href="members/">Notable Members</a></li>
+<li><a href="online/">Current Visitors</a></li>
+<li><a href="recent-activity/">Recent Activity</a></li>
+<li><a href="find-new/profile-posts">New Profile Posts</a></li>
+</ul>
+</div>
+</li>
+
+<li class="navTab nodetab44 ">
+<a href="https://www.spigotmc.org/link-forums/donate.44/" class="navLink">Donate</a>
+</li>
+</ul>
+</nav>
+</div>
+</aside>
+<aside class="js-sidePanelWrapper sidePanelWrapper  sidePanelWrapper--right">
+<a href="#" class="js-panelMask uix_panelMask"></a>
+<ul class="sidePanel__tabs">
+<li>
+<a class="sidePanel__tab is-active js-visitorTab"><i class="uix_icon uix_icon-user"></i></a>
+</li>
+<li>
+<a class="sidePanel__tab js-convoTab">
+<i class="uix_icon uix_icon-inbox"></i>
+<strong class="itemCount Zero" id="uix_ConversationsMenu_Counter" data-text="You have %d new unread conversation(s).">
+<span class="Total">0</span>
+</strong>
+</a>
+</li>
+<li>
+<a class="sidePanel__tab js-alertTab">
+<i class="uix_icon uix_icon-alerts"></i>
+<strong class="itemCount Zero" id="uix_AlertsMenu_Counter" data-text="You have %d new alert(s).">
+<span class="Total">0</span>
+</strong>
+</a>
+</li>
+</ul>
+<div class="sidePanel sidePanel--visitor">
+<div class="sidePanel__tabPanels">
+<div class="is-active sidePanel__tabPanel js-visitorTabPanel">
+<div class="section u-largeGutter">
+<div class="section visitorPanel">
+<div class="secondaryContent">
+<a href="members/phantomknight.195725/" class="avatar Av195725m" data-avatarhtml="true"><img src="//static.spigotmc.org/styles/spigot/xenforo/avatars/avatar_male_m.png" width="96" height="96" alt="PhantomKnight" /></a>
+<div class="visitorText">
+<h2><span class="muted">Signed in as</span> <a href="members/phantomknight.195725/" class="username NoOverlay" dir="auto">PhantomKnight</a></h2>
+<div class="stats">
+<dl class="pairsJustified"><dt>Messages:</dt><dd>14</dd></dl>
+<dl class="pairsJustified">
+<dt>Ratings:</dt>
+<dd><span class="dark_postrating_positive">4</span></dd></dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section u-largeGutter">
+<form action="members/phantomknight.195725/post" method="post" class="statusPoster AutoValidator" data-optInOut="OptIn">
+<textarea id="uix_offCanvasStatus" name="message" class="textCtrl StatusEditor UserTagger Elastic" placeholder="Update your status..." rows="1" cols="40" style="height:18px" data-statusEditorCounter="#visMenuSEdCountAlt" data-nofocus="true"></textarea>
+<div class="submitUnit">
+<span id="visMenuSEdCountAlt" title="Characters remaining"></span>
+<input type="submit" class="button primary MenuCloser" value="Post" />
+<input type="hidden" name="_xfToken" value="195725,1593923672,5f446995734919dc8e70f6f9d1e48561252e86c2" />
+<input type="hidden" name="return" value="1" />
+</div>
+</form>
+</div>
+<div class="section">
+<ul class="sidePanel__blockLinksList">
+<li><a href="members/phantomknight.195725/">Your Profile Page</a></li>
+<ul class="col1 blockLinksList">
+<li><a href="account/personal-details">Personal Details</a></li>
+<li><a href="account/signature">Signature</a></li>
+<li><a href="account/contact-details">Contact Details</a></li>
+<li><a href="account/privacy">Privacy</a></li>
+<li><a href="account/preferences" class="OverlayTrigger">Preferences</a></li>
+<li><a href="account/alert-preferences">Alert Preferences</a></li>
+<li><a href="account/avatar" class="OverlayTrigger" data-cacheOverlay="true">Avatar</a></li>
+<li><a href="account/security">Password</a></li>
+</ul>
+<ul class="col2 blockLinksList">
+<li><a href="account/news-feed">Your News Feed</a></li>
+<li><a href="account/ratings-received">Ratings Received</a></li>
+<li><a href="account/ratings-given">Ratings Given</a></li>
+<li><a href="search/member?user_id=195725">Your Content</a></li>
+<li><a href="account/following">People You Follow</a></li>
+<li><a href="account/ignored">People You Ignore</a></li>
+<li><a href="account/two-step">Two-Step Verification</a></li>
+</ul>
+<li><a href="logout/?_xfToken=195725%2C1593923672%2C5f446995734919dc8e70f6f9d1e48561252e86c2" class="LogOut">Log Out</a></li>
+<li>
+<form action="account/toggle-visibility" method="post" class="AutoValidator visibilityForm">
+<label><input type="checkbox" name="visible" value="1" class="SubmitOnChange" checked="checked" />
+Show online status</label>
+<input type="hidden" name="_xfToken" value="195725,1593923672,5f446995734919dc8e70f6f9d1e48561252e86c2" />
+</form>
+</li>
+</ul>
+</div>
+</div>
+<div class="is-right sidePanel__tabPanel js-convoTabPanel">
+<h3 class="sidePanel__textHeading">
+<span class="Progress InProgress"></span>
+<a href="conversations/" class="concealed">Conversations</a>
+</h3>
+<ol class="js-convoPlaceholder sidePanel__mediaObjectList"></ol>
+<div class="section">
+<ul class="sidePanel__blockLinksList">
+<li class="navTab"><a href="conversations/add" class="floatLink navLink">Start a New Conversation</a></li>
+<li class="navTab"><a class="navLink" href="conversations/">Show All...</a></li>
+</ul>
+</div>
+</div>
+<div class="is-right sidePanel__tabPanel js-alertTabPanel">
+<h3 class="sidePanel__textHeading">
+<span class="Progress InProgress"></span>
+<a href="account/alerts" class="concealed">Alerts</a>
+</h3>
+<ol class="js-alertPlaceholder sidePanel__mediaObjectList"></ol>
+<div class="section">
+<ul class="sidePanel__blockLinksList">
+<li><a href="account/alert-preferences">Alert Preferences</a></li>
+<li><a href="account/alerts">Show All...</a></li>
+</ul>
+</div>
+</div>
+</div>
+<script>
+	uix.offcanvas.registerTab({
+		trigger: $('.sidePanel__tabs .js-visitorTab'),
+		target: $('.sidePanel--visitor .js-visitorTabPanel'),
+		init: function() {},
+		view: function() {},
+		group: 'offcanvasVisitor'
+	});
+	uix.offcanvas.registerTab({
+		trigger: $('.sidePanel__tabs .js-convoTab'),
+		target: $('.sidePanel--visitor .js-convoTabPanel'),
+		init: function() {
+			$('.sidePanel--visitor .js-convoPlaceholder').load('conversations/popup #content div:not(.sidebar) .secondaryContent li.listItem');
+		},
+		view: function() {
+			uix.fn.syncBaloon($('#ConversationsMenu_Counter'), $('#uix_ConversationsMenu_Counter'));
+		},
+		group: 'offcanvasVisitor'
+	});
+	uix.offcanvas.registerTab({
+		trigger: $('.sidePanel__tabs .js-alertTab'),
+		target: $('.sidePanel--visitor .js-alertTabPanel'),
+		init: function() {
+			$('.sidePanel--visitor .js-alertPlaceholder').load('account/alerts-popup #content div:not(.sidebar) .secondaryContent li.listItem');
+		},
+		view: function() {
+			var numConvos = 0,
+				convoEle = $('#ConversationsMenu_Counter');
+			if (convoEle.length) {
+				numConvos = parseInt(convoEle.find('span.Total').text());
+			}
+			XenForo.balloonCounterUpdate($('#VisitorExtraMenu_Counter'), numConvos);
+			uix.fn.syncBaloon($('#VisitorExtraMenu_Counter'), $('#uix_VisitorExtraMenu_Counter'));
+			XenForo.balloonCounterUpdate($('#AlertsMenu_Counter'), 0);
+			uix.fn.syncBaloon($('#AlertsMenu_Counter'), $('#uix_AlertsMenu_Counter'));
+		},
+		group: 'offcanvasVisitor'
+	});
+</script>
+</div>
+</aside>
+<div class="mainPanelWrapper">
+<a href="#" class="js-panelMask uix_panelMask"></a>
+<div class="uix_wrapperFix" style="height: 1px; margin-bottom: -1px;"></div>
+<div id="uix_wrapper">
+<div class="uix_wrapperFix" style="height: 1px; margin-bottom: -1px;"></div>
+<div id="headerMover">
+<div id="headerProxy"></div>
+<header>
+<div id="header">
+<div id="userBar" class="header__blockItem  ">
+<div class="sticky_wrapper">
+<div class="pageContent">
+<div class="navTabs">
+<div class="pageWidth">
+<ul class="navRight visitorTabs">
+
+<li class="navTab account Popup PopupControl PopupClosed ">
+<a href="account/" class="navLink uix_dropdownDesktopMenu accountPopup NoPopupGadget" rel="Menu">
+<span class="uix_icon avatar Av195725s"><img src="//static.spigotmc.org/styles/spigot/xenforo/avatars/avatar_male_s.png" alt="" /></span>
+<strong class="accountUsername">PhantomKnight</strong>
+<strong class="itemCount ResponsiveOnly Zero" id="VisitorExtraMenu_Counter">
+<span class="Total">0</span>
+<span class="arrow"></span>
+</strong>
+</a>
+<div class="Menu JsOnly" id="AccountMenu">
+<div class="primaryContent menuHeader">
+<a href="members/phantomknight.195725/" class="avatar Av195725m NoOverlay plainImage" title="View your profile" data-avatarhtml="true"><span class="img m" style="background-image: url('//static.spigotmc.org/styles/spigot/xenforo/avatars/avatar_male_m.png')"></span></a>
+<h3><a href="members/phantomknight.195725/" class="concealed" title="View your profile">PhantomKnight</a></h3>
+<ul class="links">
+<li class="fl"><a href="members/phantomknight.195725/">Your Profile Page</a></li>
+</ul>
+</div>
+<div class="menuColumns secondaryContent">
+<ul class="col1 blockLinksList">
+<li><a href="account/personal-details">Personal Details</a></li>
+<li><a href="account/signature">Signature</a></li>
+<li><a href="account/contact-details">Contact Details</a></li>
+<li><a href="account/privacy">Privacy</a></li>
+<li><a href="account/preferences" class="OverlayTrigger">Preferences</a></li>
+<li><a href="account/alert-preferences">Alert Preferences</a></li>
+<li><a href="account/avatar" class="OverlayTrigger" data-cacheOverlay="true">Avatar</a></li>
+<li><a href="account/security">Password</a></li>
+</ul>
+<ul class="col2 blockLinksList">
+<li><a href="account/news-feed">Your News Feed</a></li>
+<li><a href="conversations/">Conversations
+<strong class="itemCount Zero" id="VisitorExtraMenu_ConversationsCounter">
+<span class="Total">0</span>
+</strong></a></li>
+<li><a href="account/alerts">Alerts
+<strong class="itemCount Zero" id="VisitorExtraMenu_AlertsCounter">
+<span class="Total">0</span>
+</strong></a></li>
+<li><a href="account/ratings-received">Ratings Received</a></li>
+<li><a href="account/ratings-given">Ratings Given</a></li>
+<li><a href="search/member?user_id=195725">Your Content</a></li>
+<li><a href="account/following">People You Follow</a></li>
+<li><a href="account/ignored">People You Ignore</a></li>
+<li><a href="account/two-step">Two-Step Verification</a></li>
+</ul>
+</div>
+<div class="menuColumns secondaryContent">
+<ul class="col1 blockLinksList">
+<li>
+<form action="account/toggle-visibility" method="post" class="AutoValidator visibilityForm">
+<label><input type="checkbox" name="visible" value="1" class="SubmitOnChange" checked="checked" />
+Show online status</label>
+<input type="hidden" name="_xfToken" value="195725,1593923672,5f446995734919dc8e70f6f9d1e48561252e86c2" />
+</form>
+</li>
+</ul>
+<ul class="col2 blockLinksList">
+<li><a href="logout/?_xfToken=195725%2C1593923672%2C5f446995734919dc8e70f6f9d1e48561252e86c2" class="LogOut">Log Out</a></li>
+</ul>
+</div>
+<form action="members/phantomknight.195725/post" method="post" class="sectionFooter statusPoster AutoValidator" data-optInOut="OptIn">
+<textarea name="message" class="textCtrl StatusEditor UserTagger Elastic" placeholder="Update your status..." rows="1" cols="40" style="height:18px" data-statusEditorCounter="#visMenuSEdCount" data-nofocus="true"></textarea>
+<div class="submitUnit">
+<span id="visMenuSEdCount" title="Characters remaining"></span>
+<input type="submit" class="button primary MenuCloser" value="Post" />
+<input type="hidden" name="_xfToken" value="195725,1593923672,5f446995734919dc8e70f6f9d1e48561252e86c2" />
+<input type="hidden" name="return" value="1" />
+</div>
+</form>
+</div>
+</li>
+
+<li class="navTab navTab--justIcon inbox Popup PopupControl PopupClosed ">
+<a href="conversations/" rel="Menu" class="navLink NoPopupGadget">
+<i class="uix_icon uix_icon-inbox"></i>
+<strong class="itemCount Zero" id="ConversationsMenu_Counter" data-text="You have %d new unread conversation(s).">
+<span class="Total">0</span>
+<span class="arrow"></span>
+</strong>
+</a>
+<div class="Menu JsOnly navPopup" id="ConversationsMenu" data-contentSrc="conversations/popup" data-contentDest="#ConversationsMenu .listPlaceholder">
+<div class="menuHeader primaryContent">
+<h3>
+<span class="Progress InProgress"></span>
+<a href="conversations/" class="concealed">Conversations</a>
+</h3>
+</div>
+<div class="listPlaceholder"></div>
+<div class="sectionFooter">
+<a href="conversations/add" class="floatLink">Start a New Conversation</a>
+<a href="conversations/">Show All...</a>
+</div>
+</div>
+</li>
+
+<li class="navTab navTab--justIcon alerts Popup PopupControl PopupClosed">
+<a href="account/alerts" rel="Menu" class="navLink NoPopupGadget">
+<i class="uix_icon uix_icon-alerts"></i>
+<strong class="itemCount Zero" id="AlertsMenu_Counter" data-text="You have %d new alert(s).">
+<span class="Total">0</span>
+<span class="arrow"></span>
+</strong>
+</a>
+<div class="Menu JsOnly navPopup" id="AlertsMenu" data-contentSrc="account/alerts-popup" data-contentDest="#AlertsMenu .listPlaceholder" data-removeCounter="#AlertsMenu_Counter">
+<div class="menuHeader primaryContent">
+<h3>
+<span class="Progress InProgress"></span>
+<a href="account/alerts" class="concealed">Alerts</a>
+</h3>
+</div>
+<div class="listPlaceholder"></div>
+<div class="sectionFooter">
+<a href="account/alert-preferences" class="floatLink">Alert Preferences</a>
+<a href="account/alerts">Show All...</a>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<span class="helper"></span>
+</div>
+</div>
+</div>
+</div>
+<script>if (typeof(uix) !== "undefined" && typeof(uix.templates) !== "undefined") uix.templates.userBar();</script>
+<div id="logoBlock" class="header__blockItem ">
+<div class="pageContent">
+<div class="spigot_colorOverlay">
+<div class="pageWidth">
+<div id="logo"><a href="https://www.spigotmc.org/">
+<span></span>
+<img src="//static.spigotmc.org/img/spigot.png" alt="SpigotMC - High Performance Minecraft" />
+</a></div>
+<div class="spigot_headerReadAboutWrapper">
+<p>Want a better Minecraft server? <br> Read about SpigotMC <a href="/wiki/about-spigot/">here</a>!</p>
+</div>
+<span class="helper"></span>
+</div>
+</div>
+</div>
+</div>
+<div id="navigation" class="header__blockItem withSearch ">
+<div class="sticky_wrapper">
+<div class="uix_navigationWrapper">
+<div class="pageContent">
+<nav>
+<div class="navTabs">
+<div class="pageWidth">
+<ul class="publicTabs navLeft">
+<li class="navTab  navTab--panelTrigger navTab--navPanelTrigger PopupClosed">
+<a class="navLink js-leftPanelTrigger" href="#">
+<i class="uix_icon uix_icon-menu"></i><span class="trigger__phrase">Menu</span>
+</a>
+</li>
+
+
+<li class="navTab articles Popup PopupControl PopupClosed">
+<a href="https://www.spigotmc.org/" class="navLink">Home</a>
+<a href="https://www.spigotmc.org/" class="SplitCtrl" rel="Menu"></a>
+<div class="Menu JsOnly tabMenu articlesTabLinks">
+<div class="primaryContent menuHeader">
+<h3>Home</h3>
+<div class="muted">Quick Links</div>
+</div>
+<ul class="secondaryContent blockLinksList">
+<li><a href="watched/forums">Watched Forums</a></li>
+<li><a href="watched/threads">Watched Threads</a></li>
+<li><a href="find-new/posts" rel="nofollow">New Posts</a></li>
+<li><a href="recent-activity/">Recent Activity</a></li>
+<li style="width: 50px; height: 10px;"></li>
+</ul>
+</div>
+</li>
+
+<li class="navTab forums Popup PopupControl PopupClosed">
+<a href="https://www.spigotmc.org/forums/" class="navLink">Forums</a>
+<a href="https://www.spigotmc.org/forums/" class="SplitCtrl" rel="Menu"></a>
+<div class="Menu JsOnly tabMenu forumsTabLinks">
+<div class="primaryContent menuHeader">
+<h3>Forums</h3>
+<div class="muted">Quick Links</div>
+</div>
+<ul class="secondaryContent blockLinksList">
+<li><a href="forums/-/mark-read?date=1593923672" class="OverlayTrigger">Mark Forums Read</a></li>
+<li><a href="search/?type=post">Search Forums</a></li>
+<li><a href="watched/forums">Watched Forums</a></li>
+<li><a href="watched/threads">Watched Threads</a></li>
+<li><a href="find-new/posts" rel="nofollow">New Posts</a></li>
+</ul>
+</div>
+</li>
+
+<li class="navTab resources selected">
+<a href="https://www.spigotmc.org/resources/" class="navLink">Resources</a>
+<a href="https://www.spigotmc.org/resources/" class="SplitCtrl" rel="Menu"></a>
+<div class="tabLinks resourcesTabLinks">
+<div class="pageWidth">
+<div class="primaryContent menuHeader">
+<h3>Resources</h3>
+<div class="muted">Quick Links</div>
+</div>
+<ul class="secondaryContent blockLinksList">
+<li><a href="search/?type=resource_update">Search Resources</a></li>
+<li><a href="resources/authors">Most Resources</a></li>
+<li><a href="resources/reviews">Latest Reviews</a></li>
+<li><a href="resources/authors/phantomknight.195725/">Your Resources</a></li>
+<li><a href="resources/watched-categories">Watched Categories</a></li>
+<li><a href="resources/watched">Watched Resources</a></li>
+<li><a href="resources/purchased">Purchased Resources</a></li>
+</ul>
+<div id="searchBar" class="hasSearchButton">
+<i id="QuickSearchPlaceholder" class="uix_icon uix_icon-search" title="Search"></i>
+<fieldset id="QuickSearch">
+<form action="search/search" method="post" class="formPopup">
+<div class="primaryControls">
+
+<i class="uix_icon uix_icon-search" onclick='$("#QuickSearch form").submit()'></i>
+<input type="search" name="keywords" value="" class="textCtrl" placeholder="Search..." results="0" title="Enter your search and hit enter" id="QuickSearchQuery" />
+
+</div>
+<div class="secondaryControls">
+<div class="controlsWrapper">
+
+<dl class="ctrlUnit">
+<dt></dt>
+<dd><ul>
+<li><label><input type="checkbox" name="title_only" value="1" id="search_bar_title_only" class="AutoChecker" data-uncheck="#search_bar_thread" /> Search titles only</label></li>
+</ul></dd>
+</dl>
+<dl class="ctrlUnit">
+<dt><label for="searchBar_users">Posted by Member:</label></dt>
+<dd>
+<input type="text" name="users" value="" class="textCtrl AutoComplete" id="searchBar_users" />
+<p class="explain">Separate names with a comma.</p>
+</dd>
+</dl>
+<dl class="ctrlUnit">
+<dt><label for="searchBar_date">Newer Than:</label></dt>
+<dd><input type="date" name="date" value="" class="textCtrl" id="searchBar_date" /></dd>
+</dl>
+<dl class="ctrlUnit">
+<dt></dt>
+<dd><ul>
+<li>
+<label title="Search only Premium"><input type="checkbox" name="type[resource_update][categories][]" value="20" checked="checked" /> Search this category only</label>
+<ul>
+<li><label><input type="checkbox" name="type[resource_update][is_resource]" value="1" /> Search only resource descriptions</label>
+</ul></li>
+</ul></dd>
+</dl>
+</div>
+
+<dl class="ctrlUnit submitUnit">
+<dt></dt>
+<dd>
+<input type="submit" value="Search" class="button primary Tooltip" title="Find Now" />
+<a href="search/" class="button moreOptions Tooltip" title="Advanced Search">More...</a>
+<div class="Popup" id="commonSearches">
+<a rel="Menu" class="button NoPopupGadget Tooltip" title="Useful Searches" data-tipclass="flipped"><span class="arrowWidget"></span></a>
+<div class="Menu">
+<div class="primaryContent menuHeader">
+<h3>Useful Searches</h3>
+</div>
+<ul class="secondaryContent blockLinksList">
+
+<li><a href="find-new/posts?recent=1" rel="nofollow">Recent Posts</a></li>
+<li><a href="search/member?user_id=195725&amp;content=thread">Your Threads</a></li>
+<li><a href="search/member?user_id=195725&amp;content=post">Your Posts</a></li>
+<li><a href="search/member?user_id=195725&amp;content=profile_post">Your Profile Posts</a></li>
+<li><a href="search/member?user_id=195725&amp;content=conversation_message">Your Conversation Messages</a></li>
+
+</ul>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+<input type="hidden" name="_xfToken" value="195725,1593923672,5f446995734919dc8e70f6f9d1e48561252e86c2" />
+</form>
+</fieldset>
+</div>
+<div class="uix_minimalSearchWrapper">
+<div id="uix_searchMinimal">
+<form action="search/search" method="post">
+<i id="uix_searchMinimalClose" class="uix_icon uix_icon-close" title="Close"></i>
+<i id="uix_searchMinimalOptions" class="uix_icon uix_icon-cog" title="Options"></i>
+<div id="uix_searchMinimalInput">
+<input type="search" name="keywords" value="" placeholder="Search..." results="0" />
+</div>
+<input type="hidden" name="_xfToken" value="195725,1593923672,5f446995734919dc8e70f6f9d1e48561252e86c2" />
+</form>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="navTab wiki Popup PopupControl PopupClosed">
+<a href="https://www.spigotmc.org/wiki/" class="navLink">Wiki</a>
+<a href="https://www.spigotmc.org/wiki/" class="SplitCtrl" rel="Menu"></a>
+<div class="Menu JsOnly tabMenu wikiTabLinks">
+<div class="primaryContent menuHeader">
+<h3>Wiki</h3>
+<div class="muted">Quick Links</div>
+</div>
+<ul class="secondaryContent blockLinksList">
+<li><a href="wiki/">Wiki Index</a></li>
+<li><a href="wiki/special/pages">Page List</a></li>
+<li><a href="wiki/special/recent">Recent Activity</a></li>
+<li><a href="wiki/special/create">Create New Page</a></li>
+</ul>
+</div>
+</li>
+<li class="navTab xfx_staff Popup PopupControl PopupClosed">
+<a href="XenStaff/" class="navLink">Team</a>
+<a href="XenStaff/" class="SplitCtrl" rel="Menu"></a>
+<div class="Menu JsOnly tabMenu xfx_staffTabLinks">
+<div class="primaryContent menuHeader">
+<h3>Team</h3>
+<div class="muted">Quick Links</div>
+</div>
+<ul class="secondaryContent blockLinksList">
+<li><a href="XenStaff/#Administrator">Administrator</a></li>
+<li><a href="XenStaff/#Moderator">Moderator</a></li>
+<li><a href="XenStaff/#Sponsor">Sponsor</a></li>
+<li><a href="XenStaff/#Developer">Developer</a></li>
+<li><a href="XenStaff/#Wiki Team">Wiki Team</a></li>
+<li><a href="XenStaff/#Services Staff">Services Staff</a></li>
+<li><a href="XenStaff/#Junior Mod">Junior Mod</a></li>
+<li><a href="XenStaff/#Resource Staff">Resource Staff</a></li>
+<li><a href="XenStaff/#IRC Staff">IRC Staff</a></li>
+</ul>
+</div>
+</li>
+<li class="navTab nodetab31 Popup PopupControl PopupClosed">
+<a href="https://www.spigotmc.org/link-forums/downloads.31/" class="navLink">Downloads</a>
+<a href="https://www.spigotmc.org/link-forums/downloads.31/" class="SplitCtrl" rel="Menu"></a>
+<div class="Menu JsOnly tabMenu nodetab31TabLinks">
+<div class="primaryContent menuHeader">
+<h3>Downloads</h3>
+<div class="muted">Quick Links</div>
+</div>
+<ul class="secondaryContent blockLinksList">
+<li class="natMenuLevel0">
+<a href="link-forums/spigot-buildtools.88/">Spigot / BuildTools</a>
+</li>
+<li class="natMenuLevel0">
+<a href="link-forums/bungeecord.28/">BungeeCord</a>
+</li>
+<li class="natMenuLevel0">
+<a href="link-forums/jenkins.29/">Jenkins</a>
+</li>
+</ul>
+</div>
+</li>
+<li class="navTab nodetab95 PopupClosed">
+<a href="https://www.spigotmc.org/link-forums/discord.95/" class="navLink">Discord</a>
+</li>
+<li class="navTab nodetab75 PopupClosed">
+<a href="https://www.spigotmc.org/link-forums/hub.75/" class="navLink">Hub</a>
+</li>
+<li class="navTab nodetab14 PopupClosed">
+<a href="https://www.spigotmc.org/link-forums/issues.14/" class="navLink">Issues</a>
+</li>
+<li class="navTab nodetab19 PopupClosed">
+<a href="https://www.spigotmc.org/pages/irc/" class="navLink">Chat</a>
+</li>
+
+<li class="navTab members Popup PopupControl PopupClosed">
+<a href="https://www.spigotmc.org/members/" class="navLink">Members</a>
+<a href="https://www.spigotmc.org/members/" class="SplitCtrl" rel="Menu"></a>
+<div class="Menu JsOnly tabMenu membersTabLinks">
+<div class="primaryContent menuHeader">
+<h3>Members</h3>
+<div class="muted">Quick Links</div>
+</div>
+<ul class="secondaryContent blockLinksList">
+<li><a href="members/">Notable Members</a></li>
+<li><a href="online/">Current Visitors</a></li>
+<li><a href="recent-activity/">Recent Activity</a></li>
+<li><a href="find-new/profile-posts">New Profile Posts</a></li>
+</ul>
+</div>
+</li>
+
+<li class="navTab nodetab44 PopupClosed">
+<a href="https://www.spigotmc.org/link-forums/donate.44/" class="navLink">Donate</a>
+</li>
+
+<li class="navTab navigationHiddenTabs navTab--justIcon Popup PopupControl PopupClosed" style="display:none">
+<a rel="Menu" class="navLink NoPopupGadget uix_dropdownDesktopMenu"><i class="uix_icon uix_icon-navOverflow"></i><span class="uix_hide menuIcon">Menu</span></a>
+<div class="Menu JsOnly blockLinksList primaryContent" id="NavigationHiddenMenu"></div>
+</li>
+
+</ul>
+<ul class="navRight visitorTabs">
+<li class="navTab account navTab--panelTrigger navTab--visitorPanelTrigger PopupClosed"><a class="navLink offCanvasVisitorTabs js-rightPanelTrigger" href="#">
+<span class="uix_icon avatar"><img src="//static.spigotmc.org/styles/spigot/xenforo/avatars/avatar_male_s.png" alt="" /></span>
+<strong class="accountUsername">PhantomKnight</strong>
+<strong class="itemCount Zero" id="uix_VisitorExtraMenu_Counter">
+<span class="Total">0</span>
+</strong>
+</a></li>
+</ul>
+</div>
+</div>
+<span class="helper"></span>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div id="content" class="resource_description">
+<div class="pageWidth">
+<div class="pageContent">
+
+<div class="breadBoxTop  ">
+<nav>
+<fieldset class="breadcrumb">
+<a href="misc/quick-navigation-menu" class="OverlayTrigger jumpMenuTrigger" data-cacheOverlay="true" title="Open quick navigation"><i class="uix_icon uix_icon-sitemap"></i></a>
+<div class="boardTitle"><strong>SpigotMC - High Performance Minecraft</strong></div>
+<span class="crumbs">
+<span class="crust homeCrumb" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+<a href="https://www.spigotmc.org/" class="crumb" rel="up" itemprop="url"><span itemprop="title"><span class="uix_breadcrumb__home__title">Home</span></span></a>
+<span class="arrow"><i class="uix_icon uix_icon-breadcrumbSeparator"></i></span>
+</span>
+<span class="crust selectedTabCrumb" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+<a href="https://www.spigotmc.org/resources/" class="crumb" rel="up" itemprop="url"><span itemprop="title">Resources</span></a>
+<span class="arrow"><i class="uix_icon uix_icon-breadcrumbSeparator"></i></span>
+</span>
+<span class="crust" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+<a href="https://www.spigotmc.org/resources/categories/premium.20/" class="crumb" rel="up" itemprop="url"><span itemprop="title">Premium</span></a>
+<span class="arrow"><i class="uix_icon uix_icon-breadcrumbSeparator"></i></span>
+</span>
+</span>
+</fieldset>
+</nav>
+</div>
+<div class="uix_contentFix">
+<div class="mainContainer">
+<div class="mainContent">
+<!--[if lt IE 8]>
+							<p class="importantMessage">You are using an out of date browser. It  may not display this or other websites correctly.<br />You should upgrade or use an <a href="https://www.google.com/chrome/browser/" target="_blank">alternative browser</a>.</p>
+						<![endif]-->
+
+<div class="resourceInfo">
+<ul class="primaryLinks ">
+<li>
+<label class="downloadButton">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/purchase" class="inner OverlayTrigger">
+Buy Now for 7.99 EUR
+<small class="minorText">1.5 MB .jar</small>
+</a>
+</label>
+</li>
+</ul>
+<div class="resourceImage">
+<img src="data/resource_icons/15/15905.jpg?1552316462" alt="" class="resourceIcon" />
+</div>
+<h1>RealisticWorldGenerator [1.8.8 - 1.16.x] <span class="muted">4.12.10</span></h1>
+<p class="tagLine muted">World Generator, Redefined | a fast, high customizable, beautiful world generator.</p>
+</div>
+<div class="resourceTabs">
+<div class="extraLinks">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/watch" class="OverlayTrigger watchLink" data-cacheoverlay="false">Watch This Resource</a>
+</div>
+<ul class="tabs">
+<li class="resourceTabDescription active">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/">Overview</a>
+</li>
+<li class="resourceTabUpdates ">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/updates">Updates (352)</a>
+</li>
+<li class="resourceTabReviews ">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews">Reviews (285)</a>
+</li>
+<li class="resourceTabHistory ">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/history">Version History</a>
+</li>
+<li class="resourceTabDiscussion ">
+<a href="threads/realisticworldgenerator-1-8-8-1-16-x-paid.110221/">Discussion</a>
+</li>
+</ul>
+</div>
+<div class="innerContent">
+<div class="updateContainer section">
+<ol>
+<li class="primaryContent messageSimple resourceUpdate" id="update-59271" data-author="SyntaxPhoenix">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621m" data-avatarhtml="true"><img src="data/avatars/m/41/41621.jpg?1569763935" width="96" height="96" alt="SyntaxPhoenix" /></a>
+<article><blockquote class="ugc baseHtml messageText">
+<div class="customResourceFields aboveInfo">
+<dl class="customResourceFieldmc_versions">
+<dt>Tested Minecraft Versions:</dt>
+<dd><ul class="plainList"><li>1.8</li><li>1.9</li><li>1.10</li><li>1.11</li><li>1.12</li><li>1.13</li><li>1.14</li><li>1.15</li><li>1.16</li></ul></dd>
+</dl>
+<dl class="customResourceFieldcontributors">
+<dt>Contributors:</dt>
+<dd>YellowPhoenix18, Lauriichen, SrJoSaf</dd>
+</dl>
+<dl class="customResourceFielddonate_link">
+<dt>Donation Link:</dt>
+<dd><a href="https://www.paypal.me/syntaxphoenix" rel="nofollow" class="externalLink" target="_blank">https://www.paypal.me/syntaxphoenix</a></dd>
+</dl>
+</div>
+<div style="text-align: center"><img src="//proxy.spigotmc.org/eee4d520819d4d1839a3d353443315805705ea92?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2F0lJPQPsxF5x1MH7f.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/0lJPQPsxF5x1MH7f.png" /><br />
+<br />
+<br />
+<a href="https://discordapp.com/invite/HfPgr3B" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/844815ab4624245a1f5d5b18a2ac03a21e4f236b?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FJSieYgzryFnRt1Do.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/JSieYgzryFnRt1Do.png" /></a> <a href="https://wiki.syntaxphoenix.com/wiki/dsdwdgwudsxauwwd" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/f5e4686800bc94614810bb39d297c23ffd996836?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FRz18HAmboeiW61jj.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/Rz18HAmboeiW61jj.png" /> </a> <a href="https://confluence.syntaxphoenix.com/display/RWG" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/a1c61f08a126b1e770571210f77d8ae68af170dc?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2Fa6INCbRa4OeGYMBV.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/a6INCbRa4OeGYMBV.png" /> </a> <a href="https://bugs.syntaxphoenix.com/" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/6253982321896e85168111e2cf3a259350dd215e?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FNVU9bZhSY0Zb3pTm.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/NVU9bZhSY0Zb3pTm.png" /> </a> <a href="https://legal.syntaxphoenix.com/tos/realisticworldgenerator" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/a110d7aeee40e0de278faecce3f671b24153ebe3?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2Ft7r5KGJIzkP9elzI.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/t7r5KGJIzkP9elzI.png" /> </a> <a href="https://stats.syntaxphoenix.com/service/0b0PZVda" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/6335fe67a68ee9c899ce0ee9e82de290279c503e?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FAR42ANlOswrW8SVv.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/AR42ANlOswrW8SVv.png" /></a><br />
+<br />
+<br />
+<b><span style="color: #b300b3">RealisticWorldGenerator </span><span style="color: #404040">is an extremely customizable plugin, which takes the experience on your server to a completely new level, it adds new beautiful worlds and also takes control over saplings and other world-related things. By editing the configs you can also optimize the worlds to them of your dreams. With custom schematics, it is also possible to add your own style to your worlds and give your players new places to </span><span style="color: rgb(64, 64, 64)">experience.</span></b>&#8203;</div><br />
+<br />
+<img src="//proxy.spigotmc.org/810a96af671209c457f794cad1a1b3c1d05aefa7?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FCBJajbXNuTjIGiVN.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/CBJajbXNuTjIGiVN.png" /><br />
+<br />
+<br />
+<b><span style="color: #b300b3">RealisticWorldGenerator </span><span style="color: #404040">has many features, and yet more to come, this is what&#039;s identified with :</span></b><br />
+<ul>
+<li>High-quality generation</li>
+<li>Support for CustomItems from <a href="https://www.spigotmc.org/resources/%E2%9C%85must-have%E2%9C%85-itemsadder%E2%9C%A8-custom-items-huds-guis-textures-3dmodels-emojis-blocks-wings-hats.73355/" class="internalLink"><b>ItemsAdder</b></a> and <a href="https://www.spigotmc.org/resources/%E2%9C%85-50-%E2%9C%85-oraxen-%E2%98%84%EF%B8%8F-%C2%BB-creativity-extended-%CB%98%E2%96%BE%CB%98-%E2%94%81%E2%98%86%EF%BE%9F-%EF%BD%A5%EF%BD%A1%EF%BE%9F.72448/" class="internalLink"><b>Oraxen</b></a></li>
+<li>Stability-System to prevent corrupted Chunks - more <b><a href="https://usrt.de/5Rmdqb9" target="_blank" class="externalLink" rel="nofollow">here</a></b></li>
+<li>A configurable custom cave system<br />
+</li>
+<li>Minecraft worlds seeds support</li>
+<li>Realistic lakes and oceans</li>
+<li>Customizable and rich ore spawning</li>
+<li>Customizable and rich ground design</li>
+<li>Customizable hills layouts</li>
+<li>Per-world configurations</li>
+<li>Custom and customizable structures</li>
+<li>Included World-border</li>
+<li>Strong and fast schematic files system(Including random blocks like bee-nests)</li>
+<li>Control over Sapling-Growing</li>
+<li>Total control of chest-filling for each structure</li>
+<li>Customizable in-game messages</li>
+<li>Custom villages, strongholds, monuments, temples and mine-shafts</li>
+<li>Optional flat area at spawn-region for buildings</li>
+<li><b><span style="color: #404040">Custom designed biomes</span> :<br />
+-</b>Birch forest<br />
+<b> - </b>Desert<br />
+<b> - </b>Lands of death<br />
+<b> - </b>Ice-lands<br />
+<b> - </b>Jungle<br />
+<b> - </b>Mixed forest<b><br />
+- </b>Oak forest<b><br />
+- </b>Dark forest<b><br />
+- </b>Extreme hills<b><br />
+- </b>Savanna<b><br />
+- </b>Swamp-lands<b><br />
+- </b>Pine forest<b><br />
+- </b>Taiga<b><br />
+- </b>Oceans</li>
+</ul><b>If you want to take a look into the configurations(4.10.8), you can download our zip <a href="https://syntaxphoenix.com/downloads/RealisticWorldGenerator.zip" target="_blank" class="externalLink" rel="nofollow">here</a>.<br />
+<br />
+<br />
+<img src="//proxy.spigotmc.org/e30a8dc70a52ac59b4316cf7b750b10b18645be1?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FTNSQ4yLdsKEQMkNU.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/TNSQ4yLdsKEQMkNU.png" /> <br />
+<br />
+<br />
+<span style="color: #404040">To run </span><span style="color: #b300b3">RealisticWorldGenerator </span><span style="color: #404040">you need to have the following qualifications :</span></b><br />
+<ul>
+<li>A server with <span style="color: #ff0000">2048MB </span>ram</li>
+<li>Decent CPU-power, <span style="color: #ff0000">at-least</span> 2 dedicated cores with high-frequency (more than 2.8Ghz)</li>
+<li>Spigot / Paper 1.8.8 server or higher, older versions are <span style="color: #ff0000">not supported</span>!</li>
+<li>Java 8 update 101 at-least, older versions are <span style="color: #ff0000">not supported</span>!</li>
+</ul>RealisticWorldGenerator is a little bit slower than the vanilla generator. To prevent lags on heavy chunk load, it is recommended to pre-generate your world. This can be done by using the plugins WorldBorder or ChunkMaster.<br />
+<div style="text-align: center"><br />
+<img src="//proxy.spigotmc.org/91415312df491c30230180f096c71cce7b1c7658?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FZb4e1levsIm3yBya.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/Zb4e1levsIm3yBya.png" /><br />
+<br />
+&#8203;</div><span style="color: #404040"><b>Take a deep look at the real</b> </span><span style="color: rgb(255, 77, 77)"><b>Beauty </b></span><b><span style="color: #404040">of </span></b><span style="color: rgb(179, 0, 179)"><b>RealisticWorldGenerator</b></span><span style="color: rgb(64, 64, 64)"><b>:</b></span><br />
+<br />
+<div style="text-align: center"><span style="color: #404040">some of the screenshots are outdated, they will be replaced while we add new ones as well!</span><br />
+<br />
+<a href="https://ypict.de/img/upload/hZetfVhCph0j21aI.png" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/97a47aba87a7cf18a5cfd6ad5c0d8f96fd338906?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FYe5SEgqX0d6m07P6.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/Ye5SEgqX0d6m07P6.png" /></a> <a href="https://ypict.de/img/upload/eLmyyruRr8spSZ51.png" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/eada3c5faad1c248f8c0a774d604f720bc249b51?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2Fkx8SmMguPDK2eqij.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/kx8SmMguPDK2eqij.png" /> </a><a href="https://ypict.de/img/upload/Ak0lbrb6EqA9jYpC.png" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/24a3b742e9e51b8acdb1832d5a0a962b68fa4a35?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FxQ4sJvN4Qoeq33d6.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/xQ4sJvN4Qoeq33d6.png" /> </a><a href="https://ypict.de/img/upload/jSt07uTfOWLDfo9B.jpg" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/91af98ceb619c400cf91a70b48f2a6e2e10e3a57?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2F3azm0pkC4rO8Oya8.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/3azm0pkC4rO8Oya8.png" /> </a><a href="https://ypict.de/img/upload/K4UzegDRl73WxOzn.jpg" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/d8a6fc53359dceefc1531014cbf117cd970394fb?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2F3xhgo9UFoOhsPLx0.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/3xhgo9UFoOhsPLx0.png" /> </a><a href="https://ypict.de/img/upload/eTENtEdtYOdbEY40.jpg" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/4020eba3b1d6bf704cf36ca62eaf0f5d699d2245?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FlfHmbRrvI4kseSz6.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/lfHmbRrvI4kseSz6.png" /> </a><a href="https://ypict.de/img/upload/PisskMaMdS0wCUYn.jpg" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/c92155e9c8b4da4b516b10d7a1afbf718447b730?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2Fb7iLEhraItOjI4Me.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/b7iLEhraItOjI4Me.png" /> </a><a href="https://ypict.de/img/upload/moPbmscxe8seJpdE.png" target="_blank" class="externalLink" rel="nofollow"><img src="//proxy.spigotmc.org/49b1ab043e492212774a9d79319fb109e18fa1b1?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FJiARlalzVyCLEwz1.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/JiARlalzVyCLEwz1.png" /> </a><br />
+<br />
+<b>That is not <span style="color: #b300b3">enough</span>?</b><br />
+Maybe you check out what else you can create with RWG:<br />
+<br />
+<b><span style="font-size: 18px"><span style="color: #b300b3">Mars-Mission Map</span></span></b><br />
+<img src="//proxy.spigotmc.org/9eba4078c26af98476f90ddbfc2bbb0943540ff2?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FuhJCoXbMftfypso6.jpg" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/uhJCoXbMftfypso6.jpg" /><br />
+<br />
+<b>more will follow soon...</b><br />
+<br />
+<img src="//proxy.spigotmc.org/320f609ce4b324301aa0cd8cf77e2fb80ca277e7?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FIp4QNRftdJK1ZoXY.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/Ip4QNRftdJK1ZoXY.png" /><br />
+<br />
+&#8203;</div><b><span style="color: #404040">Well, there you have it! a </span><span style="color: #b300b3">cool cinematic</span> <span style="color: #404040">shot by the company itself :</span><br />
+</b><br />
+<div style="text-align: center">this cinematic is temporary, we will update it soon <img src="styles/default/xenforo/clear.png" class="mceSmilieSprite mceSmilie15" alt=":)" title="Smile    :)" /> enjoy.<br />
+<br />
+<iframe width="500" height="300" src="https://www.youtube.com/embed/tUpSYuUt9iw?wmode=opaque" frameborder="0" allowfullscreen></iframe><br />
+<br />
+<br />
+<img src="//proxy.spigotmc.org/3eff3920c1fdae98505d6f98905c904d1592150a?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FPci7mxcw4SpSJGmE.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/Pci7mxcw4SpSJGmE.png" />&#8203;</div><div style="text-align: left">&#8203;</div><div style="text-align: center">
+<div class="ToggleTriggerAnchor bbCodeSpoilerContainer">
+<button type="button" class="button bbCodeSpoilerButton ToggleTrigger Tooltip JsOnly" title="Click to reveal or hide spoiler" data-target="> .SpoilerTarget"><span>Spoiler: <span class="SpoilerTitle">Video tutorials</span></span></button>
+<div class="SpoilerTarget bbCodeSpoilerText"><b><iframe width="500" height="300" src="https://www.youtube.com/embed/0EhNsLDco3A?wmode=opaque" frameborder="0" allowfullscreen></iframe><br />
+<iframe width="500" height="300" src="https://www.youtube.com/embed/G8jdD83Iwwk?wmode=opaque" frameborder="0" allowfullscreen></iframe><br />
+<iframe width="500" height="300" src="https://www.youtube.com/embed/jCFtw4JOfUM?wmode=opaque" frameborder="0" allowfullscreen></iframe><br />
+<iframe width="500" height="300" src="https://www.youtube.com/embed/en6jvl5ovDo?wmode=opaque" frameborder="0" allowfullscreen></iframe></b></div>
+</div></div><div style="text-align: left"><b>Attention</b>: <i><span style="color: #ff4d4d">For 1.12.X and below use </span><a href="https://www.spigotmc.org/resources/realisticworldgenerator.15905/download?version=245021" class="internalLink"><b><span style="text-decoration: underline"><span style="color: #ff8000">v3.X</span></span></b></a><span style="color: #ff4d4d">! For 1.13 and above you can use v4(latest), 1.14 is supported since v4.1.0, 1.15 since v4.4.1, 1.16 since v4.12.0.</span></i>&#8203;</div><div style="text-align: center">&#8203;</div><b><span style="color: #404040">Like any other plugin, the process is easy as eating cake,</span> <span style="color: #b300b3">right</span><span style="color: #404040">?! anyways :</span></b><br />
+<ul>
+<li>Make sure your server is not running</li>
+<li>Put the plugin in the plugins folder</li>
+<li>Start the server to generate the required files and configurations</li>
+<li><b><span style="color: #404040">Set the plugin as the generator for your world, you can do that by:</span><br />
+<br />
+-</b>Adding the following code in your bukkit.yml<br />
+<div class="bbCodeBlock bbCodeCode">
+<div class="type">Code (YAML):</div>
+<div class="code"><span style="color: #007F45;">worlds</span>:<span style="color: #007F45;"><br />
+&nbsp; &lt;worldname&gt;</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; generator</span><span style="font-weight: bold; color: brown;">: </span>Realistic_World</div>
+</div><b> - </b>Using multiworld?<br />
+<div class="bbCodeBlock bbCodeCode">
+<div class="type">Code (YAML):</div>
+<div class="code">/mw create &lt;worldname&gt; plugin:Realistic_World</div>
+</div><b> - </b>Using multiverse?<br />
+<div class="bbCodeBlock bbCodeCode">
+<div class="type">Code (YAML):</div>
+<div class="code">/mv create &lt;worldname&gt; NORMAL -g Realistic_World</div>
+</div><span style="color: rgb(0, 0, 0)"><b><i>Please replace &lt;worldname&gt; with the name of your world.</i></b><br />
+<b><i>As example: &quot;&lt;worldname&gt;&quot; to &quot;world&quot;</i></b></span></li>
+</ul><br />
+<ul>
+<li>Maybe install <span style="color: #b300b3">addons</span>?</li>
+</ul><br />
+<b>You rather want to watch a video, to get better in touch with the steps you need to go through?</b> Just take a look into this video here, where one of our developers is showing you, how you can install <b><span style="color: #b300b3">RealisticWorldGenerator</span></b> on your server.<br />
+<br />
+<div style="text-align: center"><iframe width="500" height="300" src="https://www.youtube.com/embed/XUY8WH0WWt4?wmode=opaque" frameborder="0" allowfullscreen></iframe>&#8203;</div><br />
+<br />
+<div style="text-align: center"><img src="//proxy.spigotmc.org/3f2934b15c925863d8e3a8858507652184ed9791?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FPaacMSeWHBCbrPsQ.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/PaacMSeWHBCbrPsQ.png" /><br />
+<br />
+&#8203;</div><b><span style="color: #404040">Want more? We got you, at the moment there are two addons you can you use with </span><span style="color: #b300b3">RealisticWorldGenerator:</span></b><br />
+<ul>
+<li><span style="color: #000000"><a href="https://www.spigotmc.org/resources/smoothtimber-1-8-x-1-13-x.39965/" class="internalLink">SmoothTimber</a> - a free plugin that is optimized for RWG to cut trees easier and faster</span></li>
+<li><span style="color: #000000"><a href="https://www.spigotmc.org/resources/realisticnethergenerator.40846/" class="internalLink">RealisticNetherGenerator </a>- a paid addon to take the generator on a trip to the nether!</span></li>
+</ul><div style="text-align: center"><span style="color: #000000"><br />
+<br />
+<img src="//proxy.spigotmc.org/0250f8701ef3c4f0afc22a144a95df6d740a253e?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FiQkwJSb4JKuNWjEH.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/iQkwJSb4JKuNWjEH.png" /> </span><br />
+<br />
+&#8203;</div><b><span style="color: #404040">We have a test server running all the time to test our</span> <span style="color: #404040">generator</span>:</b><br />
+<br />
+<div style="text-align: center"><span style="color: #b300b3">rwg.syntaxphoenix.com</span><br />
+<br />
+( you can get creative gamemode by running any command in chat )<br />
+<br />
+<br />
+<br />
+<img src="//proxy.spigotmc.org/7da62b05d74ce7e2cc42c804d85a3cf16a886185?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FGEa31rtldDJDD5EZ.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/GEa31rtldDJDD5EZ.png" /><br />
+<br />
+&#8203;</div><b><span style="color: #404040">Actually, there are a few notes you </span><span style="color: #b300b3">should </span><span style="color: #404040">know :</span></b><br />
+<ul>
+<li>This plugin uses anti-piracy. You can use the plugin per License on eight different IPs. If you use the plugin on more than three different IPs your license will be blocked and can be unlocked by sending a PM to SyntaxPhoenix!</li>
+<li>This plugin uses a anonymous metrics system to improve our services. You can disable it in plugins/SyntaxPhoenixStats</li>
+<li>Strongholds are currently not locatable via the Eye of Ender, we are working on that.</li>
+<li><span style="color: #ff0000">YOU CAN BUY THE PLUGIN USING PSC: Ask in Discord via ticket</span></li>
+</ul><br />
+<div style="text-align: center"><img src="//proxy.spigotmc.org/7655604577a8927efc62398485fb1d2936742a62?url=https%3A%2F%2Fypict.de%2Fimg%2Fupload%2FuCEds5BiM7ye4eKG.png" class="bbCodeImage LbImage" alt="[&#x200B;IMG]" data-url="https://ypict.de/img/upload/uCEds5BiM7ye4eKG.png" /><br />
+&#8203;</div><span style="color: #ff0000"><i>By buying this Software and using it you&#039;re accepting the Terms of Service. To view the Terms of Service click on the TOS image on the top</i><b>.</b><br />
+</span><br />
+<span style="color: #000000"><b>Big thanks to <a href="https://www.spigotmc.org/members/439735/" class="username" data-user="439735, @SrJoSaf">@SrJoSaf</a> for creating this page with &lt;3</b><br />
+</span><br />
+<b><span style="font-size: 26px"><span style="color: #ff0000">Important Notes for Reviews!</span></span><br />
+<span style="font-size: 15px"><span style="color: #000000">Reviews are important to get information about a resource. But they are no support-section. If you need support due to issues or other questions use the buttons(Round images) on top of this page. We are nearly 24/7 reachable via Spigot-DM&#039;s or Discord and we would be glad to help you there.<br />
+<br />
+Writing a review should state the current situation you have with our plugin, but please have in mind, when you have issues, you should always contact us first. In most situations, they can be fixed within some minutes and a review gets obsolete.</span></span></b>
+</blockquote></article>
+<div class="messageMeta">
+<span class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/report-update?resource_update_id=59271" class="OverlayTrigger item control report" data-cacheOverlay="false"><span></span>Report</a>
+</span>
+<span class="publicControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/like-update?resource_update_id=59271" class="item control LikeLink like" data-container="#likes-update-59271"><span></span><span class="LikeLabel">Like</span></a>
+</span>
+</div>
+<div id="likes-update-59271">
+<div class="likesSummary secondaryContent">
+<span class="LikeText">
+<a href="members/cslabzsmile0.230098/" class="username" dir="auto">cslabzsmile0</a>, <a href="members/encode42.951758/" class="username" dir="auto">Encode42</a>, <a href="members/infbycakr.689950/" class="username" dir="auto">InfBycakr</a> and <a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/update-likes?resource_update_id=59271" class="OverlayTrigger">59 others</a> like this.
+</span>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section updates">
+<h3 class="textHeading">Recent Updates</h3>
+<ol>
+<li><a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/update?update=345813">Services available in china</a> <span class="postDate"><abbr class="DateTime" data-time="1593855833" data-diff="67839" data-datestring="Jul 4, 2020" data-timestring="3:43 AM">Jul 4, 2020 at 3:43 AM</abbr></li>
+<li><a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/update?update=345784">Fallback for chinese people beeing censored by their country</a> <span class="postDate"><abbr class="DateTime" data-time="1593841170" data-diff="82502" data-datestring="Jul 3, 2020" data-timestring="11:39 PM">Jul 3, 2020 at 11:39 PM</abbr></li>
+<li><a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/update?update=345664">Handle Timeout</a> <span class="postDate"><abbr class="DateTime" data-time="1593795132" data-diff="128540" data-datestring="Jul 3, 2020" data-timestring="10:52 AM">Jul 3, 2020 at 10:52 AM</abbr></li>
+</ol>
+<div class="moreLink"><a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/updates">Read all 352 updates...</a></div>
+</div>
+<div class="section reviews">
+<h3 class="textHeading">Recent Reviews</h3>
+<ol>
+<li id="review-341064-379733" class="primaryContent review messageSimple   " data-author="sklm">
+<a href="members/sklm.379733/" class="avatar Av379733s" data-avatarhtml="true"><img src="data/avatars/s/379/379733.jpg?1587722780" width="48" height="48" alt="sklm" /></a>
+<div class="messageInfo">
+<div class="messageContent ToggleTriggerAnchor">
+<a href="members/sklm.379733/" class="username poster" dir="auto">sklm</a>
+<div class="rating">
+<dl>
+<dt class="prompt muted"></dt>
+<dd>
+<span class="ratings" title="3.00">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star "></span
+					><span class="star "></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">3</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint"></span>
+</dd>
+</dl>
+</div>
+<span class="muted">Version: 4.12.6</span>
+<article><blockquote class="ugc baseHtml">目前还不支持中国用户。请中国用户先不要购买使用。<br />
+------------------------<br />
+-------------------------<br />
+------------------------<br />
+等待作者修复这个问题·</blockquote></article>
+</div>
+<div class="messageMeta">
+<div class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews?resource_rating_id=314919" title="Permalink" class="item muted"><abbr class="DateTime" data-time="1593662652" data-diff="261020" data-datestring="Jul 1, 2020" data-timestring="10:04 PM">Jul 1, 2020 at 10:04 PM</abbr></a>
+</div>
+</div>
+<ol class="messageResponse">
+<li class="comment secondaryContent">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621s" data-avatarhtml="true"><img src="data/avatars/s/41/41621.jpg?1569763935" width="48" height="48" alt="SyntaxPhoenix" /></a>
+<div class="commentInfo">
+<div class="commentContent">
+<a href="members/syntaxphoenix.41621/" class="username poster">Author's Response</a>
+<article><blockquote>Hello,<br />
+we have tested ourself and detected the issue. It was fixed with 4.12.7.<br />
+<br />
+Please contact us next time in discussion and give us even a chance before reviewing the software. We are definitly not like other devs and will help as fast as possible.<br />
+<br />
+Your issue was resolved within 24 hours, as we needed to apply a fix.<br />
+<br />
+Kind regards,<br />
+Sebastian Diers</blockquote></article>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="review-340142-366336" class="primaryContent review messageSimple   " data-author="lee31014">
+<a href="members/lee31014.366336/" class="avatar Av366336s" data-avatarhtml="true"><img src="//static.spigotmc.org/styles/spigot/xenforo/avatars/avatar_s.png" width="48" height="48" alt="lee31014" /></a>
+<div class="messageInfo">
+<div class="messageContent ToggleTriggerAnchor">
+<a href="members/lee31014.366336/" class="username poster" dir="auto">lee31014</a>
+<div class="rating">
+<dl>
+<dt class="prompt muted"></dt>
+<dd>
+<span class="ratings" title="5.00">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">5</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint"></span>
+</dd>
+</dl>
+</div>
+<span class="muted">Version: 4.12.4</span>
+<article><blockquote class="ugc baseHtml">I have used EWG before but changed to RWG and found that the terrain is easier to use and it has become more beautiful. I give five hearts to this plugin</blockquote></article>
+</div>
+<div class="messageMeta">
+<div class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews?resource_rating_id=314144" title="Permalink" class="item muted"><abbr class="DateTime" data-time="1593413574" data-diff="510098" data-datestring="Jun 29, 2020" data-timestring="12:52 AM">Jun 29, 2020 at 12:52 AM</abbr></a>
+</div>
+</div>
+<ol class="messageResponse">
+<li class="comment secondaryContent">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621s" data-avatarhtml="true"><img src="data/avatars/s/41/41621.jpg?1569763935" width="48" height="48" alt="SyntaxPhoenix" /></a>
+<div class="commentInfo">
+<div class="commentContent">
+<a href="members/syntaxphoenix.41621/" class="username poster">Author's Response</a>
+<article><blockquote>Thank you very much :)<br />
+<br />
+We are really happy, that you like our progress :)</blockquote></article>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="review-338651-836976" class="primaryContent review messageSimple   " data-author="Codeless">
+<a href="members/codeless.836976/" class="avatar Av836976s" data-avatarhtml="true"><img src="//static.spigotmc.org/styles/spigot/xenforo/avatars/avatar_s.png" width="48" height="48" alt="Codeless" /></a>
+<div class="messageInfo">
+<div class="messageContent ToggleTriggerAnchor">
+<a href="members/codeless.836976/" class="username poster" dir="auto">Codeless</a>
+<div class="rating">
+<dl>
+<dt class="prompt muted"></dt>
+<dd>
+<span class="ratings" title="5.00">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">5</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint"></span>
+</dd>
+</dl>
+</div>
+<span class="muted">Version: 4.11.11</span>
+<article><blockquote class="ugc baseHtml">many say that the plugin is unstable and that it is true, at least partially. As someone who has been dealing with minecraft code for a long time, knows that it actually works quite inefficiently, so no blame on the plugin author. on the other hand the landscapes look beautiful and if you pre-generate the world then everything works 100% well. the developer seems nice and his discord support has helped me well so far. I will give the plugin 5 stars if you also consider the low price. i hope the developer will work on it longer i love this plugin and would recomend it to everyone</blockquote></article>
+</div>
+<div class="messageMeta">
+<div class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews?resource_rating_id=312814" title="Permalink" class="item muted"><span class="DateTime" title="Jun 22, 2020 at 12:20 PM">Jun 22, 2020</span></a>
+</div>
+</div>
+<ol class="messageResponse">
+<li class="comment secondaryContent">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621s" data-avatarhtml="true"><img src="data/avatars/s/41/41621.jpg?1569763935" width="48" height="48" alt="SyntaxPhoenix" /></a>
+<div class="commentInfo">
+<div class="commentContent">
+<a href="members/syntaxphoenix.41621/" class="username poster">Author's Response</a>
+<article><blockquote>Thank you very much :)<br />
+We really appreciate your review. We are already working on further improvements to get rid of code-sections that slow down RWG. We hope, that we achive with v5 even better and more stable results.</blockquote></article>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="review-337700-871602" class="primaryContent review messageSimple   " data-author="MrSheen96">
+<a href="members/mrsheen96.871602/" class="avatar Av871602s" data-avatarhtml="true"><img src="//static.spigotmc.org/styles/spigot/xenforo/avatars/avatar_male_s.png" width="48" height="48" alt="MrSheen96" /></a>
+<div class="messageInfo">
+<div class="messageContent ToggleTriggerAnchor">
+<a href="members/mrsheen96.871602/" class="username poster" dir="auto">MrSheen96</a>
+<div class="rating">
+<dl>
+<dt class="prompt muted"></dt>
+<dd>
+<span class="ratings" title="5.00">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">5</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint"></span>
+</dd>
+</dl>
+</div>
+<span class="muted">Version: 4.11.7</span>
+<article><blockquote class="ugc baseHtml">Liking it so far, makes worlds look so much nicer to the eyes! Keep up the good work!</blockquote></article>
+</div>
+<div class="messageMeta">
+<div class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews?resource_rating_id=312026" title="Permalink" class="item muted"><span class="DateTime" title="Jun 16, 2020 at 10:51 PM">Jun 16, 2020</span></a>
+</div>
+</div>
+<ol class="messageResponse">
+<li class="comment secondaryContent">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621s" data-avatarhtml="true"><img src="data/avatars/s/41/41621.jpg?1569763935" width="48" height="48" alt="SyntaxPhoenix" /></a>
+<div class="commentInfo">
+<div class="commentContent">
+<a href="members/syntaxphoenix.41621/" class="username poster">Author's Response</a>
+<article><blockquote>Thank you very much :)</blockquote></article>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="review-336713-976695" class="primaryContent review messageSimple   " data-author="feevieira">
+<a href="members/feevieira.976695/" class="avatar Av976695s" data-avatarhtml="true"><img src="//static.spigotmc.org/styles/spigot/xenforo/avatars/avatar_male_s.png" width="48" height="48" alt="feevieira" /></a>
+<div class="messageInfo">
+<div class="messageContent ToggleTriggerAnchor">
+<a href="members/feevieira.976695/" class="username poster" dir="auto">feevieira</a>
+<div class="rating">
+<dl>
+<dt class="prompt muted"></dt>
+<dd>
+<span class="ratings" title="5.00">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">5</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint"></span>
+</dd>
+</dl>
+</div>
+<span class="muted">Version: 4.11.1</span>
+<article><blockquote class="ugc baseHtml">Hey, it looks very beautiful, here gave compatibility problem with version 1.8.8, it was supposed to work?</blockquote></article>
+</div>
+<div class="messageMeta">
+<div class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews?resource_rating_id=311213" title="Permalink" class="item muted"><span class="DateTime" title="Jun 11, 2020 at 5:46 PM">Jun 11, 2020</span></a>
+</div>
+</div>
+<ol class="messageResponse">
+<li class="comment secondaryContent">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621s" data-avatarhtml="true"><img src="data/avatars/s/41/41621.jpg?1569763935" width="48" height="48" alt="SyntaxPhoenix" /></a>
+<div class="commentInfo">
+<div class="commentContent">
+<a href="members/syntaxphoenix.41621/" class="username poster">Author's Response</a>
+<article><blockquote>Hello,<br />
+1.8 works out of the box if you use v3, like stated in our Installation-Guide.<br />
+<br />
+Please contact us next time first when you have issues, the review-section should really be for reviews and not for questions and answers</blockquote></article>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="review-336514-655591" class="primaryContent review messageSimple   " data-author="RyderForNow">
+<a href="members/ryderfornow.655591/" class="avatar Av655591s" data-avatarhtml="true"><img src="data/avatars/s/655/655591.jpg?1552213414" width="48" height="48" alt="RyderForNow" /></a>
+<div class="messageInfo">
+<div class="messageContent ToggleTriggerAnchor">
+<a href="members/ryderfornow.655591/" class="username poster" dir="auto">RyderForNow</a>
+<div class="rating">
+<dl>
+<dt class="prompt muted"></dt>
+<dd>
+<span class="ratings" title="5.00">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">5</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint"></span>
+</dd>
+</dl>
+</div>
+<span class="muted">Version: 4.11.0</span>
+<article><blockquote class="ugc baseHtml">Nothing short of stunning. You could literally use a world generated with this plugin as spawn and noone would complain. Amazing!</blockquote></article>
+</div>
+<div class="messageMeta">
+<div class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews?resource_rating_id=311111" title="Permalink" class="item muted"><span class="DateTime" title="Jun 11, 2020 at 4:37 AM">Jun 11, 2020</span></a>
+</div>
+</div>
+<ol class="messageResponse">
+<li class="comment secondaryContent">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621s" data-avatarhtml="true"><img src="data/avatars/s/41/41621.jpg?1569763935" width="48" height="48" alt="SyntaxPhoenix" /></a>
+<div class="commentInfo">
+<div class="commentContent">
+<a href="members/syntaxphoenix.41621/" class="username poster">Author's Response</a>
+<article><blockquote>Thank you very much, we are very happy, that you like our resource :)</blockquote></article>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+
+<li id="review-336514-17182" class="primaryContent review messageSimple   " data-author="Tai_1er">
+<a href="members/tai_1er.17182/" class="avatar Av17182s" data-avatarhtml="true"><img src="data/avatars/s/17/17182.jpg?1521238838" width="48" height="48" alt="Tai_1er" /></a>
+<div class="messageInfo">
+<div class="messageContent ToggleTriggerAnchor">
+<a href="members/tai_1er.17182/" class="username poster" dir="auto">Tai_1er</a>
+<div class="rating">
+<dl>
+<dt class="prompt muted"></dt>
+<dd>
+<span class="ratings" title="2.00">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star "></span
+					><span class="star "></span
+					><span class="star "></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">2</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint"></span>
+</dd>
+</dl>
+</div>
+<span class="muted">Version: 4.11.0</span>
+<article><blockquote class="ugc baseHtml">Advertise as &quot;High-performance generation&quot;, but it needs to pregenerate 100% of your map to run and avoid crashs due to lag when generating a new chunk.</blockquote></article>
+</div>
+<div class="messageMeta">
+<div class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews?resource_rating_id=310978" title="Permalink" class="item muted"><span class="DateTime" title="Jun 10, 2020 at 8:14 AM">Jun 10, 2020</span></a>
+</div>
+</div>
+<ol class="messageResponse">
+<li class="comment secondaryContent">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621s" data-avatarhtml="true"><img src="data/avatars/s/41/41621.jpg?1569763935" width="48" height="48" alt="SyntaxPhoenix" /></a>
+<div class="commentInfo">
+<div class="commentContent">
+<a href="members/syntaxphoenix.41621/" class="username poster">Author's Response</a>
+<article><blockquote>Hello,<br />
+sorry if this might was not clearified. We tried always try to make plugins, that are perfect in performance. Since 1.13 performance of CustomWorldGenerators got worse due to changes from Mojang. This was why we have written clear minimum Requirements.<br />
+<br />
+But to prevent such case again, where some people might get the &quot;high-performance generation&quot; wrong, we've changed it to &quot;high-quality generation&quot;.<br />
+<br />
+Please contact us, if we might should help you pregenerating the world. We are free to render also the worlds for customers, if they are not able to pregenerate their maps theirself.</blockquote></article>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="review-334099-159367" class="primaryContent review messageSimple   " data-author="TheAssassinLP">
+<a href="members/theassassinlp.159367/" class="avatar Av159367s" data-avatarhtml="true"><img src="data/avatars/s/159/159367.jpg?1585998808" width="48" height="48" alt="TheAssassinLP" /></a>
+<div class="messageInfo">
+<div class="messageContent ToggleTriggerAnchor">
+<a href="members/theassassinlp.159367/" class="username poster" dir="auto">TheAssassinLP</a>
+<div class="rating">
+<dl>
+<dt class="prompt muted"></dt>
+<dd>
+<span class="ratings" title="5.00">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">5</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint"></span>
+</dd>
+</dl>
+</div>
+<span class="muted">Version: 4.10.16</span>
+<article><blockquote class="ugc baseHtml">Absolutely amazing world-generation plugin.<br />
+Easy to customize, better performance than other generator plugins.<br />
+I've been using this plugin for some years and have never regretted buying it.<br />
+Author is AMAZING and supportive.<br />
+I recommend joining his Discord Server.</blockquote></article>
+</div>
+<div class="messageMeta">
+<div class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews?resource_rating_id=308812" title="Permalink" class="item muted"><span class="DateTime" title="May 28, 2020 at 4:05 AM">May 28, 2020</span></a>
+</div>
+</div>
+<ol class="messageResponse">
+<li class="comment secondaryContent">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621s" data-avatarhtml="true"><img src="data/avatars/s/41/41621.jpg?1569763935" width="48" height="48" alt="SyntaxPhoenix" /></a>
+<div class="commentInfo">
+<div class="commentContent">
+<a href="members/syntaxphoenix.41621/" class="username poster">Author's Response</a>
+<article><blockquote>Thank you very much :)<br />
+We really appreciate this review and we are happy that you are statisfied with the resource.</blockquote></article>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="review-333371-423860" class="primaryContent review messageSimple   " data-author="kajahofman">
+<a href="members/kajahofman.423860/" class="avatar Av423860s" data-avatarhtml="true"><img src="https://secure.gravatar.com/avatar/a781ff576aea96b2ca56d479fa78246e?s=48&amp;d=https%3A%2F%2Fstatic.spigotmc.org%2Fstyles%2Fspigot%2Fxenforo%2Favatars%2Favatar_male_s.png" width="48" height="48" alt="kajahofman" /></a>
+<div class="messageInfo">
+<div class="messageContent ToggleTriggerAnchor">
+<a href="members/kajahofman.423860/" class="username poster" dir="auto">kajahofman</a>
+<div class="rating">
+<dl>
+<dt class="prompt muted"></dt>
+<dd>
+<span class="ratings" title="5.00">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">5</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint"></span>
+</dd>
+</dl>
+</div>
+<span class="muted">Version: 4.10.14</span>
+<article><blockquote class="ugc baseHtml">RealisticWorldGenerator is the best way how to enhance players' experience from server. When I compare it to other generators... IT HAS SO MUCH WAYS TO CUSTOMIZE THE WORLD GENERATION. When you're not into customisation, there is an awesome Discord server with awesome community which helps you with every single problem and when you want for example generation config for less hills, it's available for everyone on Discord server. Frequent updates and less amount of bugs (which are fixed with every update) make this the best generator on SpigotMC forum. Ask for more on Discord! :D</blockquote></article>
+</div>
+<div class="messageMeta">
+<div class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews?resource_rating_id=308251" title="Permalink" class="item muted"><span class="DateTime" title="May 25, 2020 at 2:45 AM">May 25, 2020</span></a>
+</div>
+</div>
+<ol class="messageResponse">
+<li class="comment secondaryContent">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621s" data-avatarhtml="true"><img src="data/avatars/s/41/41621.jpg?1569763935" width="48" height="48" alt="SyntaxPhoenix" /></a>
+<div class="commentInfo">
+<div class="commentContent">
+<a href="members/syntaxphoenix.41621/" class="username poster">Author's Response</a>
+<article><blockquote>Thank you very much :) We really appreciate your review and we are happy, that you like the plugin so much :)</blockquote></article>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="review-333371-529991" class="primaryContent review messageSimple   " data-author="Mo_nur_Mo">
+<a href="members/mo_nur_mo.529991/" class="avatar Av529991s" data-avatarhtml="true"><img src="data/avatars/s/529/529991.jpg?1588669610" width="48" height="48" alt="Mo_nur_Mo" /></a>
+<div class="messageInfo">
+<div class="messageContent ToggleTriggerAnchor">
+<a href="members/mo_nur_mo.529991/" class="username poster" dir="auto">Mo_nur_Mo</a>
+<div class="rating">
+<dl>
+<dt class="prompt muted"></dt>
+<dd>
+<span class="ratings" title="5.00">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">5</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint"></span>
+</dd>
+</dl>
+</div>
+<span class="muted">Version: 4.10.14</span>
+<article><blockquote class="ugc baseHtml">The world generator works and looks awesome - my players love it! While the normal generation when players just explore may slow your server down, pre-generating it was an easy solution which improved the performance in my case. Building and exploring in worlds generated with this is an absolute blast. The 25% off an already cheap plugin only make it more attractive right now, so if you're thinking about buying it, I highly recommend doing so. :)</blockquote></article>
+</div>
+<div class="messageMeta">
+<div class="privateControls">
+<a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews?resource_rating_id=308118" title="Permalink" class="item muted"><span class="DateTime" title="May 24, 2020 at 8:52 AM">May 24, 2020</span></a>
+</div>
+</div>
+<ol class="messageResponse">
+<li class="comment secondaryContent">
+<a href="members/syntaxphoenix.41621/" class="avatar Av41621s" data-avatarhtml="true"><img src="data/avatars/s/41/41621.jpg?1569763935" width="48" height="48" alt="SyntaxPhoenix" /></a>
+<div class="commentInfo">
+<div class="commentContent">
+<a href="members/syntaxphoenix.41621/" class="username poster">Author's Response</a>
+<article><blockquote>Thank you very much, we highly appreciate your review :)</blockquote></article>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+<div style="display: none"><a href="javascript:" class="muted jsOnly DisplayIgnoredContent Tooltip" title="Show hidden content by ">Show Ignored Content</a></div>
+<div class="moreLink"><a href="resources/realisticworldgenerator-1-8-8-1-16-x.15905/reviews">Read all 285 reviews...</a></div>
+</div>
+</div>
+<script type="application/ld+json">
+{
+	"@context": "http://schema.org/",
+	"@type": "CreativeWork",
+	"name": "RealisticWorldGenerator [1.8.8 - 1.16.x]",
+	"description": "World Generator, Redefined | a fast, high customizable, beautiful world generator.",
+	"aggregateRating": {
+		"@type": "AggregateRating",
+		"ratingValue": "4.475",
+		"ratingCount": "240"
+	}
+}
+</script>
+</div>
+</div>
+
+<aside class="uix_mainSidebar">
+<div class="inner_wrapper">
+<div class="sidebar">
+<div class="section funbox">
+<div class=" funboxWrapper">
+<div id="Sponsors2">
+<div class="secondaryContent">
+<h3>Sponsors</h3>
+
+<a class="Tooltip" target="_blank" href="https://minecraft-server-list.com/" title="Looking for a server to play Minecraft on or to extend your servers playerbase? Minecraft Server List is an extensive list of Minecraft servers from around the world. Submit your server, let your players vote for it and gain even more players forward.">
+<img width="230px" height="54px" src="//static.spigotmc.org/img/minecraft-server-list.png" alt="Minecraft Server List">
+</a>
+<a class="Tooltip" target="_blank" href="/go/enjin" title="Supercharge your server with blockchain assets, and give your in-game economy real-world value.">
+<img width="230px" height="52px" src="//static.spigotmc.org/img/enjin.png" alt="Enjin">
+</a>
+<a class="Tooltip" target="_blank" href="/go/tebex" title="Struggling to cover the costs of your Minecraft Server? Setup your
+own webstore with Tebex in under 30 seconds.">
+<img width="230px" height="54px" src="//static.spigotmc.org/img/tebex.png" alt="Tebex Donation Plugin & Webstore">
+</a>
+
+</div>
+</div>
+</div>
+</div>
+<div class="section statsList" id="resourceInfo">
+<div class="secondaryContent">
+<h3>
+Information
+</h3>
+<div class="pairsJustified">
+<dl class="author"><dt>Author:</dt>
+<dd><a href="resources/authors/syntaxphoenix.41621/">SyntaxPhoenix</a></dd>
+</dl>
+<dl class="downloadCount"><dt title="By unique downloaders">Total Downloads:</dt>
+<dd>4,062</dd></dl>
+<dl class="firstRelease"><dt>First Release:</dt>
+<dd><span class="DateTime" title="Dec 21, 2015 at 10:49 PM">Dec 21, 2015</span></dd></dl>
+<dl class="lastUpdate"><dt>Last Update:</dt>
+<dd><abbr class="DateTime" data-time="1593855833" data-diff="67839" data-datestring="Jul 4, 2020" data-timestring="3:43 AM">Jul 4, 2020 at 3:43 AM</abbr></dd></dl>
+<dl class="resourceCategory"><dt>Category:</dt>
+<dd><a href="resources/categories/premium.20/">Premium</a></dd></dl>
+<div class="rating">
+<dl>
+<dt class="prompt muted">All-Time Rating:</dt>
+<dd>
+<span class="ratings" title="4.48">
+<span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star Full"></span
+					><span class="star "></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">4.475</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint">240 ratings</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="footnote">
+<a href="https://confluence.syntaxphoenix.com/display/RWG/RealisticWorldGenerator+Home" rel="nofollow" target="_blank">Find more info at confluence.syntaxphoenix.com...</a>
+</div>
+</div>
+</div>
+<div class="section" id="versionInfo">
+<div class="secondaryContent">
+<h3>Version 4.12.10</h3>
+<div class="pairsJustified">
+<dl class="versionReleaseDate"><dt>Released:</dt>
+<dd><abbr class="DateTime" data-time="1593855833" data-diff="67839" data-datestring="Jul 4, 2020" data-timestring="3:43 AM">Jul 4, 2020 at 3:43 AM</abbr></dd></dl>
+<dl class="versionDownloadCount"><dt title="By unique downloaders">Downloads:</dt>
+<dd>44</dd></dl>
+<div class="rating">
+<dl>
+<dt class="prompt muted">Version Rating:</dt>
+<dd>
+<span class="ratings" title="0.00">
+<span class="star "></span
+					><span class="star "></span
+					><span class="star "></span
+					><span class="star "></span
+					><span class="star "></span>
+</span>
+<span class="RatingValue"><span class="Number" itemprop="average">0</span>/<span itemprop="best">5</span>,</span>
+<span class="Hint">0 ratings</span>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<a class="callToAction" href="https://wiki.syntaxphoenix.com/wiki/dsdwdgwudsxauwwd" rel="nofollow"><span>
+Ask Questions / Get Support
+</span></a>
+<a class="callToAction" href="threads/realisticworldgenerator-1-8-8-1-16-x-paid.110221/"><span>
+Discuss This Resource
+<small class="minorText">Replies: 2,624, Latest: Today at 3:43 AM</small>
+</span></a>
+<div class="section">
+<div class="secondaryContent" id="moreAppsByAuthor">
+<h3><a href="resources/authors/syntaxphoenix.41621/" class="concealed">More Resources from SyntaxPhoenix</a></h3>
+<dl>
+<dt style="margin-top: 5px"><a href="resources/smoothtimber-1-8-x-1-16-x.39965/">SmoothTimber [1.8.x - 1.16.x]</a></dt>
+<dd class="muted">Want to cut trees smooth and fast?</dd>
+<dt style="margin-top: 5px"><a href="resources/enderpearlgamesplus.47167/">EnderpearlGamesPlus</a></dt>
+<dd class="muted">EnderpearlGamesPlus is a minigame like the famous EnderGames</dd>
+<dt style="margin-top: 5px"><a href="resources/redstonedetector.79260/">RedstoneDetector</a></dt>
+<dd class="muted">Lag-Detections Redefined | detecting redstone-usage made easy</dd>
+<dt style="margin-top: 5px"><a href="resources/jumpleagueplus.17573/">JumpLeaguePlus</a></dt>
+<dd class="muted">JumpLeague redefined | A minigame-plugin like the famous JumpLeague from playMinity and GommeHD</dd>
+<dt style="margin-top: 5px"><a href="resources/blockylog.68443/">BlockyLog</a></dt>
+<dd class="muted">Want to know which block is placed by an player?</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<div class="breadBoxBottom">
+<nav>
+<fieldset class="breadcrumb">
+<a href="misc/quick-navigation-menu" class="OverlayTrigger jumpMenuTrigger" data-cacheOverlay="true" title="Open quick navigation"><i class="uix_icon uix_icon-sitemap"></i></a>
+<div class="boardTitle"><strong>SpigotMC - High Performance Minecraft</strong></div>
+<span class="crumbs">
+<span class="crust homeCrumb">
+<a href="https://www.spigotmc.org/" class="crumb"><span><span class="uix_breadcrumb__home__title">Home</span></span></a>
+<span class="arrow"><i class="uix_icon uix_icon-breadcrumbSeparator"></i></span>
+</span>
+<span class="crust selectedTabCrumb">
+<a href="https://www.spigotmc.org/resources/" class="crumb"><span>Resources</span></a>
+<span class="arrow"><i class="uix_icon uix_icon-breadcrumbSeparator"></i></span>
+</span>
+<span class="crust">
+<a href="https://www.spigotmc.org/resources/categories/premium.20/" class="crumb"><span>Premium</span></a>
+<span class="arrow"><i class="uix_icon uix_icon-breadcrumbSeparator"></i></span>
+</span>
+</span>
+</fieldset>
+</nav></div>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<div class="footer">
+<div class="pageContent">
+<div class="pageWidth">
+<dl class="choosers">
+<dt>Style</dt>
+<dd><a href="misc/style?redirect=%2Fresources%2Frealisticworldgenerator-1-8-8-1-16-x.15905%2F" class="OverlayTrigger Tooltip" title="Style Chooser" rel="nofollow">SpigotMC</a></dd>
+</dl>
+<ul class="footerLinks">
+<li><a href="https://www.spigotmc.org/" class="homeLink">Home</a></li>
+<li><a href="https://www.spigotmc.org/threads/contact-us.321793/">Contact Us</a></li>
+<li><a href="help/">Help</a></li>
+<li><a href="/wiki/spigot-terms/">Terms</a></li>
+<li><a href="/wiki/spigot-rules/">Rules</a></li>
+<li><a href="/wiki/spigot-privacy/">Privacy Policy</a></li>
+<li class="topLink"><a href="/resources/realisticworldgenerator-1-8-8-1-16-x.15905/#XenForo"><i class="uix_icon uix_icon-jumpToTop"></i> <span class="uix_hide">Top</span></a></li>
+</ul>
+<span class="helper"></span>
+</div>
+</div>
+</div>
+<div id="uix_stickyFooterSpacer"></div>
+<div class="footerLegal">
+<div class="pageContent">
+<div class="pageWidth">
+<ul class="uix_socialMediaLinks">
+<li class="uix_socialLink uix_socialLink--twitter"><a href="https://twitter.com/Spigot_MC" target="_blank"><i class="uix_icon uix_icon-twitter"></i></a></li>
+<li class="uix_socialLink uix_socialLink--contact"><a href="https://www.spigotmc.org/threads/contact-us.321793/"><i class="uix_icon uix_icon-email"></i></a></li>
+
+<li class="uix_socialLink uix_socialLink--rss"><a href="forums/-/index.rss" rel="alternate}" target="_blank"><i class="uix_icon uix_icon-rss"></i></a></li>
+</ul>
+<div id="copyright">
+&copy; 2012-2020 SpigotMC Pty. Ltd.
+<div class="thCopyrightNoticeStyle">Theme designed by <a href="https://www.themehouse.com/xenforo/themes" title="Premium XenForo Themes" rel="nofollow" target="_blank">ThemeHouse</a>.</div>
+</div>
+<span class="helper"></span>
+</div>
+</div>
+</div>
+</footer>
+<div class="bottomFixer">
+</div>
+<script>
+
+
+jQuery.extend(true, XenForo,
+{
+	visitor: { user_id: 195725 },
+	serverTimeInfo:
+	{
+		now: 1593923672,
+		today: 1593842400,
+		todayDow: 6
+	},
+	_lightBoxUniversal: "0",
+	_enableOverlays: "1",
+	_animationSpeedMultiplier: "1",
+	_overlayConfig:
+	{
+		top: "10%",
+		speed: 200,
+		closeSpeed: 100,
+		mask:
+		{
+			color: "rgb(0, 0, 0)",
+			opacity: "0.3",
+			loadSpeed: 200,
+			closeSpeed: 100
+		}
+	},
+	_ignoredUsers: [],
+	_loadedScripts: {"nat_public_css":true,"resource_view":true,"resource_view_header":true,"resource_view_tabs":true,"message_simple":true,"bb_code":true,"resource_update":true,"likes_summary":true,"resource_review":true,"rating":true,"dark_postrating":true,"moderator_bar":true},
+	_cookieConfig: { path: "/", domain: "", prefix: "xf_"},
+	_csrfToken: "195725,1593923672,5f446995734919dc8e70f6f9d1e48561252e86c2",
+	_csrfRefreshUrl: "login/csrf-token-refresh",
+	_jsVersion: "4c0dbdc6",
+	_noRtnProtect: false,
+	_noSocialLogin: false
+});
+jQuery.extend(XenForo.phrases,
+{
+	cancel: "Cancel",
+
+	a_moment_ago:    "A moment ago",
+	one_minute_ago:  "1 minute ago",
+	x_minutes_ago:   "%minutes% minutes ago",
+	today_at_x:      "Today at %time%",
+	yesterday_at_x:  "Yesterday at %time%",
+	day_x_at_time_y: "%day% at %time%",
+
+	day0: "Sunday",
+	day1: "Monday",
+	day2: "Tuesday",
+	day3: "Wednesday",
+	day4: "Thursday",
+	day5: "Friday",
+	day6: "Saturday",
+
+	_months: "January,February,March,April,May,June,July,August,September,October,November,December",
+	_daysShort: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",
+
+	following_error_occurred: "The following error occurred",
+	server_did_not_respond_in_time_try_again: "The server did not respond in time. Please try again.",
+	logging_in: "Logging in",
+	click_image_show_full_size_version: "Click this image to show the full-size version.",
+	show_hidden_content_by_x: "Show hidden content by {names}"
+});
+
+// Facebook Javascript SDK
+XenForo.Facebook.appId = "";
+XenForo.Facebook.forceInit = false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</div>
+<div class="uix_wrapperFix" style="height: 1px; margin-top: -1px;"></div>
+</div>
+</div>
+<script>
+
+</script>
+<div class="breadcrumbMeta">
+<nav>
+<fieldset class="breadcrumb">
+<a href="misc/quick-navigation-menu" class="OverlayTrigger jumpMenuTrigger" data-cacheOverlay="true" title="Open quick navigation"><i class="uix_icon uix_icon-sitemap"></i></a>
+<div class="boardTitle"><strong>SpigotMC - High Performance Minecraft</strong></div>
+<span class="crumbs">
+<span class="crust homeCrumb">
+<a href="https://www.spigotmc.org/" class="crumb"><span><span class="uix_breadcrumb__home__title">Home</span></span></a>
+<span class="arrow"><i class="uix_icon uix_icon-breadcrumbSeparator"></i></span>
+</span>
+<span class="crust selectedTabCrumb">
+<a href="https://www.spigotmc.org/resources/" class="crumb"><span>Resources</span></a>
+<span class="arrow"><i class="uix_icon uix_icon-breadcrumbSeparator"></i></span>
+</span>
+<span class="crust">
+<a href="https://www.spigotmc.org/resources/categories/premium.20/" class="crumb"><span>Premium</span></a>
+<span class="arrow"><i class="uix_icon uix_icon-breadcrumbSeparator"></i></span>
+</span>
+</span>
+</fieldset>
+</nav>
+</div>
+
+</body>
+</html>
